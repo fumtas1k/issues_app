@@ -93,8 +93,6 @@ https://docs.google.com/spreadsheets/d/1TkFKai1BwqkoukUsm8eNM-FI5RmXw8tFM69eKMoS
 
 https://cacoo.com/diagrams/m03GB5prFCD9g9ma/CA3E3
 
-<iframe src="https://cacoo.com/diagrams/m03GB5prFCD9g9ma/view?si=CA3E3&w=400&h=300" width="402" height="330" frameborder="0" scrolling="no"></iframe>
-
 ![ワイヤーフレーム](RDD/wireframe.png)
 
 ## ER図
