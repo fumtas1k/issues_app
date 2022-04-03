@@ -1,0 +1,14 @@
+<% provide(:title, current_user.name) %>
+<h1><%= t("views.users.show.title") %></h1>
+
+<table class="table">
+  <tr>
+    <td><%= image_tag prepare_avatar(current_user), class: "avatar100" %></td>
+    <td>
+      <h4><%= User.human_attribute_name(:name) %>: <%= current_user.name %></h4>
+      <p><%= User.human_attribute_name(:code) %>: <%= current_user.code %></p>
+      <p><%= User.human_attribute_name(:email) %>: <%= current_user.email %></p>
+      <p><%= User.human_attribute_name(:entered_at) %>: <%= l(current_user.entered_at, format: :year) %></p>
+    </td>
+  </tr>
+</table>

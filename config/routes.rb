@@ -9,5 +9,9 @@ Rails.application.routes.draw do
     # unlocks: "users/unlocks"
   }
 
+  devise_scope :users do
+    resources :users, only: %i[index show]
+  end
+
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

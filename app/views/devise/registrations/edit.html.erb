@@ -3,10 +3,10 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <%= image_tag(resource.avatar.variant(:thumb)) if resource.avatar.presence&.representable? %>
+  <%= image_tag prepare_avatar(resource), class: "avatar200" %>
   <div class="field">
     <%= f.label :avatar, class: "sr-only" %>
-    <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control" %>
+    <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control", accept: "image/png, image/jpeg, image/jpg, image/gif, image/bmp" %>
   </div>
 
   <div class="field">

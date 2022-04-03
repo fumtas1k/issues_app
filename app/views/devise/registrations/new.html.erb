@@ -10,12 +10,12 @@
 
   <div class="field">
     <%= f.label :code, class: "sr-only" %>
-    <%= f.text_field :code, autocomplete: "code", class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), require: true %>
+    <%= f.text_field :code, class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), require: true, maxlength: 6 %>
   </div>
 
   <div class="field">
     <%= f.label :avatar, class: "sr-only" %>
-    <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control" %>
+    <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control", accept: "image/png, image/jpeg, image/jpg, image/gif, image/bmp" %>
   </div>
 
   <div class="field">

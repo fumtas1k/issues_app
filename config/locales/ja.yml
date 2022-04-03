@@ -44,6 +44,11 @@ ja:
     home:
       index:
         title: トップ
+    users:
+      index:
+        title: 部員一覧
+      show:
+        title: マイページ
   date:
     abbr_day_names:
     - 日
@@ -79,6 +84,7 @@ ja:
       default: "%Y/%m/%d"
       long: "%Y年%m月%d日(%a)"
       short: "%m/%d"
+      year: "%Y年"
     month_names:
     -
     - 1月
@@ -241,4 +247,5 @@ ja:
       default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
+      medium: "%Y/%m/%d"
     pm: 午後
