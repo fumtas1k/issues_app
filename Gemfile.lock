@@ -280,6 +280,7 @@ PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
+  actiontext
   better_errors
   binding_of_caller
   bootsnap (>= 1.4.2)

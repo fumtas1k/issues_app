@@ -14,6 +14,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :avatar, class: "sr-only" %>
+    <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control" %>
+  </div>
+
+  <div class="field">
     <%= f.label :entered_at, class: "sr-only" %>
     <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", require: true %>
   </div>
