@@ -23,8 +23,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     if params[:mentor]
-      User.find(params[:format]).toggle!(:mentor)
-      redirect_to users_path
+      @user = User.find(params[:id])
+      respond_to do |format|
+        @user.toggle!(:mentor)
+        format.html {redirect_to users_path}
+        format.js {render "users/index"}
+      end
     else
       super
     end
