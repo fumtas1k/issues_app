@@ -21,9 +21,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    if params[:mentor]
+      User.find(params[:format]).toggle!(:mentor)
+      redirect_to users_path
+    else
+      super
+    end
+  end
 
   # DELETE /resource
   # def destroy

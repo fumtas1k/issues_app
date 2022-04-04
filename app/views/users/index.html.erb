@@ -17,10 +17,10 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= image_tag prepare_avatar(user), class: "avatar50" %></td>
-        <td class="middle"><%= user.name %></td>
+        <td class="middle"><%= link_to user.name, user_path(user) %></td>
         <td class="middle"><%= user.code %></td>
         <td class="middle"><%= user.email %></td>
-        <td class="middle"><%= user.mentor %></td>
+        <td class="middle"><%= button_to user.mentor.to_s, user_registration_path(user.id), name: "mentor", method: :put, class: "btn btn-outline-primary" %></td>
         <td class="middle"><%= l(user.entered_at) %></td>
         <td class="middle"><%= l(user.created_at, format: :medium) %></td>
       </tr>
