@@ -41,6 +41,12 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
   views:
+    btn:
+      create: 登録
+      submit: 保存
+      update: 更新
+      edit: 編集
+      delete: 削除
     home:
       index:
         title: トップ
@@ -185,9 +191,9 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 登録する
-      submit: 保存する
-      update: 更新する
+      create: 登録
+      submit: 保存
+      update: 更新
   number:
     currency:
       format:
