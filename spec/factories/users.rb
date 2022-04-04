@@ -19,6 +19,7 @@ FactoryBot.define do
     code    { "200001" }
     email   { "mentor@diver.com" }
     entered_at { Date.new(2020, 4, 1) }
+    password{ "password" }
     mentor  { true }
   end
 
@@ -27,6 +28,7 @@ FactoryBot.define do
     code    { "300001" }
     email   { "admin@diver.com" }
     entered_at { Date.new(2014, 4, 1) }
+    password{ "password" }
     mentor  { true }
     admin   { true }
   end
