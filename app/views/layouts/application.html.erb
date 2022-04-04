@@ -47,14 +47,16 @@
         </div>
       </nav>
     </header>
-    <% flash.each do |key, message| %>
-      <%= content_tag :div, message, class: "alert alert-#{translate_css(key)}" %>
-    <% end %>
     <main>
+      <% flash.each do |key, message| %>
+        <%= content_tag :div, message, class: "alert alert-#{translate_css(key)}" %>
+      <% end %>
       <div class="container">
         <%= yield %>
       </div>
     </main>
-    <footer></footer>
+    <footer class="container-fluid footer">
+      <p>&copy; fumta 2022</p>
+    </footer>
   </body>
 </html>

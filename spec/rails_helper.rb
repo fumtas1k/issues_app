@@ -5,6 +5,8 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'devise'
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -13,21 +15,18 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
   config.use_transactional_fixtures = true
-
   config.infer_spec_type_from_file_location!
-
   config.filter_rails_from_backtrace!
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-  end
-  config.before(:all) do
-    DatabaseCleaner.start
-  end
-  config.after(:all) do
-    DatabaseCleaner.clean
-  end
+  # データベースクリーナー関連とfactorybot
+  config.before(:suite){DatabaseCleaner.strategy = :truncation}
+  config.before(:all){DatabaseCleaner.start}
+  config.after(:all){DatabaseCleaner.clean}
   config.include FactoryBot::Syntax::Methods
+
+  # devise関連のrspec
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
 end
