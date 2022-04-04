@@ -15,4 +15,10 @@ module ApplicationHelper
   def prepare_avatar(user)
     user.avatar.presence&.representable? ? user.avatar : "dummy_user.jpg"
   end
+
+  def mentor_confirm(user)
+    if user.mentor && user == current_user
+      {confirm: I18n.t("views.confirm.mentor")}
+    end
+  end
 end

@@ -56,6 +56,8 @@ ja:
         title: 部員一覧
       show:
         title: マイページ
+    confirm:
+      mentor: 本当にメンターをやめますか?
   date:
     abbr_day_names:
     - 日

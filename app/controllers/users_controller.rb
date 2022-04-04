@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
-  before_action :mentor_required, only: %i[index]
+  before_action :mentor_required, only: :index
 
   def index
     @users = User.all.with_attached_avatar
@@ -13,6 +13,6 @@ class UsersController < ApplicationController
   private
 
   def mentor_required
-    redirect_back(fallback_location: root_path) unless current_user&.mentor
+    redirect_to root_path unless current_user&.mentor
   end
 end

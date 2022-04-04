@@ -1,1 +1,1 @@
-<%= button_to user.mentor.to_s, user_registration_path(id: user.id), name: "mentor", method: :put, class: "btn btn-outline-primary", remote: true %>
+<%= button_to user.mentor.to_s, user_registration_path(id: user.id), name: "mentor", method: :put, class: "btn btn-outline-primary", remote: true, data: mentor_confirm(user) %>
