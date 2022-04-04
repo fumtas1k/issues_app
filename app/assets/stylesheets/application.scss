@@ -3,19 +3,18 @@
  *= require_self
  */
 
- .bd-placeholder-img {
-   font-size: 1.125rem;
-   text-anchor: middle;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -ms-user-select: none;
-   user-select: none;
+ body {
+   min-height: 100vh;
  }
 
- @media (min-width: 768px) {
-   .bd-placeholder-img-lg {
-     font-size: 3.5rem;
-   }
+ header {
+   position: fixed;
+   top: 0;
+   z-index: 100;
+   width: 100%;
+ }
+ main {
+   padding-top: 50px;
  }
 
  .avatar200 {
@@ -40,7 +39,31 @@
   border-radius: 50%;
 }
 
+// home template
+ .bd-placeholder-img {
+   font-size: 1.125rem;
+   text-anchor: middle;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+ }
+
+ @media (min-width: 768px) {
+   .bd-placeholder-img-lg {
+     font-size: 3.5rem;
+   }
+ }
+
 // users/index
 .table td.middle {
   vertical-align: middle;
+}
+
+// application
+footer.footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  background-color: lightgray;
 }
