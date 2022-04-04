@@ -23,8 +23,25 @@ RSpec.describe User, type: :model do
       it_behaves_like "バリデーションに引っかかる"
     end
 
+    context "codeが5文字の場合" do
+      before {user.code = "12345"}
+      it_behaves_like "バリデーションに引っかかる"
+    end
+
+    context "codeが7文字の場合" do
+      before {user.code = "1234567"}
+      it_behaves_like "バリデーションに引っかかる"
+    end
+
     context "emailが空白の場合" do
       before {user.email = ""}
+      it_behaves_like "バリデーションに引っかかる"
+    end
+
+    context "emailが不正の場合" do
+      before {user.email = "a@"}
+      it_behaves_like "バリデーションに引っかかる"
+      before {user.email = "a.a.com"}
       it_behaves_like "バリデーションに引っかかる"
     end
 
