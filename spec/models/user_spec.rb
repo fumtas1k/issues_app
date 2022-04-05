@@ -61,8 +61,31 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "コールバックのテスト" do
+  describe "最初のユーザーを管理者にするコールバックのテスト" do
+    let(:user) {create(:user)}
+    context "ユーザーが0人の時にアカウント登録した場合" do
+      it "管理者権限を持つ" do
+        expect(user.admin).to be_truthy
+      end
+    end
+    context "ゲストユーザー以外いない状態でアカウント登録した場合" do
+      it "管理者権限を持つ" do
+        User.guest_user
+        User.guest_admin_user
+        expect(user.admin).to be_truthy
+      end
+    end
+    context "ゲスト以外のユーザーが1人いる状態でアカウント登録した場合" do
+      it "管理者権限は持たない" do
+        FactoryBot.create(:user,:seq)
+        expect(user.admin).to be_falsey
+      end
+    end
+  end
+
+  describe "管理者を0人にしないコールバックのテスト" do
     let!(:admin){create(:admin)}
+
     context "管理者が2人いる時、管理者1人削除した場合" do
       it "削除できる" do
         FactoryBot.create(:user,:seq, admin: true)
@@ -87,6 +110,5 @@ RSpec.describe User, type: :model do
         expect{admin.toggle!(:admin)}.to change{User.where(admin: true).count}.by(0)
       end
     end
-
   end
 end

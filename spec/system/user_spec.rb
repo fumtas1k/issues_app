@@ -1,8 +1,5 @@
 require 'rails_helper'
 RSpec.describe :user, type: :system do
-  # 管理者は必ず1人存在しないとエラーとなるため最初に作成
-  # コールバック処理を追加の影響
-  let!(:admin){create(:admin)}
 
   describe "アカウント登録機能" do
     before do
@@ -73,7 +70,7 @@ RSpec.describe :user, type: :system do
   end
 
   describe "メンター変更機能" do
-    let!(:mentor){create(:mentor)}
+    let!(:mentor){create(:mentor, admin: true)}
     let!(:user){create(:user, :seq)}
 
     context "メンターが他の非メンターをメンターに変更した場合" do
@@ -89,6 +86,7 @@ RSpec.describe :user, type: :system do
   end
 
   describe "管理者機能" do
+    let!(:admin){create(:admin)}
     let!(:user){create(:user, :seq)}
 
     context "管理者がサイト管理にアクセスした場合" do

@@ -1,8 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  after_update :prevent_loss_of_admin!
-  after_destroy :prevent_loss_of_admin!
+  before_create :make_the_first_user_admin
+  before_update :prevent_change_admin!
+  before_destroy :prevent_destroy_admin!
 
   has_one_attached :avatar
 
@@ -38,10 +39,24 @@ class User < ApplicationRecord
 
   private
 
-  def prevent_loss_of_admin!
-    return if User.where(admin: true).exists?
+  def prevent_change_admin!
+    return unless admin_change == [true, false] && User.where(admin: true).size == 1
     errors.add(:base, I18n.t("activerecord.errors.messages.prevent_loss_of_admin"))
     raise ActiveRecord::Rollback
   end
 
+  def prevent_destroy_admin!
+    return unless admin? && User.where(admin: true).size == 1
+    errors.add(:base, I18n.t("activerecord.errors.messages.prevent_loss_of_admin"))
+    raise ActiveRecord::Rollback
+  end
+
+  def non_guest_user_is_blank?
+    User.where("(code != ?) AND (code != ?)", "_admin", "_guest").size == 0  && %w[_admin _guest].exclude?(code)
+  end
+
+  def make_the_first_user_admin
+    self.attributes = {mentor: true, admin: true} if non_guest_user_is_blank?
+    self
+  end
 end
