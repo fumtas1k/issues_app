@@ -6,7 +6,6 @@
  body {
    min-height: 100vh;
  }
-
  header {
    position: fixed;
    top: 0;
@@ -15,7 +14,14 @@
  }
  main {
    padding-top: 50px;
+   padding-bottom: 20px;
  }
+ footer.footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  background-color: lightgray;
+}
 
  .avatar200 {
   display: block;
@@ -58,12 +64,4 @@
 // users/index
 .table td.middle {
   vertical-align: middle;
-}
-
-// application
-footer.footer {
-  position: fixed;
-  bottom: 0;
-  z-index: 100;
-  background-color: lightgray;
 }
