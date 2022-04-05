@@ -51,12 +51,12 @@ class User < ApplicationRecord
     raise ActiveRecord::Rollback
   end
 
-  def non_guest_user_is_blank?
-    User.where("(code != ?) AND (code != ?)", "_admin", "_guest").size == 0  && %w[_admin _guest].exclude?(code)
+  def non_guest_user_is_empty?
+    User.where("(code != ?) AND (code != ?)", "_admin", "_guest").blank? && %w[_admin _guest].exclude?(code)
   end
 
   def make_the_first_user_admin
-    self.attributes = {mentor: true, admin: true} if non_guest_user_is_blank?
+    self.attributes = {mentor: true, admin: true} if non_guest_user_is_empty?
     self
   end
 end
