@@ -29,5 +29,4 @@ class Users::SessionsController < Devise::SessionsController
     resource
   end
 
-
 end
