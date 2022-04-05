@@ -111,4 +111,31 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "グループを作成、削除するコールバックのテスト" do
+    let!(:admin){create(:admin)}
+    let(:mentor){build(:mentor)}
+    let(:user){build(:user)}
+
+    context "メンターを作成した場合" do
+      it "そのメンターのグループが作成される" do
+        expect{mentor.save}.to change{Group.count}.by(1)
+      end
+    end
+
+    context "メンターから一般ユーザーに変更した場合" do
+      it "グループも削除される" do
+        expect{mentor.save}.to change{Group.count}.by(1)
+        expect{mentor.toggle!(:mentor)}.to change{Group.count}.by(-1)
+        mentor.reload
+        expect(mentor.group).to be nil
+      end
+    end
+
+    context "ユーザーを作成した場合" do
+      it "グループは作成されない" do
+        expect{user.save}.to change{Group.count}.by(0)
+      end
+    end
+  end
 end

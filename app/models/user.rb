@@ -4,8 +4,12 @@ class User < ApplicationRecord
   before_create :make_the_first_user_admin
   before_update :prevent_change_admin!
   before_destroy :prevent_destroy_admin!
+  after_save_commit :create_or_destroy_depend_on_mentor
 
   has_one_attached :avatar
+  has_one :group, dependent: :destroy
+  has_many :groupings, dependent: :destroy
+  has_many :member_groups, through: :grouping, source: :group
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -58,5 +62,9 @@ class User < ApplicationRecord
   def make_the_first_user_admin
     self.attributes = {mentor: true, admin: true} if non_guest_user_is_empty?
     self
+  end
+
+  def create_or_destroy_depend_on_mentor
+    mentor? ? create_group! : group&.destroy
   end
 end
