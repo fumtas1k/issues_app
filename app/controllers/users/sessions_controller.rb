@@ -19,7 +19,7 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   def guest_sign_in
-    user = params[:admin] ? User.guest_user("admin") : User.guest_user
+    user = params[:admin] ? User.guest_admin_user : User.guest_user
     sign_in user
     flash[:success] = params[:admin] ? I18n.t("devise.sessions.guest_admin_signed_in") : I18n.t("devise.sessions.guest_signed_in")
     redirect_to user_path(user)

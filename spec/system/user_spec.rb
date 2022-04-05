@@ -80,7 +80,10 @@ RSpec.describe :user, type: :system do
       it "メンターに変更される" do
         sign_in mentor
         visit users_path
-        expect{click_on "false"; sleep 0.1}.to change{User.where(mentor: true).count}.by(1)
+        expect{
+          click_on "false"
+          sleep 0.1
+        }.to change{User.where(mentor: true).count}.by(1)
       end
     end
   end
