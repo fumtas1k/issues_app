@@ -84,10 +84,14 @@ ja:
     sessions:
       already_signed_out: 既にログアウト済みです。
       new:
+        guest_sign_in: ゲストログイン
+        guest_admin_sign_in: ゲスト管理者ログイン
         sign_in: ログイン
         sign_out: ログアウト
       signed_in: ログインしました。
       signed_out: ログアウトしました。
+      guest_signed_in: ゲストユーザーでログインしました。
+      guest_admin_signed_in: ゲスト管理者でログインしました。
     shared:
       links:
         back: 戻る

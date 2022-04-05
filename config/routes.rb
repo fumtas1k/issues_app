@@ -8,10 +8,11 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
     # unlocks: "users/unlocks"
   }
-
-  devise_scope :users do
+  devise_scope :user do
+    post "users/guest_sign_in", to: "users/sessions#guest_sign_in"
     resources :users, only: %i[index show]
   end
 
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

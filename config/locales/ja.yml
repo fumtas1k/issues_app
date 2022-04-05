@@ -7,6 +7,7 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+        prevent_loss_of_admin: 管理者権限を持つアカウントが0件になるため更新できません
     models:
       user: ユーザー
     attributes:
@@ -50,7 +51,7 @@ ja:
       start: 始める
     home:
       index:
-        title: トップ
+        title: ホーム
     users:
       index:
         title: 部員一覧

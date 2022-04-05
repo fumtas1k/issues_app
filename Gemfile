@@ -14,9 +14,11 @@ gem 'image_processing'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'actiontext'
+gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
 gem 'faker'
+gem 'rails_admin'
 gem 'rexml'
 
 group :development, :test do

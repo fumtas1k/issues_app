@@ -26,5 +26,5 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   # devise関連のrspec
-  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :system
 end
