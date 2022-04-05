@@ -13,7 +13,7 @@ end
 
 srand(0)
 N.times do |i|
-  code = sprintf("%06d", rand(999999))
+  code = format("%06d", rand(999_999))
   User.find_or_create_by!(code: code) do |user|
     user.name = Faker::Games::Pokemon.unique.name
     user.code = code
