@@ -60,4 +60,33 @@ RSpec.describe User, type: :model do
       it_behaves_like "バリデーションに引っかかる"
     end
   end
+
+  describe "コールバックのテスト" do
+    let!(:admin){create(:admin)}
+    context "管理者が2人いる時、管理者1人削除した場合" do
+      it "削除できる" do
+        FactoryBot.create(:user,:seq, admin: true)
+        expect{admin.destroy}.to change{User.count}.by(-1)
+      end
+    end
+
+    context "管理者が2人いる時、管理者1人を非管理者に変更した場合" do
+      it "変更できる" do
+        FactoryBot.create(:user,:seq, admin: true)
+        expect{admin.toggle!(:admin)}.to change{User.where(admin: true).count}.by(-1)
+      end
+    end
+
+    context "管理者が1人の時、管理者1人削除した場合" do
+      it "削除できない" do
+        expect{admin.destroy}.to change{User.count}.by(0)
+      end
+    end
+    context "管理者が1人の時、管理者1人を非管理者に変更した場合" do
+      it "変更できない" do
+        expect{admin.toggle!(:admin)}.to change{User.where(admin: true).count}.by(0)
+      end
+    end
+
+  end
 end
