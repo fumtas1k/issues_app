@@ -42,6 +42,12 @@
               </li>
             <% else %>
               <li class="nav-item <%= activate_css(:sessions, :new) %>">
+                <%= link_to t("devise.sessions.new.guest_admin_sign_in"), users_guest_sign_in_path(admin: true), method: :post, class: "nav-link" %>
+              </li>
+              <li class="nav-item <%= activate_css(:sessions, :new) %>">
+                <%= link_to t("devise.sessions.new.guest_sign_in"), users_guest_sign_in_path, method: :post, class: "nav-link" %>
+              </li>
+              <li class="nav-item <%= activate_css(:sessions, :new) %>">
                 <%= link_to t("devise.sessions.new.sign_in"), new_user_session_path, class: "nav-link" %>
               </li>
               <li class="nav-item <%= activate_css(:registrations, :new) %>">

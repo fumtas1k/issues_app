@@ -1,5 +1,8 @@
 require 'rails_helper'
 RSpec.describe :user, type: :system do
+  # 管理者は必ず1人存在しないとエラーとなるため最初に作成
+  # コールバック処理を追加の影響
+  let!(:admin){create(:admin)}
 
   describe "アカウント登録機能" do
     before do
@@ -77,16 +80,12 @@ RSpec.describe :user, type: :system do
       it "メンターに変更される" do
         sign_in mentor
         visit users_path
-        expect(User.where(mentor: true).size).to eq 1
-        click_on "false"
-        sleep 0.1
-        expect(User.where(mentor: true).size).to eq 2
+        expect{click_on "false"; sleep 0.1}.to change{User.where(mentor: true).count}.by(1)
       end
     end
   end
 
   describe "管理者機能" do
-    let!(:admin){create(:admin)}
     let!(:user){create(:user, :seq)}
 
     context "管理者がサイト管理にアクセスした場合" do
@@ -104,5 +103,44 @@ RSpec.describe :user, type: :system do
         expect(page).to have_content "CanCan::AccessDenied"
       end
     end
+  end
+
+  describe "ゲストログイン機能" do
+    context "ゲスト管理者ログインボタンを押した場合" do
+      it "管理者としてログインできる" do
+        visit root_path
+        click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
+        expect(page).to have_content User.where(admin: true).last.name
+      end
+    end
+
+    context "ゲスト管理者ログインボタンを押した後ログアウトし再度ログインした場合" do
+      it "管理者としてログインできる" do
+        visit root_path
+        click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
+        click_on I18n.t("devise.sessions.new.sign_out")
+        click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
+        expect(page).to have_content User.where(admin: true).last.name
+      end
+    end
+
+    context "ゲストログインボタンを押した場合" do
+      it "ゲストとしてログインできる" do
+        visit root_path
+        click_on I18n.t("devise.sessions.new.guest_sign_in")
+        expect(page).to have_content User.where(admin: false).last.name
+      end
+    end
+
+    context "ゲストログインボタンを押した後ログアウトし再度ログインした場合" do
+      it "ゲストとしてログインできる" do
+        visit root_path
+        click_on I18n.t("devise.sessions.new.guest_sign_in")
+        click_on I18n.t("devise.sessions.new.sign_out")
+        click_on I18n.t("devise.sessions.new.guest_sign_in")
+        expect(page).to have_content User.where(admin: false).last.name
+      end
+    end
+
   end
 end

@@ -23,4 +23,25 @@ class User < ApplicationRecord
     errors.add(:base, I18n.t("activerecord.errors.messages.prevent_loss_of_admin"))
     raise ActiveRecord::Rollback
   end
+
+  def self.guest_user(admin=nil)
+    if admin == "admin"
+      find_or_create_by!(code: "_admin") do |user|
+        user.name = "ゲスト管理者"
+        user.email = "guest_admin@diver.com"
+        user.entered_at = Date.new(2014, 4, 1)
+        user.password = "password"
+        user.mentor = true
+        user.admin = true
+      end
+    else
+      find_or_create_by!(code: "_guest") do |user|
+        user.name = "ゲスト"
+        user.email = "guest@diver.com"
+        user.entered_at = Date.new(Date.current.year, 4, 1)
+        user.password = "password"
+      end
+    end
+  end
+
 end
