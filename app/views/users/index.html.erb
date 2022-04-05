@@ -4,6 +4,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th><%= Group.human_attribute_name(:members) %></th>
       <th><%= User.human_attribute_name(:avatar) %></th>
       <th><%= User.human_attribute_name(:name) %></th>
       <th><%= User.human_attribute_name(:code) %></th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td class="middle" id=<%= "group-member-#{user.id}"%>><%= button_to is_member?(user).to_s, select_path_depend_on_member(user), method: select_method_depend_on_member(user), class: "btn btn-outline-success" %></td>
         <td><%= image_tag prepare_avatar(user), class: "avatar50" %></td>
         <td class="middle"><%= user.name %></td>
         <td class="middle"><%= user.code %></td>

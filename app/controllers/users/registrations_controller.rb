@@ -23,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     if params[:mentor]
-      @user = User.find(params[:id])
+      @user = User.find(params[:user_id])
       respond_to do |format|
         @user.toggle!(:mentor)
         format.html {redirect_to users_path}
