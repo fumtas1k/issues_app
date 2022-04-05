@@ -72,20 +72,36 @@ RSpec.describe :user, type: :system do
   describe "メンター変更機能" do
     let!(:mentor){create(:mentor)}
     let!(:user){create(:user, :seq)}
-    before do
-      visit new_user_session_path
-      fill_in "user_code", with: mentor.code
-      fill_in "user_password", with: mentor.password
-      click_on "commit"
-      visit users_path
-    end
 
-    context "非メンターをメンターに変更した場合" do
+    context "メンターが他の非メンターをメンターに変更した場合" do
       it "メンターに変更される" do
+        sign_in mentor
+        visit users_path
         expect(User.where(mentor: true).size).to eq 1
         click_on "false"
         sleep 0.1
         expect(User.where(mentor: true).size).to eq 2
+      end
+    end
+  end
+
+  describe "管理者機能" do
+    let!(:admin){create(:admin)}
+    let!(:user){create(:user, :seq)}
+
+    context "管理者がサイト管理にアクセスした場合" do
+      it "アクセスできる" do
+        sign_in admin
+        visit rails_admin_path
+        expect(page).to have_content I18n.t("admin.actions.dashboard.menu"), count: 3
+      end
+    end
+
+    context "非管理者がサイト管理にアクセスした場合" do
+      it "エラーページが表示される" do
+        sign_in user
+        visit rails_admin_path
+        expect(page).to have_content "CanCan::AccessDenied"
       end
     end
   end
