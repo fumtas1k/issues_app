@@ -12,6 +12,10 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 gem 'image_processing'
 gem 'bootsnap', '>= 1.4.2', require: false
+
+gem 'actiontext'
+gem 'devise'
+gem 'devise-i18n'
 gem 'faker'
 gem 'rexml'
 
@@ -26,11 +30,12 @@ group :development, :test do
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
+  gem 'letter_opener_web'
   gem 'listen', '~> 3.2'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do

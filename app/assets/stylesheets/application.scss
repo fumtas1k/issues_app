@@ -3,6 +3,49 @@
  *= require_self
  */
 
+ body {
+   min-height: 100vh;
+ }
+ header {
+   position: fixed;
+   top: 0;
+   z-index: 100;
+   width: 100%;
+ }
+ main {
+   padding-top: 50px;
+   padding-bottom: 20px;
+ }
+ footer.footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  background-color: lightgray;
+}
+
+ .avatar200 {
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.avatar100 {
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.avatar50 {
+  display: block;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+// home template
  .bd-placeholder-img {
    font-size: 1.125rem;
    text-anchor: middle;
@@ -17,3 +60,8 @@
      font-size: 3.5rem;
    }
  }
+
+// users/index
+.table td.middle {
+  vertical-align: middle;
+}

@@ -7,6 +7,57 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        name: 名前
+        code: 職員コード
+        avatar: 写真
+        mentor: メンター
+        entered_at: 入職年月日
+        admin: 管理者
+        confirmation_sent_at: パスワード確認送信時刻
+        confirmation_token: パスワード確認用トークン
+        confirmed_at: パスワード確認時刻
+        created_at: 作成日
+        current_password: 現在のパスワード
+        current_sign_in_at: 現在のログイン時刻
+        current_sign_in_ip: 現在のログインIPアドレス
+        email: Eメール
+        encrypted_password: 暗号化パスワード
+        failed_attempts: 失敗したログイン試行回数
+        last_sign_in_at: 最終ログイン時刻
+        last_sign_in_ip: 最終ログインIPアドレス
+        locked_at: ロック時刻
+        password: パスワード
+        password_confirmation: パスワード（確認用）
+        remember_created_at: ログイン記憶時刻
+        remember_me: ログインを記憶する
+        reset_password_sent_at: パスワードリセット送信時刻
+        reset_password_token: パスワードリセット用トークン
+        sign_in_count: ログイン回数
+        unconfirmed_email: 未確認Eメール
+        unlock_token: ロック解除用トークン
+        updated_at: 更新日
+  views:
+    btn:
+      create: 登録
+      submit: 保存
+      update: 更新
+      edit: 編集
+      delete: 削除
+      start: 始める
+    home:
+      index:
+        title: トップ
+    users:
+      index:
+        title: 部員一覧
+      show:
+        title: マイページ
+    confirm:
+      mentor: 本当にメンターをやめますか?
   date:
     abbr_day_names:
     - 日
@@ -42,6 +93,7 @@ ja:
       default: "%Y/%m/%d"
       long: "%Y年%m月%d日(%a)"
       short: "%m/%d"
+      year: "%Y年"
     month_names:
     -
     - 1月
@@ -142,9 +194,9 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 登録する
-      submit: 保存する
-      update: 更新する
+      create: 登録
+      submit: 保存
+      update: 更新
   number:
     currency:
       format:
@@ -204,4 +256,5 @@ ja:
       default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
+      medium: "%Y/%m/%d"
     pm: 午後
