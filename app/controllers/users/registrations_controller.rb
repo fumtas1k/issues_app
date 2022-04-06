@@ -27,7 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       respond_to do |format|
         @user.toggle!(:mentor)
         format.html {redirect_to users_path}
-        format.js {render "users/index"}
+        format.js {render "users/role_change"}
       end
     else
       super
