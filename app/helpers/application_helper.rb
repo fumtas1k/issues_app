@@ -16,21 +16,21 @@ module ApplicationHelper
     user.avatar.presence&.representable? ? user.avatar : "dummy_user.jpg"
   end
 
-  def mentor_confirm(user)
+  def role_confirm(user)
     if user.mentor && user == current_user
       {confirm: I18n.t("views.confirm.mentor")}
     end
   end
 
-  def is_member?(user)
-    !!current_user&.group&.members&.include?(user)
-  end
-
   def select_method_depend_on_member(user)
-    is_member?(user) ? :delete : :post
+    current_user&.group&.member?(user) ? :delete : :post
   end
 
   def select_path_depend_on_member(user)
-    is_member?(user) ? grouping_path(current_user.group.groupings.find_by(user: user)) : groupings_path(member_id: user.id)
+    if current_user&.group&.member?(user)
+      grouping_path(current_user.group.groupings.find_by(user: user))
+    else
+      groupings_path(member_id: user.id)
+    end
   end
 end

@@ -78,7 +78,7 @@ RSpec.describe :user, type: :system do
         sign_in mentor
         visit users_path
         expect{
-          find("#mentor-user-#{user.id}").click
+          find("#role-mentor-#{user.id}").click
           sleep 0.1
         }.to change{User.where(mentor: true).count}.by(1)
       end

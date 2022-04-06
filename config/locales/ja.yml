@@ -59,6 +59,7 @@ ja:
     users:
       index:
         title: 部員一覧
+        role: 役割
       show:
         title: マイページ
     confirm:

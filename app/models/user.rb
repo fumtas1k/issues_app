@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_one :group, dependent: :destroy
   has_many :groupings, dependent: :destroy
-  has_many :member_groups, through: :grouping, source: :group
+  has_many :join_groups, through: :groupings, source: :group
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,

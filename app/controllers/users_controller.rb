@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :mentor_required, only: :index
 
   def index
-    @users = User.includes(:groupings).with_attached_avatar
+    @users = User.includes(:groupings).with_attached_avatar.order(:code)
   end
 
   def show
