@@ -73,14 +73,28 @@ RSpec.describe :user, type: :system do
     let!(:mentor){create(:mentor, admin: true)}
     let!(:user){create(:user, :seq)}
 
-    context "メンターが他の非メンターをメンターに変更した場合" do
+    context "メンターが他の非メンターの役割ボタンを押した場合" do
       it "メンターに変更される" do
         sign_in mentor
         visit users_path
         expect{
           find("#role-mentor-#{user.id}").click
           sleep 0.1
-        }.to change{User.where(mentor: true).count}.by(1)
+          user.reload
+        }.to change{user.mentor}.to(true)
+      end
+    end
+
+    context "メンターが他のメンターの役割ボタンを押した場合" do
+      it "非メンターに変更される" do
+        user.update(mentor: true)
+        sign_in mentor
+        visit users_path
+        expect{
+          find("#role-mentor-#{user.id}").click
+          sleep 0.1
+          user.reload
+        }.to change{user.mentor}.to(false)
       end
     end
   end
@@ -144,4 +158,33 @@ RSpec.describe :user, type: :system do
     end
 
   end
+
+  describe "グルーピング変更機能" do
+    let!(:mentor){create(:mentor, admin: true)}
+    let!(:user){create(:user, :seq)}
+
+    context "メンターが非メンバーのメンバーボタンを押した場合" do
+      it "メンターのグループに追加される" do
+        sign_in mentor
+        visit users_path
+        expect{
+          find("#group-member-#{user.id}").click
+          sleep 0.1
+        }.to change{mentor.group.member?(user)}.to(true)
+      end
+    end
+
+    context "メンターがメンバーのメンバーボタンを押した場合" do
+      it "メンターのグループから抜ける" do
+        user.groupings.create(group: mentor.group)
+        sign_in mentor
+        visit users_path
+        expect{
+          find("#group-member-#{user.id}").click
+          sleep 0.1
+        }.to change{mentor.group.member?(user)}.to(false)
+      end
+    end
+  end
+
 end

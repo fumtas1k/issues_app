@@ -1,14 +1,14 @@
 FactoryBot.define do
   factory :user do
     name      { "firstuser" }
-    code      { "000001" }
+    code      { "900001" }
     email     { "first@diver.com" }
     entered_at{ Date.new(Date.current.year, 4, 1) }
     password  { "password" }
 
     trait :seq do
       sequence :name, "user01"
-      sequence :code, "100001"
+      sequence :code, "990001"
       sequence :email, "user01@diver.com"
     end
 
@@ -25,7 +25,7 @@ FactoryBot.define do
 
   factory :admin, class: User do
     name    { "admin" }
-    code    { "300001" }
+    code    { "100001" }
     email   { "admin@diver.com" }
     entered_at { Date.new(2014, 4, 1) }
     password{ "password" }
