@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_one :group, dependent: :destroy
   has_many :groupings, dependent: :destroy
   has_many :join_groups, through: :groupings, source: :group
+  has_many :issues, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,

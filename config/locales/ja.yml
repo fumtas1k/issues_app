@@ -12,6 +12,7 @@ ja:
       user: ユーザー
       group: グループ
       grouping: グルーピング
+      issue: イシュー
     attributes:
       user:
         name: 名前
@@ -45,6 +46,21 @@ ja:
         updated_at: 更新日
       group:
         members: メンバー
+      issue:
+        title: タイトル
+        description: 詳細
+        status: 状態
+        scope: 公開範囲
+        user: 著者
+        created_at: 作成日時
+        updated_at: 更新日時
+      issue/status:
+        pending: 未解決
+        solving: 解決
+      issue/scope:
+        release: 公開
+        limited: 限定
+        draft: 下書き
   views:
     btn:
       create: 登録
