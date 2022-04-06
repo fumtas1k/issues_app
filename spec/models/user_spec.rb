@@ -137,7 +137,7 @@ RSpec.describe User, type: :model do
     context "メンターの情報を更新した場合" do
       it "グループ情報は変更されない" do
         mentor.save
-        expect{mentor.update(admin: true)}.not_to change{mentor.group.id}
+        expect{mentor.update(admin: true)}.not_to change{mentor.group}
       end
     end
 
