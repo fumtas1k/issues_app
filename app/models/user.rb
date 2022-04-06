@@ -65,6 +65,7 @@ class User < ApplicationRecord
   end
 
   def create_or_destroy_depend_on_mentor
-    mentor? ? create_group! : group&.destroy
+    return group&.destroy unless mentor
+    create_group! if group.nil?
   end
 end
