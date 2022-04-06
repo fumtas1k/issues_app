@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :grouping do
-    user { nil }
-    group { nil }
+    user
+    group
   end
 end

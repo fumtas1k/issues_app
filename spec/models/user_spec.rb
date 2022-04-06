@@ -132,6 +132,15 @@ RSpec.describe User, type: :model do
       end
     end
 
+    # メンターがユーザー情報を更新すると、
+    # groupが再生成されるロジックになっていた。それが、修正されたかの確認用
+    context "メンターの情報を更新した場合" do
+      it "グループ情報は変更されない" do
+        mentor.save
+        expect{mentor.update(admin: true)}.not_to change{mentor.group.id}
+      end
+    end
+
     context "ユーザーを作成した場合" do
       it "グループは作成されない" do
         expect{user.save}.to change{Group.count}.by(0)
