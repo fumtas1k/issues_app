@@ -1,0 +1,1 @@
+<%= button_to current_user&.group&.member?(user).to_s, select_path_depend_on_member(user), method: select_method_depend_on_member(user), class: "btn btn-outline-success", remote: true %>

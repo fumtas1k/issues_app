@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show]
   end
 
+  resources :groupings, only: %i[create destroy]
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

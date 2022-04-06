@@ -4,10 +4,12 @@
 <table class="table">
   <thead>
     <tr>
+      <th><%= Group.human_attribute_name(:members) %></th>
       <th><%= User.human_attribute_name(:avatar) %></th>
       <th><%= User.human_attribute_name(:name) %></th>
       <th><%= User.human_attribute_name(:code) %></th>
       <th><%= User.human_attribute_name(:email) %></th>
+      <th><%= t("views.users.index.role") %></th>
       <th><%= User.human_attribute_name(:mentor) %></th>
       <th><%= User.human_attribute_name(:entered_at) %></th>
       <th><%= User.human_attribute_name(:created_at) %></th>
@@ -16,11 +18,13 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td class="middle" id=<%= "group-member-#{user.id}"%>><%= render "groupings/member_btn", user: user %></td>
         <td><%= image_tag prepare_avatar(user), class: "avatar50" %></td>
         <td class="middle"><%= user.name %></td>
         <td class="middle"><%= user.code %></td>
         <td class="middle"><%= user.email %></td>
-        <td class="middle" id=<%= "mentor-user-#{user.id}"%>><%= render "mentor_btn", user: user %></td>
+        <td class="middle" id=<%= "role-mentor-#{user.id}"%>><%= render "role_btn", user: user %></td>
+        <td class="middle" id=<%= "mentor-#{user.id}"%>><%= render "groupings/mentor", user: user %></td>
         <td class="middle"><%= l(user.entered_at) %></td>
         <td class="middle"><%= l(user.created_at, format: :medium) %></td>
       </tr>

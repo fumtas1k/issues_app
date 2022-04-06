@@ -10,6 +10,8 @@ ja:
         prevent_loss_of_admin: 管理者権限を持つアカウントが0件になるため更新できません
     models:
       user: ユーザー
+      group: グループ
+      grouping: グルーピング
     attributes:
       user:
         name: 名前
@@ -41,6 +43,8 @@ ja:
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
+      group:
+        members: メンバー
   views:
     btn:
       create: 登録
@@ -55,6 +59,7 @@ ja:
     users:
       index:
         title: 部員一覧
+        role: 役割
       show:
         title: マイページ
     confirm:
