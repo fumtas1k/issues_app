@@ -1,6 +1,8 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_issue, only: %i[show edit update destroy]
+  before_action :scope_control, only: :show
+  before_action :author_required, only: %i[edit update destroy]
 
   def index
     @issues = Issue.includes(:user).with_rich_text_description.order(created_at: :desc)
@@ -44,5 +46,15 @@ class IssuesController < ApplicationController
 
   def set_issue
     @issue = Issue.find(params[:id])
+  end
+
+  def author_required
+    set_issue
+    redirect_back fallback_location: issues_path unless current_user == @issue.user
+  end
+
+  def scope_control
+    set_issue
+    redirect_back fallback_location: issues_path unless @issue.accessible?(current_user)
   end
 end

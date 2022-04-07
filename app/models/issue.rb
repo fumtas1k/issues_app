@@ -12,4 +12,9 @@ class Issue < ApplicationRecord
   validates :scope, presence: true
   enum scope: %i[release limited draft] # publicは使用できないためreleaseとした
 
+  def accessible?(login_user)
+    return true if scope == "release" || user == login_user
+    return false if scope == "draft" || !login_user.mentor
+    login_user.group.member?(user)
+  end
 end
