@@ -88,6 +88,7 @@ ja:
         create: "イシュー【%{title}】を作成しました。"
         update: "イシュー【%{title}】を更新しました。"
         destroy: "イシュー【%{title}】を削除しました。"
+        not_destroy: "作成者以外削除できません。"
       index:
         title: イシュー一覧
       show:

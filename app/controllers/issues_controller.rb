@@ -50,6 +50,7 @@ class IssuesController < ApplicationController
 
   def author_required
     set_issue
+    flash[:danger] = I18n.t("views.issues.flash.not_destroy")
     redirect_back fallback_location: issues_path unless current_user == @issue.user
   end
 
