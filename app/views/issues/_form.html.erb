@@ -1,0 +1,27 @@
+<%= form_with(model: issue, class: "form", local: true) do |form| %>
+  <% if issue.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= t("errors.messages.title", count: issue.errors.size) %></h4>
+      <ul>
+        <% issue.errors.full_messages.each do |message| %>
+          <%= content_tag(:li, message) %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= form.label :title, class: "sr-only" %>
+    <%= form.text_field :title, class: "form-control", require: true, placeholder: Issue.human_attribute_name(:title) %>
+  </div>
+  <div class="form-group">
+    <%= form.label :description, class: "sr-only" %>
+    <%= form.rich_text_area :description, require: true, placeholder: Issue.human_attribute_name(:description) %>
+  </div>
+  <div class="form-group">
+    <%= form.label :status, class: "sr-only" %>
+    <%= form.select :status, Issue.enum_options_for_select(:status), class: "form-control", require: true %>
+    <%= form.label :scope, class: "sr-only" %>
+    <%= form.select :scope, Issue.enum_options_for_select(:scope), class: "form-control", require: true %>
+  </div>
+  <%= form.submit class: "btn btn-primary block" %>
+<% end %>

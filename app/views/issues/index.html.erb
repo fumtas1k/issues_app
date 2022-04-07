@@ -1,0 +1,29 @@
+<% provide(:title, t("views.issues.index.title")) %>
+<h1><%= t("views.issues.index.title") %></h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= Issue.human_attribute_name(:title) %></th>
+      <th><%= Issue.human_attribute_name(:user) %></th>
+      <th><%= Issue.human_attribute_name(:status) %></th>
+      <th><%= Issue.human_attribute_name(:scope) %></th>
+      <th><%= Issue.human_attribute_name(:created_at) %></th>
+      <th><%= Issue.human_attribute_name(:updated_at) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @issues.each do |issue| %>
+      <tr>
+        <td><%= link_to issue do %>
+          <%= issue.title %>
+        <% end %></td>
+        <td><%= issue.user.name %></td>
+        <td><%= Issue.human_enum_status(issue.status) %></td>
+        <td><%= Issue.human_enum_scope(issue.scope) %></td>
+        <td><%= l issue.created_at, format: :medium %></td>
+        <td><%= l issue.updated_at, format: :medium %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
