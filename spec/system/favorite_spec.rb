@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe :favorite, type: :system do
-  describe "グルーピング変更機能" do
+  describe "いいね変更機能" do
     let!(:author){create(:user)}
     let!(:user){create(:user, :seq)}
     let!(:issue){create(:issue, user: author)}
