@@ -132,36 +132,36 @@ RSpec.describe :issue, type: :system do
     context "3つの投稿ユーザーがイシュー詳細にアクセスした場合" do
       before { sign_in user }
       it "3つの詳細ページともアクセス出来る" do
-        expect{visit issue_path(release_issue)}.to change{current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change{current_path}.to(issue_path(limited_issue))
-        expect{visit issue_path(draft_issue)}.to change{current_path}.to(issue_path(draft_issue))
+        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
+        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issue_path(limited_issue))
+        expect{visit issue_path(draft_issue)}.to change {current_path}.to(issue_path(draft_issue))
       end
     end
 
     context "3つの投稿とは別のたユーザーがイシュー詳細にアクセスした場合" do
       before { sign_in other_user }
       it "releaseのみ詳細ページにアクセスでき、他はイシュー一覧に飛ぶ" do
-        expect{visit issue_path(release_issue)}.to change{current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change{current_path}.to(issues_path)
-        expect{visit issue_path(draft_issue)}.not_to change{current_path}
+        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
+        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issues_path)
+        expect{visit issue_path(draft_issue)}.not_to change {current_path}
       end
     end
 
     context "投稿したユーザーの担当メンターがイシュー詳細にアクセスした場合" do
       before { sign_in mentor }
       it "release, limitedはアクセスでき、draftはイシュー一覧に飛ぶ" do
-        expect{visit issue_path(release_issue)}.to change{current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change{current_path}.to(issue_path(limited_issue))
-        expect{visit issue_path(draft_issue)}.to change{current_path}.to(issues_path)
+        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
+        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issue_path(limited_issue))
+        expect{visit issue_path(draft_issue)}.to change {current_path}.to(issues_path)
       end
     end
 
     context "投稿したユーザーの担当ではないメンターがイシュー詳細にアクセスした場合" do
       before { sign_in other_mentor }
       it "releaseのみ詳細ページにアクセスでき、他はイシュー一覧に飛ぶ" do
-        expect{visit issue_path(release_issue)}.to change{current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change{current_path}.to(issues_path)
-        expect{visit issue_path(draft_issue)}.not_to change{current_path}
+        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
+        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issues_path)
+        expect{visit issue_path(draft_issue)}.not_to change {current_path}
       end
     end
   end
@@ -204,7 +204,7 @@ RSpec.describe :issue, type: :system do
             click_link I18n.t("views.btn.delete"), href: issue_path(release_issue)
           }
           find ".alert", text: I18n.t("views.issues.flash.destroy", title: release_issue.title)
-        }.to change{Issue.count}.by(-1)
+        }.to change {Issue.count}.by(-1)
       end
     end
 
@@ -218,7 +218,7 @@ RSpec.describe :issue, type: :system do
             click_link I18n.t("views.btn.delete"), href: issue_path(release_issue)
           }
           find ".alert", text: I18n.t("views.issues.flash.not_destroy")
-        }.not_to change{Issue.count}
+        }.not_to change {Issue.count}
       end
     end
   end
