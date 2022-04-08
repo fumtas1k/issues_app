@@ -46,6 +46,10 @@ class User < ApplicationRecord
     end
   end
 
+  def group_member_issues
+    Issue.where(user_id: group.members.pluck(:id))
+  end
+
   private
 
   def prevent_change_admin!

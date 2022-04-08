@@ -1,0 +1,27 @@
+<table class="table">
+  <tr>
+    <td><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
+    <td>
+      <h4><%= User.human_attribute_name(:name) %>: <%= user.name %></h4>
+      <p><%= User.human_attribute_name(:code) %>: <%= user.code %></p>
+      <p><%= User.human_attribute_name(:email) %>: <%= user.email %></p>
+      <p><%= User.human_attribute_name(:entered_at) %>: <%= l(user.entered_at, format: :year) %></p>
+      <% if user.mentor %>
+        <p>
+          <%= Group.human_attribute_name(:members) %>:
+          <% user.group.members.each do |member| %>
+            <%= member.name %>
+          <% end %>
+        </p>
+      <% else %>
+        <p>
+          <%= User.human_attribute_name(:mentor) %>:
+          <% user.join_groups.each do |group| %>
+            <%= group.user.name %>
+          <% end %>
+        </p>
+      <% end %>
+    </td>
+  </tr>
+</table>
+<%= link_to t("views.btn.edit"), edit_user_registration_path, class: "btn btn-success" %>

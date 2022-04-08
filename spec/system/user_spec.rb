@@ -92,6 +92,28 @@ RSpec.describe :user, type: :system do
     end
   end
 
+  describe "マイページ/ストックページ機能" do
+    let!(:user) {create(:user)}
+    let!(:other_user) {create(:user, :seq)}
+    before { sign_in user }
+
+    context "自分のマイページ/ストックページにアクセスした場合" do
+      it "アクセス出来る" do
+        visit stock_user_path(user)
+        expect(current_path).to eq user_path(user)
+        expect(page).to have_content user.code
+      end
+    end
+
+    context "他人のマイページ/ストックページにアクセスした場合" do
+      it "アクセス出来ず、ルートパスにリダイレクトする" do
+        visit user_path(other_user)
+        expect(current_path).to eq root_path
+        expect(page).not_to have_content user.code
+      end
+    end
+  end
+
   describe "メンター変更機能" do
     let!(:mentor){create(:mentor, admin: true)}
     let!(:user){create(:user, :seq)}

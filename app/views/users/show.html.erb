@@ -1,3 +1,8 @@
 <% provide(:title, @user.name) %>
 <h1><%= t("views.users.show.title") %></h1>
-<%= render "show_format", user: @user, issues: @issues %>
+<%= render "profile_format", user: @user %>
+<% if @user.mentor %>
+  <%= render "mentor_show_format", user: @user, issues: @issues %>
+<% else %>
+  <%= render "show_format", user: @user, issues: @issues %>
+<% end %>

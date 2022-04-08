@@ -47,15 +47,18 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
       group:
+        user: ユーザー
         members: メンバー
+        created_at: 作成日
+        updated_at: 更新日
       issue:
         title: タイトル
         description: 詳細
         status: 状態
         scope: 公開範囲
         user: 著者
-        created_at: 作成日時
-        updated_at: 更新日時
+        created_at: 作成日
+        updated_at: 更新日
       issue/status:
         pending: 未解決
         solving: 解決
@@ -63,6 +66,16 @@ ja:
         release: 公開
         limited: 限定
         draft: 下書き
+      favorite:
+        user: ユーザー
+        issue: イシュー
+        created_at: 作成日
+        updated_at: 更新日
+      stock:
+        user: ユーザー
+        issue: イシュー
+        created_at: 作成日
+        updated_at: 更新日
   views:
     btn:
       create: 登録

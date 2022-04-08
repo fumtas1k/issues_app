@@ -9,7 +9,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @issues = @user.issues.includes(:favorites).order(created_at: :desc)
+    @issues =
+      if @user.mentor
+        @user.group_member_issues
+      else
+        @user.issues
+      end.includes(:favorites).order(created_at: :desc)
   end
 
   def stocked
