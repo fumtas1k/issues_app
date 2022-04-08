@@ -41,6 +41,7 @@ RSpec.describe :user, type: :system do
       end
     end
   end
+
   describe "ログイン機能" do
     let!(:user){create(:user)}
     before do
@@ -65,6 +66,28 @@ RSpec.describe :user, type: :system do
         within ".alert-danger" do
           expect(page).to have_content User.human_attribute_name(:password)
         end
+      end
+    end
+  end
+
+  describe "マイページ機能" do
+    let!(:user) {create(:user)}
+    let!(:other_user) {create(:user, :seq)}
+    before { sign_in user }
+
+    context "自分のマイページにアクセスした場合" do
+      it "アクセス出来る" do
+        visit user_path(user)
+        expect(current_path).to eq user_path(user)
+        expect(page).to have_content user.code
+      end
+    end
+
+    context "他人のマイページにアクセスした場合" do
+      it "アクセス出来ず、ルートパスにリダイレクトする" do
+        visit user_path(other_user)
+        expect(current_path).to eq root_path
+        expect(page).not_to have_content user.code
       end
     end
   end

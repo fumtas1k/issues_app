@@ -11,7 +11,6 @@ class StocksController < ApplicationController
   end
 
   def destroy
-    return if @issue.user == current_user
     respond_to do |format|
       current_user.stocks.find_by(issue_id: @issue.id)&.destroy
       format.html { redirect_back fallback_location: issues_path}

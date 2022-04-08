@@ -82,6 +82,8 @@ ja:
         title: 部員一覧
       show:
         title: マイページ
+      stocked:
+        title: ストック
       role: 役割
     users/role:
       mentor: メンター
