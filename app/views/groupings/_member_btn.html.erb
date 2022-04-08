@@ -1,4 +1,4 @@
-<%= button_to(select_path_depend_on_member(user), method: select_method_depend_on_member(user), class: "btn", remote: true) do %>
+<%= button_to(select_path_depend_on_member(user), method: select_method_depend_on_member(user), class: "btn", id: "member-btn-#{user.id}", remote: true) do %>
   <% if current_user&.group&.member?(user) %>
     <span class="material-icons">check_box</span>
   <% else %>

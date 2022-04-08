@@ -78,7 +78,7 @@ RSpec.describe :user, type: :system do
         sign_in mentor
         visit users_path
         expect{
-          find("#role-mentor-#{user.id}").click
+          find("#btn-role-#{user.id}").click
           sleep 0.1
           user.reload
         }.to change{user.mentor}.to(true)
@@ -91,7 +91,7 @@ RSpec.describe :user, type: :system do
         sign_in mentor
         visit users_path
         expect{
-          find("#role-mentor-#{user.id}").click
+          find("#btn-role-#{user.id}").click
           sleep 0.1
           user.reload
         }.to change{user.mentor}.to(false)
@@ -156,35 +156,5 @@ RSpec.describe :user, type: :system do
         expect(page).to have_content User.where(admin: false).last.name
       end
     end
-
   end
-
-  describe "グルーピング変更機能" do
-    let!(:mentor){create(:mentor, admin: true)}
-    let!(:user){create(:user, :seq)}
-
-    context "メンターが非メンバーのメンバーボタンを押した場合" do
-      it "メンターのグループに追加される" do
-        sign_in mentor
-        visit users_path
-        expect{
-          find("#group-member-#{user.id}").click
-          sleep 0.1
-        }.to change{mentor.group.member?(user)}.to(true)
-      end
-    end
-
-    context "メンターがメンバーのメンバーボタンを押した場合" do
-      it "メンターのグループから抜ける" do
-        user.groupings.create(group: mentor.group)
-        sign_in mentor
-        visit users_path
-        expect{
-          find("#group-member-#{user.id}").click
-          sleep 0.1
-        }.to change{mentor.group.member?(user)}.to(false)
-      end
-    end
-  end
-
 end
