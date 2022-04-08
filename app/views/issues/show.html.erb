@@ -1,0 +1,12 @@
+<% provide(:title, t("views.issues.show.title")) %>
+<div class="issue-container">
+  <h2><%= "#{Issue.model_name.human}: #{@issue.title}" %></h2>
+  <p><%= "#{Issue.human_attribute_name(:user)}: #{@issue.user.name}"%></p>
+  <p><%= "#{Issue.human_attribute_name(:status)}: #{Issue.human_enum_status(@issue.status)}"%></p>
+  <p><%= "#{Issue.human_attribute_name(:scope)}: #{Issue.human_enum_scope(@issue.scope)}"%></p>
+  <p><%= "#{Issue.human_attribute_name(:created_at)}: #{l @issue.created_at, format: :medium}"%></p>
+  <p><%= "#{Issue.human_attribute_name(:updated_at)}: #{l @issue.updated_at, format: :medium}"%></p>
+  <%= @issue.description %>
+  <%= link_to t("views.btn.edit"), edit_issue_path(@issue), class: "btn btn-success" %>
+  <%= link_to t("views.btn.delete"), issue_path(@issue), class: "btn btn-danger", data: {confirm: t("views.issues.confirm.delete")}, method: :delete %>
+</div>

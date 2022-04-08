@@ -18,7 +18,7 @@ module ApplicationHelper
 
   def role_confirm(user)
     if user.mentor && user == current_user
-      {confirm: I18n.t("views.confirm.mentor")}
+      {confirm: I18n.t("views.users.confirm.mentor")}
     end
   end
 
