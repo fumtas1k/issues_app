@@ -78,9 +78,12 @@ ja:
     users:
       index:
         title: 部員一覧
-        role: 役割
       show:
         title: マイページ
+      role: 役割
+    users/role:
+      mentor: メンター
+      non-mentor: 部員
     issues:
       confirm:
         delete: イシューだけでなく、付随するコメントも削除されます。本当によろしいですか？
