@@ -24,7 +24,7 @@ RSpec.describe :issue, type: :system do
         page.attach_file("#{Rails.root}/app/assets/images/sample.jpg") do
           page.find(".trix-button--icon-attach").click
         end
-       }
+      }
       it "保存されて、詳細ページが表示される" do
         expect(issue_params[:title]).to eq Issue.last.title
         expect(page).to have_content user.name, count: 2
@@ -57,7 +57,7 @@ RSpec.describe :issue, type: :system do
         page.attach_file("#{Rails.root}/app/assets/images/sample.jpg") do
           page.find(".trix-button--icon-attach").click
         end
-       }
+      }
       it "投稿画面に戻りエラーメッセージが表示される" do
         expect(issue_params[:title]).not_to eq Issue.last&.title
         expect(page).to have_content I18n.t("errors.messages.empty")
