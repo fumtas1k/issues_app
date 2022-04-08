@@ -1,0 +1,8 @@
+<%= button_to(select_path_depend_on_favorite(issue), method: select_method_depend_on_favorite(issue), class: "btn", remote: true) do %>
+  <% if favorite_presence(issue) %>
+    <span class="material-icons">favorite</span>
+  <% else %>
+    <span class="material-icons">favorite_border</span>
+  <% end %>
+<% end %>
+<%= issue.favorites.size %>

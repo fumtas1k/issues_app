@@ -13,6 +13,7 @@ ja:
       group: グループ
       grouping: グルーピング
       issue: イシュー
+      favorite: いいね
     attributes:
       user:
         name: 名前

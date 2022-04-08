@@ -33,4 +33,20 @@ module ApplicationHelper
       groupings_path(member_id: user.id)
     end
   end
+
+  def favorite_presence(issue)
+    current_user.favorites.find_by(issue_id: issue.id)
+  end
+
+  def select_method_depend_on_favorite(issue)
+    favorite_presence(issue) ? :delete : :post
+  end
+
+  def select_path_depend_on_favorite(issue)
+    if favorite = favorite_presence(issue)
+      issue_favorite_path(id: favorite.id, issue_id: issue.id)
+    else
+      issue_favorites_path(issue_id: issue.id)
+    end
+  end
 end

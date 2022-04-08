@@ -1,4 +1,6 @@
 class GroupingsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @user = User.find(params[:member_id])
     respond_to do |format|
