@@ -17,12 +17,18 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td class="middle" id=<%= "group-member-#{user.id}"%>><%= render "groupings/member_btn", user: user %></td>
+        <td class="middle">
+          <div id=<%= "group-member-#{user.id}"%>><%= render "groupings/member_btn", user: user %></div>
+        </td>
         <td><%= image_tag prepare_avatar(user), class: "avatar50" %></td>
         <td class="middle"><%= user.name %></td>
         <td class="middle"><%= user.code %></td>
-        <td class="middle" id=<%= "role-mentor-#{user.id}"%>><%= render "role_btn", user: user %></td>
-        <td class="middle" id=<%= "mentor-#{user.id}"%>><%= render "groupings/mentor", user: user %></td>
+        <td class="middle">
+          <div id=<%= "role-mentor-#{user.id}"%>><%= render "role_btn", user: user %></div>
+        </td>
+        <td class="middle">
+          <div id=<%= "mentor-#{user.id}"%>><%= render "groupings/mentor", user: user %></div>
+        </td>
         <td class="middle"><%= l(user.entered_at) %></td>
         <td class="middle"><%= l(user.created_at, format: :medium) %></td>
       </tr>
