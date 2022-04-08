@@ -43,7 +43,7 @@ module ApplicationHelper
   end
 
   def select_path_depend_on_favorite(issue)
-    if favorite = favorite_presence(issue)
+    if (favorite = favorite_presence(issue))
       issue_favorite_path(id: favorite.id, issue_id: issue.id)
     else
       issue_favorites_path(issue_id: issue.id)
