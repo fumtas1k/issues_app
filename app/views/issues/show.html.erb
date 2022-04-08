@@ -6,7 +6,10 @@
   <p><%= "#{Issue.human_attribute_name(:scope)}: #{Issue.human_enum_scope(@issue.scope)}"%></p>
   <p><%= "#{Issue.human_attribute_name(:created_at)}: #{l @issue.created_at, format: :medium}"%></p>
   <p><%= "#{Issue.human_attribute_name(:updated_at)}: #{l @issue.updated_at, format: :medium}"%></p>
-  <p><div id=<%= "favorite-issue-#{@issue.id}"%>><%= render "favorites/favorite_btn", issue: @issue %></div></p>
+  <div class="flex">
+    <div id=<%= "favorite-issue-#{@issue.id}" %> class="center"><%= render "favorites/favorite_btn", issue: @issue %></div>
+    <div id=<%= "stock-issue-#{@issue.id}" %> class="center"><%= render "stocks/stock_btn", issue: @issue %></div>
+  </div>
   <%= @issue.description %>
   <%= link_to t("views.btn.edit"), edit_issue_path(@issue), class: "btn btn-success" %>
   <%= link_to t("views.btn.delete"), issue_path(@issue), class: "btn btn-danger", data: {confirm: t("views.issues.confirm.delete")}, method: :delete %>

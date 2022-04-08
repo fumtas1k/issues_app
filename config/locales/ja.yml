@@ -14,6 +14,7 @@ ja:
       grouping: グルーピング
       issue: イシュー
       favorite: いいね
+      stock: ストック
     attributes:
       user:
         name: 名前

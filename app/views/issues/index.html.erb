@@ -9,6 +9,7 @@
       <th><%= Issue.human_attribute_name(:status) %></th>
       <th><%= Issue.human_attribute_name(:scope) %></th>
       <th><%= Favorite.model_name.human %></th>
+      <th><%= Stock.model_name.human %></th>
       <th><%= Issue.human_attribute_name(:created_at) %></th>
       <th><%= Issue.human_attribute_name(:updated_at) %></th>
     </tr>
@@ -24,7 +25,10 @@
           <td class="middle"><%= Issue.human_enum_status(issue.status) %></td>
           <td class="middle"><%= Issue.human_enum_scope(issue.scope) %></td>
           <td class="middle">
-            <div id=<%= "favorite-issue-#{issue.id}"%>><%= render "favorites/favorite_btn", issue: issue %></div>
+            <div id=<%= "favorite-issue-#{issue.id}" %> class="center"><%= render "favorites/favorite_btn", issue: issue %></div>
+          </td>
+          <td class="middle">
+            <div id=<%= "stock-issue-#{issue.id}" %> class="center"><%= render "stocks/stock_btn", issue: issue %></div>
           </td>
           <td class="middle"><%= l issue.created_at, format: :medium %></td>
           <td class="middle"><%= l issue.updated_at, format: :medium %></td>

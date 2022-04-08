@@ -10,11 +10,16 @@ Rails.application.routes.draw do
   }
   devise_scope :user do
     post "users/guest_sign_in", to: "users/sessions#guest_sign_in"
-    resources :users, only: %i[index show]
+    resources :users, only: %i[index show] do
+      member do
+        get :stocked
+      end
+    end
   end
 
   resources :issues do
     resources :favorites, only: %i[create destroy]
+    resources :stocks, only: %i[create destroy]
   end
   resources :groupings, only: %i[create destroy]
 

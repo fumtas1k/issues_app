@@ -1,0 +1,8 @@
+<%= button_to(select_path_depend_on_stock(issue), method: select_method_depend_on_stock(issue), class: "btn", id: "stock-btn-#{issue.id}", remote: true) do %>
+  <% if stock_presence(issue) %>
+    <span class="material-icons">bookmark</span>
+  <% else %>
+    <span class="material-icons">bookmark_border</span>
+  <% end %>
+<% end %>
+<%= issue.stocks.size %>

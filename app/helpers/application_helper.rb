@@ -49,4 +49,20 @@ module ApplicationHelper
       issue_favorites_path(issue_id: issue.id)
     end
   end
+
+  def stock_presence(issue)
+    current_user.stocks.find_by(issue_id: issue.id)
+  end
+
+  def select_method_depend_on_stock(issue)
+    stock_presence(issue) ? :delete : :post
+  end
+
+  def select_path_depend_on_stock(issue)
+    if (stock = stock_presence(issue))
+      issue_stock_path(id: stock.id, issue_id: issue.id)
+    else
+      issue_stocks_path(issue_id: issue.id)
+    end
+  end
 end
