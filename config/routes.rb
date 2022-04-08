@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show]
   end
 
-  resources :issues
+  resources :issues do
+    resources :favorites, only: %i[create destroy]
+  end
   resources :groupings, only: %i[create destroy]
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

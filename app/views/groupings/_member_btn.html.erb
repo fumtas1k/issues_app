@@ -1,1 +1,7 @@
-<%= button_to current_user&.group&.member?(user).to_s, select_path_depend_on_member(user), method: select_method_depend_on_member(user), class: "btn btn-outline-success", remote: true %>
+<%= button_to(select_path_depend_on_member(user), method: select_method_depend_on_member(user), class: "btn", remote: true) do %>
+  <% if current_user&.group&.member?(user) %>
+    <span class="material-icons">check_box</span>
+  <% else %>
+    <span class="material-icons">check_box_outline_blank</span>
+  <% end %>
+<% end %>

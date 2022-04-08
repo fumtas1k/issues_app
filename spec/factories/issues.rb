@@ -26,7 +26,7 @@ FactoryBot.define do
     description { Faker::Hacker.say_something_smart }
     status      { Issue.statuses.keys[rand(2)] }
     scope       { Issue.scopes.keys[rand(3)] }
-    user
+    association :user, :seq
 
     trait :limited do
       scope     { :limited }
