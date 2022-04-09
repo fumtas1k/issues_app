@@ -168,26 +168,35 @@ RSpec.describe :issue, type: :system do
 
   describe "更新機能" do
     let!(:release_issue) { create(:issue, user: user) }
-    before do
-      sign_in user
-      visit edit_issue_path(release_issue)
-      fill_in "issue_title", with: issue_params[:title]
-      select Issue.human_enum_status(issue_params[:status]), from: Issue.human_attribute_name(:status)
-      select Issue.human_enum_scope(issue_params[:scope]), from: Issue.human_attribute_name(:scope)
-      fill_in_rich_text_area "issue_description", with: issue_params[:description]
-      page.attach_file("#{Rails.root}/app/assets/images/sample.jpg") do
-        page.find(".trix-button--icon-attach").click
-      end
-      click_on I18n.t("helpers.submit.update")
-    end
 
     context "イシューを全て書き換えたとき" do
+      before do
+        sign_in user
+        visit edit_issue_path(release_issue)
+        fill_in "issue_title", with: issue_params[:title]
+        select Issue.human_enum_status(issue_params[:status]), from: Issue.human_attribute_name(:status)
+        select Issue.human_enum_scope(issue_params[:scope]), from: Issue.human_attribute_name(:scope)
+        fill_in_rich_text_area "issue_description", with: issue_params[:description]
+        page.attach_file("#{Rails.root}/app/assets/images/sample.jpg") do
+          page.find(".trix-button--icon-attach").click
+        end
+        click_on I18n.t("helpers.submit.update")
+      end
       let(:issue_params) { attributes_for(:issue_rand, scope: Issue.human_enum_scope(:limited), status: Issue.human_enum_status(:solving)) }
       it "データが更新され、詳細ページが表示される" do
         expect(page).to have_content issue_params[:title]
         expect(page).to have_content issue_params[:description]
         expect(page).to have_content Issue.human_enum_scope(issue_params[:scope])
         expect(page).to have_content Issue.human_enum_status(issue_params[:status])
+      end
+    end
+
+    context "他人のイシューを編集しようとした場合" do
+      it "イシュー一覧にリダイレクトしフラッシュが表示される" do
+        sign_in other_user
+        visit edit_issue_path(release_issue)
+        expect(current_path).to eq issues_path
+        expect(page).to have_content I18n.t("views.issues.flash.author_required")
       end
     end
   end
@@ -217,7 +226,7 @@ RSpec.describe :issue, type: :system do
           page.accept_confirm {
             click_link I18n.t("views.btn.delete"), href: issue_path(release_issue)
           }
-          find ".alert", text: I18n.t("views.issues.flash.not_destroy")
+          find ".alert", text: I18n.t("views.issues.flash.author_required")
         }.not_to change {Issue.count}
       end
     end
