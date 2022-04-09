@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :favorite_issues, through: :favorites, source: :issue
   has_many :stocks, dependent: :destroy
   has_many :stock_issues, through: :stocks, source: :issue
+  has_many :comments, dependent: :destroy
+  has_many :comment_issues, through: :comments, source: :issue
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
