@@ -60,7 +60,7 @@
 なお、管理者及びメンターはイシューの作成ができません。
 
 ```
-$ git clone git@github.com:fumtas1k/issues_app.git
+$ git clone https://github.com/fumtas1k/issues_app.git
 $ cd issues_app
 $ bundle install
 $ yarn install

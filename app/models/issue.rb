@@ -4,8 +4,10 @@ class Issue < ApplicationRecord
 
   belongs_to :user
   has_rich_text :description
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: :user
+  has_many :stocks, dependent: :destroy
+  has_many :stock_users, through: :stocks, source: :user
 
   validates :title, presence: true, length: {maximum: 30}
   validates :description, presence: true

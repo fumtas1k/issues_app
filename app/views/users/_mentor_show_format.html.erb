@@ -1,5 +1,9 @@
-<% provide(:title, t("views.issues.index.title")) %>
-<h1><%= t("views.issues.index.title") %></h1>
+<div class="nav-item <%= activate_css(:issues, :index)%>">
+  <%= link_to t("views.users.show.title"), user_path(user), class: "nav-link" %>
+</div>
+<div class="nav-item <%= activate_css(:issues, :new)%>">
+  <%= link_to t("views.users.stocked.title"), stocked_user_path(user), class: "nav-link" %>
+</div>
 
 <table class="table">
   <thead>
@@ -15,8 +19,8 @@
     </tr>
   </thead>
   <tbody>
-    <% @issues.each do |issue| %>
-      <% if issue.accessible?(current_user) %>
+    <% issues&.each do |issue| %>
+      <% if issue.accessible?(user) %>
         <tr>
           <td class="middle"><%= link_to issue do %>
             <%= issue.title %>
