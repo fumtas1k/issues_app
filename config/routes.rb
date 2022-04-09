@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :issues do
     resources :favorites, only: %i[create destroy]
     resources :stocks, only: %i[create destroy]
+    resources :comments, only: %i[create edit update destroy]
   end
   resources :groupings, only: %i[create destroy]
 

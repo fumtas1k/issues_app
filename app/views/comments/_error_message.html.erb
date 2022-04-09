@@ -1,0 +1,10 @@
+<% if comment.errors.any? %>
+  <div class="alert alert-danger">
+    <h4><%= t("errors.messages.title", count: comment.errors.size) %></h4>
+    <ul>
+      <% comment.errors.full_messages.each do |message| %>
+        <%= content_tag(:li, message) %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

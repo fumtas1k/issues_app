@@ -15,6 +15,7 @@ ja:
       issue: イシュー
       favorite: いいね
       stock: ストック
+      comment: コメント
     attributes:
       user:
         name: 名前
@@ -76,6 +77,12 @@ ja:
         issue: イシュー
         created_at: 作成日
         updated_at: 更新日
+      comment:
+        content: 内容
+        user: ユーザー
+        issue: イシュー
+        created_at: 作成日
+        updated_at: 更新日
   views:
     btn:
       create: 登録
@@ -108,7 +115,7 @@ ja:
         create: "イシュー【%{title}】を作成しました。"
         update: "イシュー【%{title}】を更新しました。"
         destroy: "イシュー【%{title}】を削除しました。"
-        not_destroy: "作成者以外削除できません。"
+        author_required: "著者以外更新できません。"
       index:
         title: イシュー一覧
       show:
@@ -117,6 +124,11 @@ ja:
         title: イシュー作成
       edit:
         title: イシュー編集
+    comments:
+      confirm:
+        delete: 本当に削除しますか？
+      flash:
+        author_required: "著者以外更新できません。"
   date:
     abbr_day_names:
     - 日

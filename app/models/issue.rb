@@ -8,6 +8,8 @@ class Issue < ApplicationRecord
   has_many :favorite_users, through: :favorites, source: :user
   has_many :stocks, dependent: :destroy
   has_many :stock_users, through: :stocks, source: :user
+  has_many :comments, dependent: :destroy
+  has_many :comment_users, through: :comments, source: :user
 
   validates :title, presence: true, length: {maximum: 30}
   validates :description, presence: true

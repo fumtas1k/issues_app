@@ -21,7 +21,10 @@ class IssuesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @comment = current_user.comments.build(issue_id: @issue.id)
+    @comments = @issue.comments.includes(:user).with_rich_text_content.order(:created_at)
+  end
 
   def edit; end
 
@@ -44,13 +47,17 @@ class IssuesController < ApplicationController
     params.require(:issue).permit(:title, :description, :status, :scope)
   end
 
+  def comment_params
+    params.require(:comment).permit(:content, :issue_id)
+  end
+
   def set_issue
     @issue = Issue.find(params[:id])
   end
 
   def author_required
     set_issue
-    flash[:danger] = I18n.t("views.issues.flash.not_destroy")
+    flash[:danger] = I18n.t("views.issues.flash.author_required")
     redirect_back fallback_location: issues_path unless current_user == @issue.user
   end
 

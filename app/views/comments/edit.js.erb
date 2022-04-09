@@ -1,0 +1,1 @@
+$("#this-comment-<%= @comment.id %>").replaceWith("<%= j(render 'form', comment: @comment, issue: @issue) %>")
