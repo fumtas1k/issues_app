@@ -1,4 +1,7 @@
 require 'rails_helper'
+
+# モデルにて、最初に登録したユーザーを管理者兼メンター権限とする設定にしています。
+# ご注意ください。
 RSpec.describe :user, type: :system do
 
   describe "アカウント登録機能" do
@@ -71,20 +74,50 @@ RSpec.describe :user, type: :system do
   end
 
   describe "マイページ機能" do
+    let!(:mentor) {create(:mentor)}
     let!(:user) {create(:user)}
     let!(:other_user) {create(:user, :seq)}
-    before { sign_in user }
+    let!(:release_issue) {create(:issue, user: user)}
+    let!(:limited_issue) {create(:issue, :limited, user: user)}
+    let!(:draft_issue) {create(:issue, :draft, user: user)}
+    let!(:other_issue) {create(:issue_rand, user: other_user)}
 
-    context "自分のマイページにアクセスした場合" do
-      it "アクセス出来る" do
+    context "非メンターが自分のマイページにアクセスした場合" do
+      before do
+        sign_in user
         visit user_path(user)
+      end
+      it "アクセス出来る" do
         expect(current_path).to eq user_path(user)
         expect(page).to have_content user.code
+      end
+
+      it "自分のイシューが全て表示されている" do
+        expect(page).to have_content release_issue.title, count: 3
+        expect(page).not_to have_content other_issue.title
+      end
+    end
+
+    context "メンターが自分のマイページにアクセスした場合" do
+      let!(:grouping) {create(:grouping, user: user, group: mentor.group)}
+      before do
+        sign_in mentor
+        visit user_path(mentor)
+      end
+      it "アクセス出来る" do
+        expect(current_path).to eq user_path(mentor)
+        expect(page).to have_content mentor.code
+      end
+
+      it "自分のグループのメンバーの限定・公開のイシューが表示されている" do
+        expect(page).to have_content release_issue.title, count: 2
+        expect(page).not_to have_content other_issue.title
       end
     end
 
     context "他人のマイページにアクセスした場合" do
       it "アクセス出来ず、ルートパスにリダイレクトする" do
+        sign_in user
         visit user_path(other_user)
         expect(current_path).to eq root_path
         expect(page).not_to have_content user.code
@@ -93,21 +126,33 @@ RSpec.describe :user, type: :system do
   end
 
   describe "マイページ/ストックページ機能" do
+    let!(:mentor) {create(:mentor)} # 最初の登録ユーザーがメンターになってしまうために用意
     let!(:user) {create(:user)}
     let!(:other_user) {create(:user, :seq)}
+    let!(:stock_issue1) {create(:issue_rand, :release, user: user)}
+    let!(:stock_issue2) {create(:issue_rand, :release, user: other_user)}
+    let!(:non_stock_issue) {create(:issue_rand, :release, user: other_user)}
+    let!(:user_stock1) {create(:stock, user: user, issue: stock_issue1)}
+    let!(:user_stock2) {create(:stock, user: user, issue: stock_issue2)}
     before { sign_in user }
 
     context "自分のマイページ/ストックページにアクセスした場合" do
+      before { visit stocked_user_path(user) }
       it "アクセス出来る" do
-        visit stock_user_path(user)
-        expect(current_path).to eq user_path(user)
+        expect(current_path).to eq stocked_user_path(user)
         expect(page).to have_content user.code
+      end
+
+      it "ストックしたイシューのみ表示される" do
+        expect(page).to have_content stock_issue1.title
+        expect(page).to have_content stock_issue2.title
+        expect(page).not_to have_content non_stock_issue.title
       end
     end
 
     context "他人のマイページ/ストックページにアクセスした場合" do
       it "アクセス出来ず、ルートパスにリダイレクトする" do
-        visit user_path(other_user)
+        visit stocked_user_path(other_user)
         expect(current_path).to eq root_path
         expect(page).not_to have_content user.code
       end

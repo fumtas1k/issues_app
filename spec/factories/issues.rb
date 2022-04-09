@@ -22,11 +22,15 @@ FactoryBot.define do
   end
 
   factory :issue_rand, class: Issue do
-    title       { Faker::Games::Pokemon.name[0,20] }
-    description { Faker::Hacker.say_something_smart }
+    sequence :title, "#{Faker::Games::Pokemon.name[0,17]}001"
+    sequence :description, "#{Faker::Hacker.say_something_smart}001"
     status      { Issue.statuses.keys[rand(2)] }
     scope       { Issue.scopes.keys[rand(3)] }
     association :user, :seq
+
+    trait :release do
+      scope     { :release }
+    end
 
     trait :limited do
       scope     { :limited }
