@@ -1,8 +1,8 @@
 require 'rails_helper'
 RSpec.describe :issue, type: :system do
+  let!(:mentor) { create(:mentor) }
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user, :seq) }
-  let!(:mentor) { create(:mentor) }
   let!(:grouping) { create(:grouping, user: user, group: mentor.group) }
   let!(:other_mentor) { create(:user, :seq, name: "other_mentor", mentor: true) }
 
@@ -26,8 +26,8 @@ RSpec.describe :issue, type: :system do
         end
       }
       it "保存されて、詳細ページが表示される" do
-        expect(issue_params[:title]).to eq Issue.last.title
-        expect(page).to have_content user.name, count: 2
+        expect(Issue.last.title).to eq issue_params[:title]
+        expect(page).to have_content issue_params[:title]
       end
     end
 
@@ -35,8 +35,8 @@ RSpec.describe :issue, type: :system do
       let(:issue_params) { attributes_for(:issue, :solving) }
       let(:file_attach) { "" }
       it "詳細ページに飛び、選択したstatusが表示される" do
-        expect(issue_params[:title]).to eq Issue.last.title
-        expect(page).to have_content user.name, count: 2
+        expect(Issue.last.title).to eq issue_params[:title]
+        expect(page).to have_content issue_params[:title]
         expect(page).to have_content Issue.human_enum_status(issue_params[:status])
       end
     end
@@ -45,8 +45,8 @@ RSpec.describe :issue, type: :system do
       let(:issue_params) { attributes_for(:issue, :limited) }
       let(:file_attach) { "" }
       it "詳細ページに飛び、選択したscopeが表示される" do
-        expect(issue_params[:title]).to eq Issue.last.title
-        expect(page).to have_content user.name, count: 2
+        expect(Issue.last.title).to eq issue_params[:title]
+        expect(page).to have_content issue_params[:title]
         expect(page).to have_content Issue.human_enum_scope(issue_params[:scope])
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe :issue, type: :system do
         end
       }
       it "投稿画面に戻りエラーメッセージが表示される" do
-        expect(issue_params[:title]).not_to eq Issue.last&.title
+        expect(Issue.count).to eq 0
         expect(page).to have_content I18n.t("errors.messages.empty")
         expect(page).to have_content I18n.t("views.issues.new.title")
       end
@@ -69,7 +69,7 @@ RSpec.describe :issue, type: :system do
       let(:issue_params) { attributes_for(:issue, description: "") }
       let(:file_attach) { "" }
       it "投稿画面に戻りエラーメッセージが表示される" do
-        expect(issue_params[:title]).not_to eq Issue.last&.title
+        expect(Issue.count).to eq 0
         expect(page).to have_content I18n.t("errors.messages.empty")
         expect(page).to have_content I18n.t("views.issues.new.title")
       end

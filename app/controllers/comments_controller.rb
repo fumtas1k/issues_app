@@ -3,8 +3,8 @@ class CommentsController < ApplicationController
   before_action :set_issue, only: %i[create edit update destroy]
   before_action :set_comments, only: %i[create edit update destroy]
   before_action :set_comment, only: %i[edit update destroy]
-  before_action :scope_control, only: %i[edit update destroy]
   before_action :set_comments, only: %i[create edit update destroy]
+  before_action :author_required, only: %i[edit update destroy]
 
   def create
     @comment = current_user.comments.build(comment_params.merge(issue_id: @issue.id))
