@@ -1,0 +1,11 @@
+<div class="comment-container jumbotron" id=<%= "this-comment-#{comment.id}" %>>
+  <%= comment.content %>
+  <%= comment.user.name %>
+  <%= time_ago_in_words(comment.updated_at) %>
+  <%= link_to edit_issue_comment_path(issue, comment), class:"comment-edit-btn", remote: true do %>
+    <span class="material-icons">edit_note</span>
+  <% end %>
+  <%= link_to issue_comment_path(issue, comment), class: "comment-delete-btn", remote: true, method: :delete, data: {confirm: t("views.comments.confirm.delete")} do %>
+    <span class="material-icons">delete_forever</span>
+  <% end %>
+</div>

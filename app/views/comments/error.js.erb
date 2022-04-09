@@ -1,0 +1,2 @@
+$("#error-explanation-<%= @comment.id %>").html("<%= j(render 'error_message', comment: @comment)%>");
+$("html,body").animate({scrollTop:$("#comment-form-<%= @comment.id%>").offset().top});

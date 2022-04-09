@@ -14,3 +14,11 @@
   <%= link_to t("views.btn.edit"), edit_issue_path(@issue), class: "btn btn-success" %>
   <%= link_to t("views.btn.delete"), issue_path(@issue), class: "btn btn-danger", data: {confirm: t("views.issues.confirm.delete")}, method: :delete %>
 </div>
+
+<br>
+<h2><%= Comment.model_name.human %></h2>
+<div id="comments-area">
+  <%= render @comments, issue: @issue %>
+</div>
+<br>
+<%= render "comments/form", issue: @issue, comment: @comment %>

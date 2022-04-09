@@ -1,0 +1,4 @@
+$("#error-explanation-").html("<%= j(render 'error_message', comment: @comment)%>");
+$("#comments-area").html("<%= j(render @comments, issue: @issue) %>");
+$("trix-editor.trix-content").val("");
+$("html,body").animate({scrollTop:$("#comment-form-").offset().top});

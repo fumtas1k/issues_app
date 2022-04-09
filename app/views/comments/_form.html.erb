@@ -1,0 +1,13 @@
+<div class="comment-container" id=<%= "comment-form-#{comment.id}" %>>
+  <%= form_with(model: [issue, comment],class: "form", remote: true) do |form| %>
+    <div id=<%= "error-explanation-#{comment.id}" %>>
+      <%= render "comments/error_message", comment: comment %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :content, class: "sr-only" %>
+      <%= form.rich_text_area :content, require: true, placeholder: Comment.human_attribute_name(:content) %>
+    </div>
+    <%= form.submit class: "btn btn-primary btn-block", id: "comment-btn-#{comment.id}" %>
+  <% end %>
+</div>
