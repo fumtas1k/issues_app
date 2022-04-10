@@ -19,6 +19,12 @@
     <%= form.label :scope, class: "sr-only" %>
     <%= form.select :scope, Issue.enum_options_for_select(:scope), {}, class: "custom-select mr-sm-2", require: true %>
   </div>
+  <%= content_tag(:div, id:"app", data:{tag_list: Issue.tag_counts_on(:tags).pluck(:name).to_json, my_tag_list: issue.tag_list.to_json}) do %>
+    <div>
+      <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag"  :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+      <pre class="language-json" hidden="hidden"><input type="text" name="issue[tag_list]" id="issue_tag_list" v-model="value"></pre>
+    </div>
+  <% end %>
   <div class="form-group">
     <%= form.label :description, class: "sr-only" %>
     <%= form.rich_text_area :description, require: true, placeholder: Issue.human_attribute_name(:description) %>

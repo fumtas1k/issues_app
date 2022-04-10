@@ -14,6 +14,7 @@ gem 'image_processing'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'actiontext'
+gem "acts-as-taggable-on"
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'

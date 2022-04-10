@@ -44,7 +44,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:title, :description, :status, :scope)
+    params.require(:issue).permit(:title, :description, :status, :scope, :tag_list)
   end
 
   def comment_params
@@ -57,8 +57,10 @@ class IssuesController < ApplicationController
 
   def author_required
     set_issue
-    flash[:danger] = I18n.t("views.issues.flash.author_required")
-    redirect_back fallback_location: issues_path unless current_user == @issue.user
+    unless current_user == @issue.user
+      flash[:danger] = I18n.t("views.issues.flash.author_required")
+      redirect_back fallback_location: issues_path
+    end
   end
 
   def scope_control

@@ -64,7 +64,9 @@ class CommentsController < ApplicationController
 
   def author_required
     set_comment
-    flash[:danger] = I18n.t("views.comments.flash.author_required")
-    redirect_back fallback_location: issues_path unless current_user == @comment.user
+    unless current_user == @comment.user
+      flash[:danger] = I18n.t("views.comments.flash.author_required")
+      redirect_back fallback_location: issues_path
+    end
   end
 end

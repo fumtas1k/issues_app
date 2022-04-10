@@ -60,6 +60,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
+    acts-as-taggable-on (9.0.1)
+      activerecord (>= 6.0, < 7.1)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     bcrypt (3.1.17)
@@ -158,7 +160,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
-    msgpack (1.4.5)
+    msgpack (1.5.1)
     nested_form (0.3.2)
     nio4r (2.5.8)
     nokogiri (1.13.3-arm64-darwin)
@@ -216,7 +218,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    regexp_parser (2.2.1)
+    regexp_parser (2.3.0)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -308,6 +310,7 @@ PLATFORMS
 
 DEPENDENCIES
   actiontext
+  acts-as-taggable-on
   better_errors
   binding_of_caller
   bootsnap (>= 1.4.2)

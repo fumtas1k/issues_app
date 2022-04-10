@@ -58,6 +58,8 @@ ja:
         status: 状態
         scope: 公開範囲
         user: 著者
+        tag_list: タグリスト
+        tag: タグ
         created_at: 作成日
         updated_at: 更新日
       issue/status:
