@@ -131,6 +131,9 @@ ja:
         delete: 本当に削除しますか？
       flash:
         author_required: "著者以外更新できません。"
+    tags:
+      tag-placeholder: 新規タグ追加
+      placeholder: タグの検索or追加
   date:
     abbr_day_names:
     - 日

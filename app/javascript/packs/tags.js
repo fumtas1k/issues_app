@@ -5,9 +5,11 @@ $(document).on('turbolinks:load', function() {
 
   new Vue({
     el: "#app",
-    data: {
-      value: myTagList,
-      options: tagList,
+    data() {
+      return {
+        value: myTagList,
+        options: tagList,
+      }
     },
     methods: {
       addTag (newTag) {
