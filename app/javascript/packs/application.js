@@ -16,3 +16,9 @@ import "./tags";
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+// ヒストリーバック時にリロードする設定(新着をクリックして戻った時用)
+// おそらく推奨されないため、場合によってhは削除する
+window.addEventListener('pageshow',()=>{
+	if(window.performance.navigation.type==2) location.reload();
+});

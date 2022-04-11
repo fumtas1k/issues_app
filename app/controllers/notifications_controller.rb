@@ -4,7 +4,13 @@ class NotificationsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @notifications = @user.notifications
+    @notifications = @user.notifications.order(created_at: :desc)
+  end
+
+  def update
+    notification = Notification.find(params[:id])
+    notification.toggle!(:read) unless notification.read?
+    redirect_to notification.link_path
   end
 
   private

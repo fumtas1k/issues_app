@@ -94,6 +94,8 @@ ja:
       notification:
         user: ユーザー
         message: 通知内容
+        read: 既読
+        unread: 未読
         link_path: リンク先
         created_at: 作成日
         updated_at: 更新日
