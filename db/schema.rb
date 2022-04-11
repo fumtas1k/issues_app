@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_10_134428) do
+ActiveRecord::Schema.define(version: 2022_04_11_050257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,19 @@ ActiveRecord::Schema.define(version: 2022_04_10_134428) do
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.bigint "user_id", null: false
+    t.text "message", null: false
+    t.text "link_path", null: false
+    t.boolean "read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_type", "subject_id"], name: "index_notifications_on_subject_type_and_subject_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "stocks", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "issue_id", null: false
@@ -165,6 +178,7 @@ ActiveRecord::Schema.define(version: 2022_04_10_134428) do
   add_foreign_key "groupings", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "issues", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "stocks", "issues"
   add_foreign_key "stocks", "users"
   add_foreign_key "taggings", "tags"

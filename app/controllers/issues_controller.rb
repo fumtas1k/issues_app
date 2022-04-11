@@ -20,6 +20,7 @@ class IssuesController < ApplicationController
   def create
     @issue = current_user.issues.build(issue_params)
     if @issue.save
+      @issue.notify
       redirect_to @issue, notice: I18n.t("views.issues.flash.create", title: @issue.title)
     else
       render :new
@@ -34,7 +35,9 @@ class IssuesController < ApplicationController
   def edit; end
 
   def update
+    before_status = @issue.status
     if @issue.update(issue_params)
+      @issue.notifiy(before_status)
       redirect_to @issue, notice: I18n.t("views.issues.flash.update", title: @issue.title)
     else
       render :edit
