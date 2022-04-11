@@ -4,8 +4,9 @@ FactoryBot.define do
   factory :issue do
     title       { "ways to eliminate war" }
     description { "I hope wars will disappear from this world. but..." }
-    status      {Issue.statuses.keys.first}
-    scope       {Issue.scopes.keys.first}
+    status      { Issue.statuses.keys.first }
+    scope       { Issue.scopes.keys.first }
+    tag_list    { "despensing" }
     user
 
     trait :limited do
@@ -26,6 +27,7 @@ FactoryBot.define do
     sequence :description, "#{Faker::Hacker.say_something_smart}001"
     status      { Issue.statuses.keys[rand(2)] }
     scope       { Issue.scopes.keys[rand(3)] }
+    tag_list    { "despensing, TPN" }
     association :user, :seq
 
     trait :release do

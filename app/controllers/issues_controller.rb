@@ -5,7 +5,12 @@ class IssuesController < ApplicationController
   before_action :author_required, only: %i[edit update destroy]
 
   def index
-    @issues = Issue.includes(:user).with_rich_text_description.order(created_at: :desc)
+    @issues =
+      if params[:tag_name]
+        Issue.tagged_with(params[:tag_name])
+      else
+        Issue
+      end.includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc)
   end
 
   def new
@@ -44,7 +49,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:title, :description, :status, :scope)
+    params.require(:issue).permit(:title, :description, :status, :scope, :tag_list)
   end
 
   def comment_params
@@ -57,8 +62,10 @@ class IssuesController < ApplicationController
 
   def author_required
     set_issue
-    flash[:danger] = I18n.t("views.issues.flash.author_required")
-    redirect_back fallback_location: issues_path unless current_user == @issue.user
+    unless current_user == @issue.user
+      flash[:danger] = I18n.t("views.issues.flash.author_required")
+      redirect_back fallback_location: issues_path
+    end
   end
 
   def scope_control

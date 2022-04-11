@@ -58,6 +58,8 @@ ja:
         status: 状態
         scope: 公開範囲
         user: 著者
+        tag_list: タグリスト
+        tag: タグ
         created_at: 作成日
         updated_at: 更新日
       issue/status:
@@ -129,6 +131,9 @@ ja:
         delete: 本当に削除しますか？
       flash:
         author_required: "著者以外更新できません。"
+    tags:
+      tag-placeholder: 新規タグ追加
+      placeholder: タグの検索or追加
   date:
     abbr_day_names:
     - 日

@@ -18,6 +18,8 @@ class Issue < ApplicationRecord
   validates :scope, presence: true
   enum scope: %i[release limited draft] # publicは使用できないためreleaseとした
 
+  acts_as_taggable_on :tags
+
   def accessible?(login_user)
     return true if scope == "release" || user == login_user
     return false if scope == "draft" || !login_user.mentor

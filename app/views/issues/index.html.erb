@@ -8,6 +8,7 @@
       <th><%= Issue.human_attribute_name(:user) %></th>
       <th><%= Issue.human_attribute_name(:status) %></th>
       <th><%= Issue.human_attribute_name(:scope) %></th>
+      <th><%= Issue.human_attribute_name(:tag) %></th>
       <th><%= Favorite.model_name.human %></th>
       <th><%= Stock.model_name.human %></th>
       <th><%= Issue.human_attribute_name(:created_at) %></th>
@@ -24,6 +25,13 @@
           <td class="middle"><%= issue.user.name %></td>
           <td class="middle"><%= Issue.human_enum_status(issue.status) %></td>
           <td class="middle"><%= Issue.human_enum_scope(issue.scope) %></td>
+          <td class="middle">
+            <% issue.tags.pluck(:name).each do |tag| %>
+              <%= link_to issues_path(tag_name: tag) do %>
+                <%= content_tag(:span, tag, class: "tag") %>
+              <% end %>
+            <% end %>
+          </td>
           <td class="middle">
             <div id=<%= "favorite-issue-#{issue.id}" %> class="center"><%= render "favorites/favorite_btn", issue: issue %></div>
           </td>
