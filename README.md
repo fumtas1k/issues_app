@@ -18,6 +18,11 @@
 - Bootstrap 4.5.0
 - popper.js 1.16.0
 
+## インフラ
+
+- Heroku
+- AWS S3
+
 ## 就業Term技術
 
 - devise(gem)
@@ -26,8 +31,10 @@
 
 ## カリキュラム以外の技術
 
-- actiontext(gem)
+- action text(gem)
+- active storage(gem)
 - ransack(gem)
+- vue.js(タグの入力フォームのみ)
 
 ## 主な機能
 
