@@ -37,7 +37,7 @@ class IssuesController < ApplicationController
   def update
     before_status = @issue.status
     if @issue.update(issue_params)
-      @issue.notifiy(before_status)
+      @issue.notify(before_status)
       redirect_to @issue, notice: I18n.t("views.issues.flash.update", title: @issue.title)
     else
       render :edit

@@ -1,0 +1,12 @@
+<% provide(:title, t("views.notifications.index.title")) %>
+
+<h1><%= t("views.notifications.index.title") %></h1>
+
+<% @notifications.each do |notification| %>
+  <div class="notification-container">
+    <%= link_to notification.link_path do %>
+      <%= simple_format notification.message %>
+      <span><%= time_ago_in_words notification.created_at %></span>
+    <% end %>
+  </div>
+<% end %>

@@ -37,6 +37,9 @@
               <li class="nav-item <%= activate_css(:users, :show)%>">
                 <%= link_to current_user.name, user_path(current_user), class:"nav-link" %>
               </li>
+              <li class="nav-item <%= activate_css(:notifications, :index)%>">
+                <%= link_to t("views.notifications.index.title"), user_notifications_path(current_user), class: "nav-link" %>
+              </li>
               <li class="nav-item <%= activate_css(:issues, :index)%>">
                 <%= link_to t("views.issues.index.title"), issues_path, class: "nav-link" %>
               </li>

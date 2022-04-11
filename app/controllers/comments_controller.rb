@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.build(comment_params.merge(issue_id: @issue.id))
     respond_to do |format|
       if @comment.save
-        @comment.notify!
+        @comment.notify
         format.html { redirect_to @issue }
         format.js { render :index }
       else

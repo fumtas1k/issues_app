@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     post "users/guest_sign_in", to: "users/sessions#guest_sign_in"
     resources :users, only: %i[index show] do
+      resources :notifications, only: :index
       member do
         get :stocked
       end

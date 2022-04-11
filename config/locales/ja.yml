@@ -16,6 +16,7 @@ ja:
       favorite: いいね
       stock: ストック
       comment: コメント
+      notification: 通知
     attributes:
       user:
         name: 名前
@@ -62,8 +63,8 @@ ja:
         tag: タグ
         created_at: 作成日
         updated_at: 更新日
-        notify_message: "%%{user}が{issue}を作成しました"
-        solving_notify_message: "%%{user}が{issue}を解決しました"
+        notify_message: "%{user}が%{issue}を作成しました"
+        solving_notify_message: "%{user}が%{issue}を解決しました"
       issue/status:
         pending: 未解決
         solving: 解決
@@ -82,7 +83,7 @@ ja:
         issue: イシュー
         created_at: 作成日
         updated_at: 更新日
-        notify_message: "%%{user}が{issue}をストックしました"
+        notify_message: "%{user}が%{issue}をストックしました"
       comment:
         content: 内容
         user: ユーザー
@@ -90,6 +91,12 @@ ja:
         created_at: 作成日
         updated_at: 更新日
         notify_message: "%{user}が%{issue}にコメントしました"
+      notification:
+        user: ユーザー
+        message: 通知内容
+        link_path: リンク先
+        created_at: 作成日
+        updated_at: 更新日
   views:
     btn:
       create: 登録
@@ -139,6 +146,9 @@ ja:
     tags:
       tag-placeholder: 新規タグ追加
       placeholder: タグの検索or追加
+    notifications:
+      index:
+        title: 新着
   date:
     abbr_day_names:
     - 日
