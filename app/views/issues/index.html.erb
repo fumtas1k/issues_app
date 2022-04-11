@@ -26,8 +26,10 @@
           <td class="middle"><%= Issue.human_enum_status(issue.status) %></td>
           <td class="middle"><%= Issue.human_enum_scope(issue.scope) %></td>
           <td class="middle">
-            <% issue.tag_list.each do |tag| %>
-              <%= content_tag(:span, tag, class: "tag") %>
+            <% issue.tags.pluck(:name).each do |tag| %>
+              <%= link_to issues_path(tag_name: tag) do %>
+                <%= content_tag(:span, tag, class: "tag") %>
+              <% end %>
             <% end %>
           </td>
           <td class="middle">

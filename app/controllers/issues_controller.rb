@@ -5,7 +5,12 @@ class IssuesController < ApplicationController
   before_action :author_required, only: %i[edit update destroy]
 
   def index
-    @issues = Issue.includes(:user).with_rich_text_description.order(created_at: :desc)
+    @issues =
+      if params[:tag_name]
+        Issue.tagged_with(params[:tag_name])
+      else
+        Issue
+      end.includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc)
   end
 
   def new

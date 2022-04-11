@@ -14,6 +14,7 @@ RSpec.describe :issue, type: :system do
       select Issue.human_enum_status(issue_params[:status]), from: Issue.human_attribute_name(:status)
       select Issue.human_enum_scope(issue_params[:scope]), from: Issue.human_attribute_name(:scope)
       fill_in_rich_text_area "issue_description", with: issue_params[:description]
+      fill_in("vue-tag-input", with: issue_params[:tag_list], visible: false).send_keys :return
       file_attach
       click_on I18n.t("helpers.submit.create")
     end
@@ -176,18 +177,20 @@ RSpec.describe :issue, type: :system do
         fill_in "issue_title", with: issue_params[:title]
         select Issue.human_enum_status(issue_params[:status]), from: Issue.human_attribute_name(:status)
         select Issue.human_enum_scope(issue_params[:scope]), from: Issue.human_attribute_name(:scope)
+        fill_in("vue-tag-input", with: issue_params[:tag_list], visible: false).send_keys :return
         fill_in_rich_text_area "issue_description", with: issue_params[:description]
         page.attach_file("#{Rails.root}/app/assets/images/sample.jpg") do
           page.find(".trix-button--icon-attach").click
         end
         click_on I18n.t("helpers.submit.update")
       end
-      let(:issue_params) { attributes_for(:issue_rand, scope: Issue.human_enum_scope(:limited), status: Issue.human_enum_status(:solving)) }
+      let(:issue_params) { attributes_for(:issue_rand, scope: Issue.human_enum_scope(:limited), status: Issue.human_enum_status(:solving), tag_list: "TPN") }
       it "データが更新され、詳細ページが表示される" do
         expect(page).to have_content issue_params[:title]
         expect(page).to have_content issue_params[:description]
         expect(page).to have_content Issue.human_enum_scope(issue_params[:scope])
         expect(page).to have_content Issue.human_enum_status(issue_params[:status])
+        expect(page).to have_content issue_params[:tag_list]
       end
     end
 
