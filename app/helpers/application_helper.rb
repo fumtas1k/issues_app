@@ -27,8 +27,8 @@ module ApplicationHelper
   ## ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
   def display_pagination
     [
-      %w[users index],
-  ]
+      %w[users index]
+    ]
   end
 
   def prepare_avatar(user)
