@@ -1,47 +1,50 @@
 <% provide(:title, t("views.issues.index.title")) %>
 <h1><%= t("views.issues.index.title") %></h1>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th><%= Issue.human_attribute_name(:title) %></th>
-      <th><%= Issue.human_attribute_name(:user) %></th>
-      <th><%= Issue.human_attribute_name(:status) %></th>
-      <th><%= Issue.human_attribute_name(:scope) %></th>
-      <th><%= Issue.human_attribute_name(:tag) %></th>
-      <th><%= Favorite.model_name.human %></th>
-      <th><%= Stock.model_name.human %></th>
-      <th><%= Issue.human_attribute_name(:created_at) %></th>
-      <th><%= Issue.human_attribute_name(:updated_at) %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @issues.each do |issue| %>
-      <% if issue.accessible?(current_user) %>
-        <tr>
-          <td class="middle"><%= link_to issue do %>
-            <%= issue.title %>
-          <% end %></td>
-          <td class="middle"><%= issue.user.name %></td>
-          <td class="middle"><%= Issue.human_enum_status(issue.status) %></td>
-          <td class="middle"><%= Issue.human_enum_scope(issue.scope) %></td>
-          <td class="middle">
-            <% issue.tags.pluck(:name).each do |tag| %>
-              <%= link_to issues_path(tag_name: tag) do %>
-                <%= content_tag(:span, tag, class: "tag") %>
+<div class="jscroll">
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= Issue.human_attribute_name(:title) %></th>
+        <th><%= Issue.human_attribute_name(:user) %></th>
+        <th><%= Issue.human_attribute_name(:status) %></th>
+        <th><%= Issue.human_attribute_name(:scope) %></th>
+        <th><%= Issue.human_attribute_name(:tag) %></th>
+        <th><%= Favorite.model_name.human %></th>
+        <th><%= Stock.model_name.human %></th>
+        <th><%= Issue.human_attribute_name(:created_at) %></th>
+        <th><%= Issue.human_attribute_name(:updated_at) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @issues.each do |issue| %>
+        <% if issue.accessible?(current_user) %>
+          <tr>
+            <td class="middle"><%= link_to issue do %>
+              <%= issue.title %>
+            <% end %></td>
+            <td class="middle"><%= issue.user.name %></td>
+            <td class="middle"><%= Issue.human_enum_status(issue.status) %></td>
+            <td class="middle"><%= Issue.human_enum_scope(issue.scope) %></td>
+            <td class="middle">
+              <% issue.tags.pluck(:name).each do |tag| %>
+                <%= link_to issues_path(tag_name: tag) do %>
+                  <%= content_tag(:span, tag, class: "tag") %>
+                <% end %>
               <% end %>
-            <% end %>
-          </td>
-          <td class="middle">
-            <div id=<%= "favorite-issue-#{issue.id}" %> class="center"><%= render "favorites/favorite_btn", issue: issue %></div>
-          </td>
-          <td class="middle">
-            <div id=<%= "stock-issue-#{issue.id}" %> class="center"><%= render "stocks/stock_btn", issue: issue %></div>
-          </td>
-          <td class="middle"><%= l issue.created_at, format: :medium %></td>
-          <td class="middle"><%= l issue.updated_at, format: :medium %></td>
-        </tr>
+            </td>
+            <td class="middle">
+              <div id=<%= "favorite-issue-#{issue.id}" %> class="center"><%= render "favorites/favorite_btn", issue: issue %></div>
+            </td>
+            <td class="middle">
+              <div id=<%= "stock-issue-#{issue.id}" %> class="center"><%= render "stocks/stock_btn", issue: issue %></div>
+            </td>
+            <td class="middle"><%= l issue.created_at, format: :medium %></td>
+            <td class="middle"><%= l issue.updated_at, format: :medium %></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+
+  <%= paginate @issues %>
+</div>

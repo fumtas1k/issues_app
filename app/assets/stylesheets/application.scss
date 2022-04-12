@@ -102,3 +102,8 @@ span.mentors {
 .unread {
   background-color: rgb(239, 239, 239);
 }
+
+// pagination 非表示にする設定
+nav.pagination {
+  display: none;
+}

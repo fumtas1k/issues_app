@@ -19,6 +19,7 @@ gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
 gem 'faker'
+gem 'kaminari'
 gem 'rails_admin'
 gem 'rexml'
 
