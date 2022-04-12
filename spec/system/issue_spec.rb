@@ -79,9 +79,9 @@ RSpec.describe :issue, type: :system do
 
   describe "一覧表示機能" do
     # 公開、限定、下書きの3パターンを作成
-    let!(:release_issue) { create(:issue, user: user) }
-    let!(:limited_issue) { create(:issue, :limited, user: user) }
-    let!(:draft_issue) { create(:issue, :draft, user: user) }
+    let!(:release_issue) { create(:issue, user: user, title: "esaeler") }
+    let!(:limited_issue) { create(:issue, :limited, user: user, title: "detimil") }
+    let!(:draft_issue) { create(:issue, :draft, user: user, title: "tfard") }
 
     context "3つのissueを投稿したユーザーが一覧表示にアクセスした場合" do
       it "3つとも表示される" do
@@ -97,9 +97,9 @@ RSpec.describe :issue, type: :system do
       it "releaseのみ表示される" do
         sign_in other_user
         visit issues_path
-        expect(page).to have_content Issue.human_enum_scope(:release)
-        expect(page).not_to have_content Issue.human_enum_scope(:limited)
-        expect(page).not_to have_content Issue.human_enum_scope(:draft)
+        expect(page).to have_content release_issue.title
+        expect(page).not_to have_content limited_issue.title
+        expect(page).not_to have_content draft_issue.title
       end
     end
 
@@ -107,9 +107,9 @@ RSpec.describe :issue, type: :system do
       it "draft以外2つのイシューが表示される" do
         sign_in mentor
         visit issues_path
-        expect(page).to have_content Issue.human_enum_scope(:release)
-        expect(page).to have_content Issue.human_enum_scope(:limited)
-        expect(page).not_to have_content Issue.human_enum_scope(:draft)
+        expect(page).to have_content release_issue.title
+        expect(page).to have_content limited_issue.title
+        expect(page).not_to have_content draft_issue.title
       end
     end
 
@@ -117,9 +117,9 @@ RSpec.describe :issue, type: :system do
       it "releaseのみ表示される" do
         sign_in other_mentor
         visit issues_path
-        expect(page).to have_content Issue.human_enum_scope(:release)
-        expect(page).not_to have_content Issue.human_enum_scope(:limited)
-        expect(page).not_to have_content Issue.human_enum_scope(:draft)
+        expect(page).to have_content release_issue.title
+        expect(page).not_to have_content limited_issue.title
+        expect(page).not_to have_content draft_issue.title
       end
     end
   end

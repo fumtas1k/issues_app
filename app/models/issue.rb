@@ -6,7 +6,7 @@ class Issue < ApplicationRecord
 
   belongs_to :user
   has_rich_text :description
-  has_one :description, class_name: "ActionText::RichText", as: :record
+  has_one :_description, class_name: "ActionText::RichText", as: :record
   has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: :user
   has_many :stocks, dependent: :destroy
