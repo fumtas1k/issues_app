@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   before_action :ensure_correct_user, only: %i[show stocked]
 
   def index
-    @users = User.includes(:groupings).with_attached_avatar.order(:code).page(params[:page])
+    @q = User.ransack(params[:q])
+    @users = @q.result(distinct: true).includes(:groupings).with_attached_avatar.order(:code).page(params[:page])
   end
 
   def show

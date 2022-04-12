@@ -14,8 +14,8 @@ module GetEnumMethod
   end
 
   def enum_options_for_select(attr_name)
-    send(attr_name.to_s.pluralize).reduce({}) do |hash, (key, _)|
-      hash.merge({send("human_enum_#{attr_name}", key) => key})
+    send(attr_name.to_s.pluralize).reduce({}) do |hash, (key, val)|
+      hash.merge({send("human_enum_#{attr_name}", key) => val})
     end
   end
 end

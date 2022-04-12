@@ -5,12 +5,13 @@ class IssuesController < ApplicationController
   before_action :author_required, only: %i[edit update destroy]
 
   def index
-    @issues =
+    @q =
       if params[:tag_name]
         Issue.tagged_with(params[:tag_name])
       else
         Issue
-      end.includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc).page(params[:page])
+      end.ransack(params[:q])
+      @issues = @q.result(distinct: true).includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc).page(params[:page])
   end
 
   def new
