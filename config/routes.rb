@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show] do
       resources :notifications, only: %i[index update] do
         collection do
-          patch :all_read
+          patch :read_all
         end
       end
       member do

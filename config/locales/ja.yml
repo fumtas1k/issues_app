@@ -151,7 +151,7 @@ ja:
     notifications:
       index:
         title: 新着
-        all_read: 全既読
+        read_all: 全既読
   date:
     abbr_day_names:
     - 日

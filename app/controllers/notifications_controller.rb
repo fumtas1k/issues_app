@@ -13,7 +13,7 @@ class NotificationsController < ApplicationController
     redirect_to @notification.link_path
   end
 
-  def all_read
+  def read_all
     user = User.find(params[:user_id])
     @notifications = user.notifications
     @notifications.unreads.each{ _1.toggle!(:read) }
