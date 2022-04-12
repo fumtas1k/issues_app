@@ -73,18 +73,21 @@ RSpec.describe :notification, type: :system do
   end
 
   describe "issueの通知機能" do
+    before do
+      sign_in user
+      visit link_path
+      fill_in "issue_title", with: issue_params[:title]
+      select Issue.human_enum_status(issue_params[:status]), from: Issue.human_attribute_name(:status)
+      select Issue.human_enum_scope(issue_params[:scope]), from: Issue.human_attribute_name(:scope)
+      fill_in_rich_text_area "issue_description", with: issue_params[:description]
+      fill_in("vue-tag-input", with: issue_params[:tag_list], visible: false).send_keys :return
+      click_on click_btn
+    end
+
     context "イシューを投稿した場合" do
+      let(:link_path) { new_issue_path }
       let(:issue_params) { attributes_for(:issue) }
-      before do
-        sign_in user
-        visit new_issue_path
-        fill_in "issue_title", with: issue_params[:title]
-        select Issue.human_enum_status(issue_params[:status]), from: Issue.human_attribute_name(:status)
-        select Issue.human_enum_scope(issue_params[:scope]), from: Issue.human_attribute_name(:scope)
-        fill_in_rich_text_area "issue_description", with: issue_params[:description]
-        fill_in("vue-tag-input", with: issue_params[:tag_list], visible: false).send_keys :return
-        click_on I18n.t("helpers.submit.create")
-      end
+      let(:click_btn) { I18n.t("helpers.submit.create") }
 
       it "自分に通知が表示されない" do
         visit user_notifications_path(user)
@@ -104,6 +107,50 @@ RSpec.describe :notification, type: :system do
         visit user_notifications_path(mentor)
         expect(page).to have_css ".notification-link"
         expect(page).to have_content Issue.human_attribute_name(:notify_message, user: user.name,issue: issue_params[:title])
+      end
+
+      it "担当外メンターに通知が表示されない" do
+        click_on I18n.t("devise.sessions.new.sign_out")
+        sign_in other_mentor
+        visit user_notifications_path(other_mentor)
+        expect(page).not_to have_css ".notification-link"
+      end
+    end
+
+    context "下書きのイシューを投稿した場合" do
+      let(:link_path) { new_issue_path }
+      let(:issue_params) { attributes_for(:issue, :draft) }
+      let(:click_btn) { I18n.t("helpers.submit.create") }
+
+      it "通知が生成されない" do
+        expect(Notification.count).to eq 0
+      end
+    end
+
+    context "イシューのstatusを解決に更新した場合" do
+      let!(:issue) { create(:issue_rand, :release, status: "pending", user: user) }
+      let(:link_path) { edit_issue_path(issue) }
+      let(:issue_params) { attributes_for(:issue, status: "solving") }
+      let(:click_btn) { I18n.t("helpers.submit.update") }
+
+      it "自分に通知が表示されない" do
+        visit user_notifications_path(user)
+        expect(page).not_to have_css ".notification-link"
+      end
+
+      it "他人に通知が表示されない" do
+        click_on I18n.t("devise.sessions.new.sign_out")
+        sign_in other_user
+        visit user_notifications_path(other_user)
+        expect(page).not_to have_css ".notification-link"
+      end
+
+      it "担当メンターに通知が表示される" do
+        click_on I18n.t("devise.sessions.new.sign_out")
+        sign_in mentor
+        visit user_notifications_path(mentor)
+        expect(page).to have_css ".notification-link"
+        expect(page).to have_content Issue.human_attribute_name(:solving_notify_message, user: user.name,issue: issue_params[:title])
       end
 
       it "担当外メンターに通知が表示されない" do
@@ -162,21 +209,26 @@ RSpec.describe :notification, type: :system do
 
   describe "通知の既読機能" do
     let!(:issue) { create(:issue, user: user) }
-    let!(:issue_read) { create(:issue_rand, user: user) }
-    let!(:issue_unread) { create(:issue_rand, user: user) }
-    let!(:favorite) { create(:favorite, user: other_user, issue: issue) }
-    let!(:notification) { create(:notification, subject: issue, user: mentor, link_path: issue_path(issue))}
-    let!(:notification_read) { create(:notification, subject: issue_read,  user: mentor, read: true, link_path: issue_path(issue_read))}
-    let!(:notification_unread) { create(:notification, subject: issue_unread,  user: mentor, link_path: issue_path(issue_unread))}
-    let!(:notification_favorite) { create(:notification, subject: issue, user: user, link_path: issue_path(issue))}
+    let!(:other_issue) { create(:issue, user: other_user) }
+    let(:comment_params) { attributes_for(:comment) }
     before do
-      sign_in mentor
-      visit user_notifications_path(mentor)
+      sign_in other_user
+      visit issue_path(issue)
+      click_on "bookmark_border"
+      click_on "favorite_border"
+      fill_in_rich_text_area "comment_content", with: comment_params[:content]
+      click_on I18n.t("helpers.submit.create")
+      click_on I18n.t("devise.sessions.new.sign_out")
+
+      sign_in user
+      visit issue_path(other_issue)
+      click_on "bookmark_border"
+      visit user_notifications_path(user)
     end
 
     context "未読の通知をクリックした場合" do
       before do
-        find("#notification-link-#{notification.id}").click
+        all(".notification-container").first.click
       end
 
       it "通知のリンク先にリダイレクトする" do
@@ -184,21 +236,24 @@ RSpec.describe :notification, type: :system do
       end
 
       it "その通知のみ既読になる" do
-        expect(notification.reload.read).to be_truthy
-        expect(notification_unread.reload.read).to be_falsy
-        expect(notification_favorite.reload.read).to be_falsy
+        visit user_notifications_path(user)
+        expect(all(".unread").count).to eq 2
+        expect(Notification.unreads.count).to eq 3
       end
     end
+
     context "既読の通知をクリックした場合" do
       before do
-        find("#notification-link-#{notification_read.id}").click
+        all(".notification-container")[1].click
+        visit user_notifications_path(user)
+        all(".notification-container")[1].click
       end
 
       it "通知のリンク先にリダイレクトする" do
-        expect(current_path).to eq issue_path(issue_read)
+        expect(current_path).to eq issue_path(issue)
       end
       it "既読数は変化しない" do
-        expect(Notification.where(read: true).count).to eq 1
+        expect(Notification.unreads.count).to eq 3
       end
     end
 
@@ -206,11 +261,11 @@ RSpec.describe :notification, type: :system do
       before do
         find(".read-all").click
       end
-      it "自分(mentor)の通知が全て既読になる" do
-        expect(mentor.notifications.unreads.count).to eq 0
+      it "自分の通知が全て既読になる" do
+        expect(user.notifications.unreads.count).to eq 0
       end
       it "他人の通知は既読にならない" do
-        expect(user.notifications.unreads.count).to eq 1
+        expect(Notification.unreads.count).to eq 1
       end
     end
   end
