@@ -22,3 +22,12 @@ import "./tags";
 window.addEventListener('pageshow',()=>{
   if(window.performance.navigation.type==2) location.reload();
 });
+
+$(document).on('turbolinks:load', function() {
+  $('.jscroll').jscroll({
+    contentSelector: '.jscroll',
+    nextSelector: 'a.next',
+    loadingHtml: '読み込み中',
+    padding: 10,
+  });
+});
