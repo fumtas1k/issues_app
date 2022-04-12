@@ -16,6 +16,20 @@ module ApplicationHelper
     "unread" unless notification.read?
   end
 
+  def next_css(controller, action)
+    "next" if display_pagination.exclude?([controller, action])
+  end
+
+  def hidden_css(controller, action)
+    "hidden" if display_pagination.exclude?([controller, action])
+  end
+
+  def display_pagination
+    [
+      %w[users index],
+  ]
+  end
+
   def prepare_avatar(user)
     user.avatar.presence&.representable? ? user.avatar : "dummy_user.jpg"
   end

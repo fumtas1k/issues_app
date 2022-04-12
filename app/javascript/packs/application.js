@@ -19,18 +19,15 @@ import "./tags";
 
 // ヒストリーバック時にリロードする設定(新着をクリックして戻った時用)
 // おそらく推奨されないため、場合によっては削除する
-// window.addEventListener('pageshow',()=>{
-//   if(window.performance.navigation.type==2) location.reload();
-// });
+window.addEventListener('pageshow',()=>{
+  if(window.performance.navigation.type==2) location.reload();
+});
 
 $(document).on('turbolinks:load', function() {
-  let scrollHeight = $(document).height();
-  let scrollPosition = $(window).height() + $(window).scrollTop();
-  if( (scrollHeight - scrollPosition) / scrollHeight <= 0.05) {
-    $('.jscroll').jscroll({
-      contentSelector: '.jscroll',
-      nextSelector: 'span.next:last a',
-      loadingHtml: '読み込み中',
-    });
-  }
+  $('.jscroll').jscroll({
+    contentSelector: '.jscroll',
+    nextSelector: 'a.next',
+    loadingHtml: '読み込み中',
+    padding: 10,
+  });
 });

@@ -10,7 +10,7 @@ class IssuesController < ApplicationController
         Issue.tagged_with(params[:tag_name])
       else
         Issue
-      end.includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc).page(params[:page]).per(10)
+      end.includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc).page(params[:page])
   end
 
   def new
