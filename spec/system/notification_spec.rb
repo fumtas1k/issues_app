@@ -7,7 +7,6 @@ RSpec.describe :notification, type: :system do
   let!(:group) { create(:group, user: mentor) }
   let!(:grouping) { create(:grouping, user: user, group: group) }
 
-
   describe "commentの通知機能" do
     let!(:issue) { create(:issue, user: user) }
     let!(:comment_content) { attributes_for(:comment)[:content]}
