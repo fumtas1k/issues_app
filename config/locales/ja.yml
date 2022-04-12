@@ -101,7 +101,7 @@ ja:
         updated_at: 更新日
   views:
     ransack:
-      title_or_description: タイトル or 詳細
+      title_or_description_or_comments: タイトルor詳細orコメント
     pagination:
       first: 最初
       last: 最後

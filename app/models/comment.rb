@@ -2,6 +2,7 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :issue
   has_rich_text :content
+  has_one :content, class_name: "ActionText::RichText", as: :record
   has_one :notification, as: :subject, dependent: :destroy
 
   validates :content, presence: true
