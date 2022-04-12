@@ -1,12 +1,6 @@
 <% provide(:title, t("views.notifications.index.title")) %>
 
 <h1><%= t("views.notifications.index.title") %></h1>
-<p><%= "#{Notification.human_attribute_name(:unread)}: #{@user.notification_unread_counts}" %></p>
-<% @notifications.each do |notification| %>
-  <%= link_to user_notification_path(@user, notification), method: :patch, class:"notification-link" do %>
-    <div class="notification-container <%= unread_css(notification) %>">
-      <%= simple_format notification.message %>
-      <span><%= time_ago_in_words notification.created_at %></span>
-    </div>
-  <% end %>
-<% end %>
+<div id="unread-count"><%= "#{Notification.human_attribute_name(:unread)}: #{@user.notifications.unreads.size}" %></div>
+<%= link_to t("views.notifications.index.all_read"), all_read_user_notifications_path, method: :patch %>
+<%= render @notifications, user: @user %>

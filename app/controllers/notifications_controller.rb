@@ -8,9 +8,16 @@ class NotificationsController < ApplicationController
   end
 
   def update
-    notification = Notification.find(params[:id])
-    notification.toggle!(:read) unless notification.read?
-    redirect_to notification.link_path
+    @notification = Notification.find(params[:id])
+    @notification.toggle!(:read) unless @notification.read?
+    redirect_to @notification.link_path
+  end
+
+  def all_read
+    user = User.find(params[:user_id])
+    @notifications = user.notifications
+    @notifications.unreads.each{ _1.toggle!(:read) }
+    redirect_to user_notifications_path(user)
   end
 
   private

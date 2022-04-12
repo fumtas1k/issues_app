@@ -53,10 +53,6 @@ class User < ApplicationRecord
     Issue.where(user_id: group.members.pluck(:id))
   end
 
-  def notification_unread_counts
-    notifications.where(read: false).size
-  end
-
   private
 
   def prevent_change_admin!

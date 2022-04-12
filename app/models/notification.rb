@@ -4,4 +4,6 @@ class Notification < ApplicationRecord
 
   validates :message, presence: true
   validates :link_path, presence: true
+
+  scope :unreads, -> { where(read: false) }
 end
