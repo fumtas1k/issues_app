@@ -24,6 +24,7 @@ module ApplicationHelper
     "hidden" if display_pagination.exclude?([controller, action])
   end
 
+  ## ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
   def display_pagination
     [
       %w[users index],
