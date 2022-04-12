@@ -4,7 +4,8 @@ class StocksController < ApplicationController
 
   def create
     respond_to do |format|
-      current_user.stocks.create!(issue_id: @issue.id)
+      stock = current_user.stocks.create!(issue_id: @issue.id)
+      stock.notify if stock.issue.user != current_user
       format.html { redirect_back fallback_location: issues_path}
       format.js { render "stock_change" }
     end

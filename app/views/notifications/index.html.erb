@@ -1,0 +1,6 @@
+<% provide(:title, t("views.notifications.index.title")) %>
+
+<h1><%= t("views.notifications.index.title") %></h1>
+<div id="unread-count"><%= "#{Notification.human_attribute_name(:unread)}: #{@user.notifications.unreads.size}" %></div>
+<%= link_to t("views.notifications.index.read_all"), read_all_user_notifications_path, method: :patch, class: "btn btn-danger read-all" %>
+<%= render @notifications, user: @user %>

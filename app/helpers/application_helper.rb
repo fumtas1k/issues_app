@@ -12,6 +12,10 @@ module ApplicationHelper
     "active" if controller.to_s == controller_name && action.to_s == action_name
   end
 
+  def unread_css(notification)
+    "unread" unless notification.read?
+  end
+
   def prepare_avatar(user)
     user.avatar.presence&.representable? ? user.avatar : "dummy_user.jpg"
   end
