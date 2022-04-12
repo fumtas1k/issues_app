@@ -31,10 +31,19 @@
 
 ## カリキュラム以外の技術
 
-- action text(gem)
-- active storage(gem)
-- ransack(gem)
+### ruby gem
+
+- action text
+- acts-astaggable-on
+- active storage
+- ransack
+
+### javascript
+
 - vue.js(タグの入力フォームのみ)
+  - vue-multiselect
+- jQuery
+  - jscroll
 
 ## 主な機能
 
