@@ -1,4 +1,6 @@
 class Comment < ApplicationRecord
+  include SqlHelper
+
   belongs_to :user
   belongs_to :issue
   has_rich_text :content

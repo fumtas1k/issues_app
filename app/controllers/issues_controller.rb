@@ -11,7 +11,7 @@ class IssuesController < ApplicationController
       else
         Issue
       end.ransack(params[:q])
-      @issues = @q.result(distinct: true).includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc).page(params[:page])
+    @issues = @q.result(distinct: true).includes(:user).includes(:tags).with_rich_text_description.recent.page(params[:page])
   end
 
   def new
@@ -30,7 +30,7 @@ class IssuesController < ApplicationController
 
   def show
     @comment = current_user.comments.build(issue_id: @issue.id)
-    @comments = @issue.comments.includes(:user).with_rich_text_content.order(:created_at)
+    @comments = @issue.comments.includes(:user).with_rich_text_content.past.page(params[:page])
   end
 
   def edit; end

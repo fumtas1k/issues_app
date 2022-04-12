@@ -60,7 +60,7 @@ class CommentsController < ApplicationController
 
   def set_comments
     set_issue
-    @comments = @issue.comments.includes(:user).with_rich_text_content.order(:created_at)
+    @comments = @issue.comments.includes(:user).with_rich_text_content.past
   end
 
   def author_required

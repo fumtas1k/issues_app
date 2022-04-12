@@ -1,5 +1,7 @@
 class Issue < ApplicationRecord
+  include SqlHelper
   extend GetEnumMethod
+
   def_human_enum_ :status, :scope
 
   belongs_to :user

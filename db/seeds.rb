@@ -1,10 +1,11 @@
 N = 20
 M = 5
 I = 5
+C = 3
 srand(0)
 
 # admin 作成
-User.find_or_create_by!(code: "admin1") do |user|
+admin_user = User.find_or_create_by!(code: "admin1") do |user|
   user.name = "admin1"
   user.code = "admin1"
   user.email = "admin1@diver.com"
@@ -15,7 +16,7 @@ User.find_or_create_by!(code: "admin1") do |user|
 end
 
 # mentor 作成
-mentors = []
+mentors = [admin_user]
 M.times do |i|
   code = format("%06d", rand(999_999))
   mentor = User.find_or_create_by!(code: code) do |user|
@@ -30,7 +31,7 @@ M.times do |i|
 end
 
 srand(0)
-N.times do |i|
+N.times do |n|
   code = format("%06d", rand(999_999))
   new_user = User.find_or_create_by!(code: code) do |user|
     user.name = Faker::Name.unique.name
@@ -39,8 +40,8 @@ N.times do |i|
     user.entered_at = Date.new(2015 + rand(7), 4, 1)
     user.password = "password"
   end
-  Grouping.create(group: mentors[i % mentors.size].group, user: new_user)
-  I.times do |j|
+  Grouping.create(group: mentors[n % mentors.size].group, user: new_user)
+  I.times do |i|
     issue = new_user.issues.create(
       title: Faker::Movie.title[0,20],
       description: Faker::Hacker.say_something_smart,
@@ -49,5 +50,13 @@ N.times do |i|
       scope: rand(3)
     )
     issue.notify
+
+    next if issue.scope == :draft
+    mentors.each do |mentor_user|
+      C.times do |c|
+        comment = mentor_user.comments.create(content: Faker::Lorem.paragraph(sentence_count: 5), issue: issue)
+        comment.notify
+      end
+    end
   end
 end
