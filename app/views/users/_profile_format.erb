@@ -10,7 +10,7 @@
         <p>
           <%= Group.human_attribute_name(:members) %>:
           <% user.group.members.each do |member| %>
-            <%= member.name %>
+            <%= link_to member.name, choose_show_or_stocked(user, member.id) %>
           <% end %>
         </p>
       <% else %>
