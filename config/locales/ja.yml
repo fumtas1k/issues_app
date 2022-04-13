@@ -23,12 +23,13 @@ ja:
         code: 職員コード
         avatar: 写真
         mentor: メンター
-        entered_at: 入職年月日
+        staff: 部員
+        entered_at: 入職日
         admin: 管理者
         confirmation_sent_at: パスワード確認送信時刻
         confirmation_token: パスワード確認用トークン
         confirmed_at: パスワード確認時刻
-        created_at: 作成日
+        created_at: 登録日
         current_password: 現在のパスワード
         current_sign_in_at: 現在のログイン時刻
         current_sign_in_ip: 現在のログインIPアドレス
@@ -100,8 +101,10 @@ ja:
         created_at: 作成日
         updated_at: 更新日
   views:
+    blank: 該当するデータがありません。
     ransack:
-      title_or_description_or_comments: タイトルor詳細orコメント
+      issue_or_comment: イシュー/コメント
+      name_or_code: 名前/職員コード
     pagination:
       first: 最初
       last: 最後

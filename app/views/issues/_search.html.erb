@@ -1,0 +1,40 @@
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          SEARCH
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+          <%= search_form_for q, class: "form-inline" do |form| %>
+            <div class="form-group">
+              <%= form.label :title_or__description_body_or_comments__content_body_or_cont, class: "sr-only" %>
+              <%= form.search_field :title_or__description_body_or_comments__content_body_cont, class: "form-control", placeholder: t("views.ransack.issue_or_comment") %>
+            </div>
+            <div class="form-group">
+              <%= form.label :user, class: "sr-only" %>
+              <%= form.select :user_id_eq, User.all.inject({}){|hash, user| hash.merge({user.name => user.id})}, {include_blank: Issue.human_attribute_name(:user)}, class: "form-control"  %>
+            </div>
+            <div class="form-group">
+              <%= form.label :status, class: "sr-only" %>
+              <%= form.select :status_eq, Issue.enum_options_for_num_select(:status), {include_blank: Issue.human_attribute_name(:status)}, class: "form-control"  %>
+            </div>
+            <div class="form-group">
+              <%= form.label :scope, class: "sr-only" %>
+              <%= form.select :scope_eq, Issue.enum_options_for_num_select(:scope), {include_blank: Issue.human_attribute_name(:scope)}, class: "form-control"  %>
+            </div>
+            <div class="form-group">
+              <%= form.label :tags_name, class: "sr-only" %>
+              <%= form.collection_select :tags_name_eq, Issue.tag_counts, :name, :name, {include_blank: Issue.human_attribute_name(:tag)}, class: "form-control"  %>
+            </div>
+            <%= form.submit class: "btn btn-outline-primary" %>
+            <%= link_to t("views.btn.reset"), issues_path, class: "btn btn-outline-danger" %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>
