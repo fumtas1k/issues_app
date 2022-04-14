@@ -192,9 +192,9 @@ end
 RSpec.describe :user, type: :system do
   describe "検索機能" do
     let(:common) { "common" }
-    let!(:alice_2_2020_mentor) { create(:user, :seq, name: "alice#{common}", code: 100002, entered_at: "2020-04-01", mentor: true) }
-    let!(:bob_1_2015) { create(:user, :seq, name: "bob#{common}", code: 100001, entered_at: "2015-04-01") }
-    let!(:charlie_3_2010) { create(:user, :seq, name: "charlie#{common}", code: 100003, entered_at: "2010-04-01") }
+    let!(:alice_2_2020_mentor) { create(:user, :seq, name: "alice#{common}", code: "100002", entered_at: "2020-04-01", mentor: true) }
+    let!(:bob_1_2015) { create(:user, :seq, name: "bob#{common}", code: "100001", entered_at: "2015-04-01") }
+    let!(:charlie_3_2010) { create(:user, :seq, name: "charlie#{common}", code: "100003", entered_at: "2010-04-01") }
     before do
       sign_in alice_2_2020_mentor
     end
