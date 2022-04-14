@@ -6,14 +6,14 @@
   <table class="table">
     <thead>
       <tr>
-        <th><%= sort_link @q, :title, no_distinct: "" %></th>
-        <th><%= sort_link @q, :user_name, no_distinct: "" %></th>
+        <th><%= sort_link @q, :title, class: "sort-link", id: "sort-issue-title", no_distinct: "" %></th>
+        <th><%= sort_link @q, :user_name, class: "sort-link", id: "sort-issue-user", no_distinct: "" %></th>
         <th><%= Issue.human_attribute_name(:status) %></th>
         <th><%= Issue.human_attribute_name(:scope) %></th>
         <th><%= Issue.human_attribute_name(:tag) %></th>
-        <th><%= sort_link @q, :favorite_count, Favorite.model_name.human, no_distinct: true %></th>
-        <th><%= sort_link @q, :stock_count, Stock.model_name.human, no_distinct: true %></th>
-        <th><%= sort_link @q, :created_at, no_distinct: "" %></th>
+        <th><%= sort_link @q, :favorite_count, Favorite.model_name.human, class: "sort-link", id: "sort-issue-favorite", no_distinct: true %></th>
+        <th><%= sort_link @q, :stock_count, Stock.model_name.human, class: "sort-link", id: "sort-issue-stock", no_distinct: true %></th>
+        <th><%= sort_link @q, :created_at, class: "sort-link", id: "sort-issue-created_at" %></th>
         <th><%= Issue.human_attribute_name(:updated_at) %></th>
       </tr>
     </thead>

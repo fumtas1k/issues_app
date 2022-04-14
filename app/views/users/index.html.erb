@@ -8,12 +8,12 @@
     <tr>
       <th><%= Group.human_attribute_name(:members) %></th>
       <th><%= User.human_attribute_name(:avatar) %></th>
-      <th><%= sort_link(@q, :name) %></th>
-      <th><%= sort_link(@q, :code) %></th>
-      <th><%= sort_link(@q, :mentor, t("views.users.role")) %></th>
+      <th><%= sort_link(@q, :name, class: "sort-link", id: "sort-user-name") %></th>
+      <th><%= sort_link(@q, :code, class: "sort-link", id: "sort-user-code") %></th>
+      <th><%= sort_link(@q, :mentor, t("views.users.role"), class: "sort-link", id: "sort-user-role") %></th>
       <th><%= User.human_attribute_name(:mentor) %></th>
-      <th><%= sort_link(@q, :entered_at) %></th>
-      <th><%= sort_link(@q, :created_at) %></th>
+      <th><%= sort_link(@q, :entered_at, class: "sort-link", id: "sort-user-entered_at") %></th>
+      <th><%= User.human_attribute_name(:created_at) %></th>
     </tr>
   </thead>
   <tbody>
