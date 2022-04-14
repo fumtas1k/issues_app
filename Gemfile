@@ -21,6 +21,7 @@ gem 'devise-i18n'
 gem 'faker'
 gem 'kaminari'
 gem 'rails_admin'
+gem 'ransack'
 gem 'rexml'
 
 group :development, :test do

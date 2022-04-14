@@ -1,9 +1,12 @@
 class Issue < ApplicationRecord
+  include SqlHelper
   extend GetEnumMethod
+
   def_human_enum_ :status, :scope
 
   belongs_to :user
   has_rich_text :description
+  has_one :_description, class_name: "ActionText::RichText", as: :record
   has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: :user
   has_many :stocks, dependent: :destroy
@@ -45,5 +48,48 @@ class Issue < ApplicationRecord
         end
       end
     end
+  end
+
+  # ransack用メソッド
+  ransacker :comment_count do
+    query = <<-SQL
+      (SELECT
+         COUNT(comments.issue_id)
+       FROM
+         comments
+       WHERE
+         comments.issue_id = issues.id
+       GROUP BY
+         comments.issue_id)
+    SQL
+    Arel.sql(query)
+  end
+
+  ransacker :favorite_count do
+    query = <<-SQL
+      (SELECT
+        COUNT(favorites.issue_id)
+      FROM
+        favorites
+      WHERE
+        favorites.issue_id = issues.id
+      GROUP BY
+        favorites.issue_id)
+    SQL
+    Arel.sql(query)
+  end
+
+  ransacker :stock_count do
+    query = <<-SQL
+      (SELECT
+        COUNT(stocks.issue_id)
+      FROM
+        stocks
+      WHERE
+        stocks.issue_id = issues.id
+      GROUP BY
+        stocks.issue_id)
+    SQL
+    Arel.sql(query)
   end
 end

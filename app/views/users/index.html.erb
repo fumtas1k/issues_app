@@ -1,16 +1,18 @@
 <% provide(:title, t("views.users.index.title")) %>
 <h1><%= t "views.users.index.title" %></h1>
 
+<%= render "search", q: @q, users: @users %>
+
 <table class="table">
   <thead>
     <tr>
       <th><%= Group.human_attribute_name(:members) %></th>
       <th><%= User.human_attribute_name(:avatar) %></th>
-      <th><%= User.human_attribute_name(:name) %></th>
-      <th><%= User.human_attribute_name(:code) %></th>
-      <th><%= t("views.users.role") %></th>
+      <th><%= sort_link(@q, :name, class: "sort-link", id: "sort-user-name") %></th>
+      <th><%= sort_link(@q, :code, class: "sort-link", id: "sort-user-code") %></th>
+      <th><%= sort_link(@q, :mentor, t("views.users.role"), class: "sort-link", id: "sort-user-role") %></th>
       <th><%= User.human_attribute_name(:mentor) %></th>
-      <th><%= User.human_attribute_name(:entered_at) %></th>
+      <th><%= sort_link(@q, :entered_at, class: "sort-link", id: "sort-user-entered_at") %></th>
       <th><%= User.human_attribute_name(:created_at) %></th>
     </tr>
   </thead>
@@ -37,3 +39,7 @@
 </table>
 
 <%= paginate @users %>
+
+<% if @users.size.zero? %>
+  <h3 class="red"><%= t("views.blank") %></h3>
+<% end %>

@@ -5,20 +5,23 @@ class UsersController < ApplicationController
   before_action :ensure_correct_user, only: %i[show stocked]
 
   def index
-    @users = User.includes(:groupings).with_attached_avatar.order(:code).page(params[:page])
+    @q = User.ransack(params[:q])
+    @users = @q.result(distinct: true).includes(:groupings).with_attached_avatar.order(:code).page(params[:page])
   end
 
   def show
     @issues =
       if @user.mentor
-        @user.group_member_issues
+        @issues = @user.group_member_issues
+        params[:issue_user_id].present? ? @issues.where(user_id: params[:issue_user_id]) : @issues
       else
         @user.issues
-      end.includes(:favorites).order(created_at: :desc)
+      end&.includes(:favorites)&.recent
   end
 
   def stocked
-    @issues = @user.stock_issues.includes(:stocks).order(created_at: :desc)
+    @issues = @user.stock_issues.includes(:stocks).recent
+    @issues = @issues.where(user_id: params[:issue_user_id]) if params[:issue_user_id].present?
   end
 
   private

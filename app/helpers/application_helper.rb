@@ -84,4 +84,12 @@ module ApplicationHelper
       issue_stocks_path(issue_id: issue.id)
     end
   end
+
+  def choose_show_or_stocked(user, issue_user_id)
+    if action_name == "show"
+      user_path(user, issue_user_id: issue_user_id)
+    else
+      stocked_user_path(user, issue_user_id: issue_user_id)
+    end
+  end
 end

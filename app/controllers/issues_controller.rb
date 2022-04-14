@@ -5,12 +5,22 @@ class IssuesController < ApplicationController
   before_action :author_required, only: %i[edit update destroy]
 
   def index
-    @issues =
+    distinct = true
+    q_params = params[:q]
+    # 複合検索で、distinct:falseにすると重複データが表示されるが、distinct: trueにしてアソシエーションのソートをするとエラーが出る
+    # 従って、複合で検索する場合は、ソートを停止させる。
+    if params[:no_distinct].present? && q_params[:title_or__description_body_or_comments__content_body_cont].present?
+      q_params.delete(:s)
+    elsif params[:no_distinct].present?
+      distinct = false
+    end
+    @q =
       if params[:tag_name]
         Issue.tagged_with(params[:tag_name])
       else
         Issue
-      end.includes(:user).includes(:tags).with_rich_text_description.order(created_at: :desc).page(params[:page])
+      end.ransack(q_params)
+    @issues = @q.result(distinct: distinct).joins(:user).includes(:user).includes(:tags).with_rich_text_description.page(params[:page])
   end
 
   def new
@@ -29,7 +39,7 @@ class IssuesController < ApplicationController
 
   def show
     @comment = current_user.comments.build(issue_id: @issue.id)
-    @comments = @issue.comments.includes(:user).with_rich_text_content.order(:created_at)
+    @comments = @issue.comments.includes(:user).with_rich_text_content.past.page(params[:page])
   end
 
   def edit; end

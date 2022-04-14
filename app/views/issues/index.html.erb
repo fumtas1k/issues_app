@@ -1,23 +1,27 @@
 <% provide(:title, t("views.issues.index.title")) %>
 <h1><%= t("views.issues.index.title") %></h1>
+<%= render "search", q: @q %>
+
 <div class="jscroll">
   <table class="table">
     <thead>
       <tr>
-        <th><%= Issue.human_attribute_name(:title) %></th>
-        <th><%= Issue.human_attribute_name(:user) %></th>
+        <th><%= sort_link @q, :title, class: "sort-link", id: "sort-issue-title", no_distinct: "" %></th>
+        <th><%= sort_link @q, :user_name, class: "sort-link", id: "sort-issue-user", no_distinct: "" %></th>
         <th><%= Issue.human_attribute_name(:status) %></th>
         <th><%= Issue.human_attribute_name(:scope) %></th>
         <th><%= Issue.human_attribute_name(:tag) %></th>
-        <th><%= Favorite.model_name.human %></th>
-        <th><%= Stock.model_name.human %></th>
-        <th><%= Issue.human_attribute_name(:created_at) %></th>
+        <th><%= sort_link @q, :favorite_count, Favorite.model_name.human, class: "sort-link", id: "sort-issue-favorite", no_distinct: true %></th>
+        <th><%= sort_link @q, :stock_count, Stock.model_name.human, class: "sort-link", id: "sort-issue-stock", no_distinct: true %></th>
+        <th><%= sort_link @q, :created_at, class: "sort-link", id: "sort-issue-created_at" %></th>
         <th><%= Issue.human_attribute_name(:updated_at) %></th>
       </tr>
     </thead>
     <tbody>
+      <% issue_count = 0 %>
       <% @issues.each do |issue| %>
         <% if issue.accessible?(current_user) %>
+          <% issue_count += 1 %>
           <tr>
             <td class="middle"><%= link_to issue do %>
               <%= issue.title %>
@@ -47,3 +51,6 @@
   </table>
   <%= paginate @issues %>
 </div>
+<% if issue_count.zero? %>
+  <h3 class="red"><%= t("views.blank") %></h3>
+<% end %>
