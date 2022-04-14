@@ -10,9 +10,9 @@ RSpec.describe :issue, type: :system do
     let!(:noguchi) { create(:user, :seq, name: "hideyo") }
     let!(:grouping) { create(:grouping, group: mentor.group, user: noguchi)}
     let!(:common) { "common" }
-    let!(:issue_fukuzawa_release_pending) { create(:issue, title: "福沢"+common, description: "諭吉だよ", user: fukuzawa) }
-    let!(:issue_higuchi_release_solving) { create(:issue, title: "樋口"+common, description: "一葉どす", status: :solving, tag_list: "money", user: higuchi) }
-    let!(:issue_noguchi_limited_pending) { create(:issue, title: "野口"+common, description: "英世です", status: :pending, scope: :limited, user: noguchi) }
+    let!(:issue_fukuzawa_release_pending) { create(:issue, title: "福沢#{common}", description: "諭吉だよ", user: fukuzawa) }
+    let!(:issue_higuchi_release_solving) { create(:issue, title: "樋口#{common}", description: "一葉どす", status: :solving, tag_list: "money", user: higuchi) }
+    let!(:issue_noguchi_limited_pending) { create(:issue, title: "野口#{common}", description: "英世です", status: :pending, scope: :limited, user: noguchi) }
     let!(:comment_fukuzawa_to_higuchi) { create(:comment, content: "次は津田梅子", user: fukuzawa, issue: issue_higuchi_release_solving) }
     before do
       sign_in mentor
@@ -97,7 +97,7 @@ RSpec.describe :issue, type: :system do
 
     context "公開を限定で検索する場合" do
       # group外のユーザーの限定イシュー：限定イシューは合計2つだが、これは表示されないはず
-      let!(:issue_fukuzawa_limited_pending) { create(:issue, title: "福沢"+common, description: "諭吉だよ", user: fukuzawa, scope: :limited) }
+      let!(:issue_fukuzawa_limited_pending) { create(:issue, title: "福沢#{common}", description: "諭吉だよ", user: fukuzawa, scope: :limited) }
       let(:search_attr) { {issue_or_comment: "", user_name: "", status: "", scope: :limited, tag: ""} }
       before do
         visit issues_path
@@ -133,9 +133,9 @@ RSpec.describe :issue, type: :system do
     let!(:charlie) { create(:user, :seq, name: "charlie") }
     let!(:grouping) { create(:grouping, group: mentor.group, user: charlie)}
     let!(:common) { "common" }
-    let!(:issue_alice_2nd_2020) { create(:issue, title: "2nd"+common, description: "アリスだよ", user: alice, created_at: "2020-04-01") }
-    let!(:issue_bob_1st_2015) { create(:issue, title: "1st"+common, description: "ボブどす", user: bob, created_at: "2015-04-01") }
-    let!(:issue_charlie_3rd_2010) { create(:issue, title: "3rd"+common, description: "チャーリーです", user: charlie, created_at: "2010-04-01") }
+    let!(:issue_alice_2nd_2020) { create(:issue, title: "2nd#{common}", description: "アリスだよ", user: alice, created_at: "2020-04-01") }
+    let!(:issue_bob_1st_2015) { create(:issue, title: "1st#{common}", description: "ボブどす", user: bob, created_at: "2015-04-01") }
+    let!(:issue_charlie_3rd_2010) { create(:issue, title: "3rd#{common}", description: "チャーリーです", user: charlie, created_at: "2010-04-01") }
     before do
       sign_in mentor
     end
@@ -192,9 +192,9 @@ end
 RSpec.describe :user, type: :system do
   describe "検索機能" do
     let(:common) { "common" }
-    let!(:alice_2_2020_mentor) { create(:user, :seq, name: "alice"+common, code: 100002, entered_at: "2020-04-01", mentor: true) }
-    let!(:bob_1_2015) { create(:user, :seq, name: "bob"+common, code: 100001, entered_at: "2015-04-01") }
-    let!(:charlie_3_2010) { create(:user, :seq, name: "charlie"+common, code: 100003, entered_at: "2010-04-01") }
+    let!(:alice_2_2020_mentor) { create(:user, :seq, name: "alice#{common}", code: 100002, entered_at: "2020-04-01", mentor: true) }
+    let!(:bob_1_2015) { create(:user, :seq, name: "bob#{common}", code: 100001, entered_at: "2015-04-01") }
+    let!(:charlie_3_2010) { create(:user, :seq, name: "charlie#{common}", code: 100003, entered_at: "2010-04-01") }
     before do
       sign_in alice_2_2020_mentor
     end
@@ -257,9 +257,9 @@ RSpec.describe :user, type: :system do
   end
 
   describe "ソート機能" do
-    let!(:alice_2_2020_mentor) { create(:user, :seq, name: "alice", code: 100002, entered_at: "2020-04-01", mentor: true) }
-    let!(:bob_1_2015) { create(:user, :seq, name: "bob", code: 100001, entered_at: "2015-04-01") }
-    let!(:charlie_3_2010) { create(:user, :seq, name: "charlie", code: 100003, entered_at: "2010-04-01") }
+    let!(:alice_2_2020_mentor) { create(:user, :seq, name: "alice", code: "100002", entered_at: "2020-04-01", mentor: true) }
+    let!(:bob_1_2015) { create(:user, :seq, name: "bob", code: "100001", entered_at: "2015-04-01") }
+    let!(:charlie_3_2010) { create(:user, :seq, name: "charlie", code: "100003", entered_at: "2010-04-01") }
     before do
       sign_in alice_2_2020_mentor
     end
