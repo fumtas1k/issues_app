@@ -1,9 +1,7 @@
-<div class="nav-item <%= activate_css(:issues, :index)%>">
-  <%= link_to t("views.users.show.title"), user_path(user), class: "nav-link" %>
-</div>
-<div class="nav-item <%= activate_css(:issues, :new)%>">
-  <%= link_to t("views.users.stocked.title"), stocked_user_path(user), class: "nav-link" %>
-</div>
+<% provide(:title, @user.name) %>
+<%= render "profile_format", user: @user %>
+<%= render "my_nav", user: @user %>
+<%= render "issues/search", q: @q %>
 
 <table class="table">
   <thead>
@@ -19,8 +17,10 @@
     </tr>
   </thead>
   <tbody>
-    <% issues&.each do |issue| %>
-      <% if issue.accessible?(user) %>
+    <% issue_count = 0 %>
+    <% @issues&.each do |issue| %>
+      <% if issue.accessible?(@user) %>
+        <% issue_count += 1 %>
         <tr>
           <td class="middle"><%= link_to issue do %>
             <%= issue.title %>
@@ -41,3 +41,7 @@
     <% end %>
   </tbody>
 </table>
+
+<% if issue_count.zero? %>
+  <h3 class="red"><%= t("views.blank") %></h3>
+<% end %>

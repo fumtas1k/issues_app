@@ -50,7 +50,8 @@ class User < ApplicationRecord
   end
 
   def group_member_issues
-    Issue.where(user_id: group.members.pluck(:id))
+    return unless mentor?
+    Issue.where(user_id: group.members&.pluck(:id))
   end
 
   private

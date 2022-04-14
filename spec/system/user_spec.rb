@@ -20,7 +20,7 @@ RSpec.describe :user, type: :system do
       let!(:user_params){attributes_for(:user)}
       it "サインアップできる" do
         expect(current_path).to eq user_path(User.last)
-        expect(page).to have_content user_params[:email]
+        expect(page).to have_content user_params[:code]
       end
     end
 
@@ -57,7 +57,7 @@ RSpec.describe :user, type: :system do
       let!(:user_params){attributes_for(:user)}
       it "ログインできる" do
         expect(current_path).to eq user_path(User.last)
-        expect(page).to have_content user_params[:email]
+        expect(page).to have_content user_params[:code]
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe :user, type: :system do
     let!(:draft_issue) {create(:issue, :draft, user: user)}
     let!(:other_issue) {create(:issue_rand, user: other_user)}
 
-    context "非メンターが自分のマイページにアクセスした場合" do
+    context "自分のマイページにアクセスした場合" do
       before do
         sign_in user
         visit user_path(user)
@@ -98,14 +98,33 @@ RSpec.describe :user, type: :system do
       end
     end
 
-    context "メンターが自分のマイページにアクセスした場合" do
+    context "他人のマイページにアクセスした場合" do
+      it "アクセス出来ず、ルートパスにリダイレクトする" do
+        sign_in user
+        visit user_path(other_user)
+        expect(current_path).to eq root_path
+        expect(page).not_to have_content user.code
+      end
+    end
+  end
+
+  describe "マイページ/メンター機能" do
+    let!(:mentor) {create(:mentor)}
+    let!(:user) {create(:user)}
+    let!(:other_user) {create(:user, :seq)}
+    let!(:release_issue) {create(:issue, user: user)}
+    let!(:limited_issue) {create(:issue, :limited, user: user)}
+    let!(:draft_issue) {create(:issue, :draft, user: user)}
+    let!(:other_issue) {create(:issue_rand, user: other_user)}
+
+    context "メンターがメンターページにアクセスした場合" do
       let!(:grouping) {create(:grouping, user: user, group: mentor.group)}
       before do
         sign_in mentor
-        visit user_path(mentor)
+        visit mentor_user_path(mentor)
       end
       it "アクセス出来る" do
-        expect(current_path).to eq user_path(mentor)
+        expect(current_path).to eq mentor_user_path(mentor)
         expect(page).to have_content mentor.code
       end
 
@@ -115,12 +134,13 @@ RSpec.describe :user, type: :system do
       end
     end
 
-    context "他人のマイページにアクセスした場合" do
-      it "アクセス出来ず、ルートパスにリダイレクトする" do
+    context "非メンターがメンターページにアクセスした場合" do
+      before do
         sign_in user
-        visit user_path(other_user)
+        visit mentor_user_path(mentor)
+      end
+      it "ルートパスにリダイレクトされる" do
         expect(current_path).to eq root_path
-        expect(page).not_to have_content user.code
       end
     end
   end

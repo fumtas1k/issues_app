@@ -129,11 +129,17 @@ ja:
     users:
       index:
         title: 部員一覧
+      profile:
+        issue_count: イシュー数
+        pending_count: 未解決数
+        favorite_count: いいね総数
       show:
         title: マイページ
       stocked:
         title: ストック
       role: 役割
+      mentor:
+        title: メンター
     users/role:
       mentor: メンター
       non-mentor: 部員

@@ -85,11 +85,18 @@ module ApplicationHelper
     end
   end
 
-  def choose_show_or_stocked(user, issue_user_id)
-    if action_name == "show"
-      user_path(user, issue_user_id: issue_user_id)
-    else
-      stocked_user_path(user, issue_user_id: issue_user_id)
+  def redirect_to_current_path(object: current_user, issue_user_id: nil)
+    add_params = {anchor: "accordionExample"}
+    add_params.merge!({issue_user_id: issue_user_id}) if issue_user_id.present?
+    case [controller_name, action_name]
+    when ["users", "show"]
+      issue_user_id.present? ? mentor_user_path(object, add_params) : user_path(object, add_params)
+    when ["users", "stocked"]
+      stocked_user_path(object, add_params)
+    when ["users", "mentor"]
+      mentor_user_path(object, add_params)
+    when ["issues", "index"]
+      issues_path
     end
   end
 end
