@@ -16,14 +16,18 @@ class UsersController < ApplicationController
 
   def stocked
     @q = @user.stock_issues.includes(:stocks).ransack(params[:q])
-    @issues = @q&.result(distinct: true).recent
-    @issues = @issues.where(user_id: params[:issue_user_id]) if params[:issue_user_id].present?
+    @issues = @q&.result(distinct: true)&.recent
   end
 
   def mentor
     @q = @user.group_member_issues&.ransack(params[:q])
     @issues = @q&.result(distinct: true)&.recent
-    @issues = @issues&.where(user_id: params[:issue_user_id]) if params[:issue_user_id].present?
+    @group_member =
+      if @user.group.members.pluck(:id).include?(params.dig(:q, :user_id_eq).to_i)
+        User.find_by(id: params.dig(:q, :user_id_eq))
+      else
+        nil
+      end
   end
 
   private

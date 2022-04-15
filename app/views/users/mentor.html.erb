@@ -1,7 +1,8 @@
 <% provide(:title, @user.name) %>
 <%= render "profile_format", user: @user %>
 <%= render "my_nav", user: @user %>
-<%= render "issues/search", q: @q %>
+<%= render "member_profile", user: @user, issues: @issues, group_member: @group_member %>
+<%= render "issues/search", q: @q, show_collapse: nil %>
 
 <table class="table">
   <thead>

@@ -14,12 +14,7 @@ class IssuesController < ApplicationController
     elsif params[:no_distinct].present?
       distinct = false
     end
-    @q =
-      if params[:tag_name]
-        Issue.tagged_with(params[:tag_name])
-      else
-        Issue
-      end.ransack(q_params)
+    @q = Issue.all.ransack(q_params)
     @issues = @q.result(distinct: distinct).joins(:user).includes(:user).includes(:tags).with_rich_text_description.page(params[:page])
   end
 

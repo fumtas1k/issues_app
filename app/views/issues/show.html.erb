@@ -5,8 +5,8 @@
   <p><%= "#{Issue.human_attribute_name(:status)}: #{Issue.human_enum_status(@issue.status)}"%></p>
   <p><%= "#{Issue.human_attribute_name(:scope)}: #{Issue.human_enum_scope(@issue.scope)}"%></p>
   <p><%= "#{Issue.human_attribute_name(:tag)}" %>
-    <% @issue.tag_list.each do |tag| %>
-      <%= content_tag(:span, tag, class:"tag") %>
+    <% @issue.tag_list.each do |tag_name| %>
+      <%= link_to tag_name, issues_path(q:{tags_name_eq: tag_name}), class: "tag light-green" %>
     <% end %>
   </p>
   <p><%= "#{Issue.human_attribute_name(:created_at)}: #{l @issue.created_at, format: :medium}"%></p>

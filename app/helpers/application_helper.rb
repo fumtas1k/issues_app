@@ -85,18 +85,17 @@ module ApplicationHelper
     end
   end
 
-  def redirect_to_current_path(object: current_user, issue_user_id: nil)
-    add_params = {anchor: "accordionExample"}
-    add_params.merge!({issue_user_id: issue_user_id}) if issue_user_id.present?
+  def redirect_to_current_path(**options)
+    add_params = {anchor: "accordionExample"}.merge(options)
     case [controller_name, action_name]
     when ["users", "show"]
-      issue_user_id.present? ? mentor_user_path(object, add_params) : user_path(object, add_params)
+      add_params.dig(:q, :user_id_eq).present? ? mentor_user_path(current_user, add_params) : user_path(current_user, add_params)
     when ["users", "stocked"]
-      stocked_user_path(object, add_params)
+      stocked_user_path(current_user, add_params)
     when ["users", "mentor"]
-      mentor_user_path(object, add_params)
+      mentor_user_path(current_user, add_params)
     when ["issues", "index"]
-      issues_path
+      issues_path(add_params)
     end
   end
 end

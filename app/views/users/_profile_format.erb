@@ -1,6 +1,6 @@
 <table class="table">
   <tr>
-    <td><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
+    <td class="td-width-150"><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
     <td>
       <div class="flex flex-left">
         <h2><%= user.name %></h2>
@@ -17,18 +17,11 @@
         <span class="count-item"><%= t("views.users.profile.pending_count")%>: <%= user.issues.where(status: :pending).size %></span>
         <span class="count-item"><%= t("views.users.profile.favorite_count")%>: <%= Favorite.where(issue_id: user.issues.pluck(:id)).size %></span>
       </div>
-      <% if user.mentor %>
-        <div class="member-container">
-          <%= Group.human_attribute_name(:members) %>:
-          <% user.group.members.each do |member| %>
-            <span><%= link_to member.name, redirect_to_current_path(object: user, issue_user_id: member.id), class: "member-item" %></span>
-          <% end %>
-        </div>
-      <% else %>
+      <% unless user.mentor %>
         <p>
           <%= User.human_attribute_name(:mentor) %>:
-          <% user.join_groups.each do |group| %>
-            <%= group.user.name %>
+          <% user.join_groups&.each do |group| %>
+            <span class="tag light-gray"><%= group.user.name %></span>
           <% end %>
         </p>
       <% end %>
