@@ -204,7 +204,7 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         fill_in "q_name_or_code_cont", with: search_attr[:name]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
         sleep 0.1
       end
       it "検索の名前のみ表示される" do
@@ -218,7 +218,7 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         fill_in "q_name_or_code_cont", with: search_attr[:code]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
         sleep 0.1
       end
       it "検索の職員コードのみ表示される" do
@@ -232,7 +232,7 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         select User.human_attribute_name(search_attr[:role]), from: "q_mentor_eq"
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
         sleep 0.1
       end
       it "検索の役割のみ表示される" do
@@ -246,7 +246,7 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         fill_in "q_entered_at_eq", with: search_attr[:entered_at]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
         sleep 0.1
       end
       it "検索の入職日のみ表示される" do
