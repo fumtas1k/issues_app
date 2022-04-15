@@ -5,6 +5,7 @@
   <div class="issue-abstract">
     <div class="issue-abst-header">
       <div class="issue-author-profile">
+        <%= image_tag prepare_avatar(issue.user), class: "avatar50" %>
         <%= content_tag(:span, issue.user.code, class: "right-p5") %>
         <%= content_tag(:span, issue.user.name, class:"right-p5") %>
         <%= content_tag(:span, time_ago_in_words(issue.created_at)) %>
