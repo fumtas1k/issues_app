@@ -23,7 +23,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "該当イシューのみ表示される" do
         expect(page).to have_content search_attr[:issue_or_comment], count: 1
@@ -35,7 +35,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "その詳細を含むイシューのみ表示される" do
         expect(page).to have_content issue_fukuzawa_release_pending.title
@@ -48,7 +48,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "そのコメントがされたイシューのみ表示される" do
         expect(page).to have_content issue_higuchi_release_solving.title
@@ -61,7 +61,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "イシューは表示されず、該当するデータがない旨が表示される" do
         expect(page).not_to have_content common
@@ -74,7 +74,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         select search_attr[:user_name], from: "q_user_id_eq"
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "著者のイシューのみ表示される" do
         expect(page).to have_content search_attr[:user_name]
@@ -87,7 +87,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         select Issue.human_enum_status(search_attr[:status]), from: "q_status_eq"
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "未解決イシューのみ表示される" do
         expect(page).to have_content Issue.human_enum_status(search_attr[:status])
@@ -102,7 +102,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         select Issue.human_enum_scope(search_attr[:scope]), from: "q_scope_eq"
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "限定イシューのみ表示される" do
         expect(page).to have_content Issue.human_enum_scope(search_attr[:scope])
@@ -115,7 +115,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         select search_attr[:tag], from: "q_tags_name_eq"
-        click_on I18n.t("views.btn.search")
+        find(".btn-search").click
       end
       it "検索タグのイシューのみ表示される" do
         expect(page).to have_content search_attr[:tag]
@@ -147,9 +147,9 @@ RSpec.describe :issue, type: :system do
         sleep 0.1
       end
       it "タイトルの昇順でソートされる" do
-        expect(all("tbody tr")[0]).to have_content issue_bob_1st_2015.title
-        expect(all("tbody tr")[1]).to have_content issue_alice_2nd_2020.title
-        expect(all("tbody tr")[2]).to have_content issue_charlie_3rd_2010.title
+        expect(all(".issue-container")[0]).to have_content issue_bob_1st_2015.title
+        expect(all(".issue-container")[1]).to have_content issue_alice_2nd_2020.title
+        expect(all(".issue-container")[2]).to have_content issue_charlie_3rd_2010.title
       end
     end
 
@@ -160,9 +160,9 @@ RSpec.describe :issue, type: :system do
         sleep 0.1
       end
       it "著者名の昇順でソートされる" do
-        expect(all("tbody tr")[0]).to have_content issue_alice_2nd_2020.user.name
-        expect(all("tbody tr")[1]).to have_content issue_bob_1st_2015.user.name
-        expect(all("tbody tr")[2]).to have_content issue_charlie_3rd_2010.user.name
+        expect(all(".issue-container")[0]).to have_content issue_alice_2nd_2020.user.name
+        expect(all(".issue-container")[1]).to have_content issue_bob_1st_2015.user.name
+        expect(all(".issue-container")[2]).to have_content issue_charlie_3rd_2010.user.name
       end
     end
 
@@ -173,9 +173,9 @@ RSpec.describe :issue, type: :system do
         sleep 0.1
       end
       it "作成日の昇順でソートされる" do
-        expect(all("tbody tr")[0]).to have_content issue_charlie_3rd_2010.user.name
-        expect(all("tbody tr")[1]).to have_content issue_bob_1st_2015.user.name
-        expect(all("tbody tr")[2]).to have_content issue_alice_2nd_2020.user.name
+        expect(all(".issue-container")[0]).to have_content issue_charlie_3rd_2010.user.name
+        expect(all(".issue-container")[1]).to have_content issue_bob_1st_2015.user.name
+        expect(all(".issue-container")[2]).to have_content issue_alice_2nd_2020.user.name
       end
     end
 

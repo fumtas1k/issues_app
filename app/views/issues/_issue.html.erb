@@ -1,0 +1,43 @@
+<div class="issue-container">
+  <div class="issue-status">
+    <%= content_tag(:span, Issue.human_enum_status(issue.status), class: "status-#{issue.status}") %>
+  </div>
+  <div class="issue-abstract">
+    <div class="issue-abst-header">
+      <div class="issue-author-profile">
+        <%= content_tag(:span, issue.user.code, class: "right-p5") %>
+        <%= content_tag(:span, issue.user.name, class:"right-p5") %>
+        <%= content_tag(:span, time_ago_in_words(issue.created_at)) %>
+      </div>
+      <div class="issue-scope">
+        <%= content_tag(:span, Issue.human_enum_scope(issue.scope), class: "scope-#{(issue.scope)}") %>
+      </div>
+    </div>
+    <h4><%= link_to issue.title, issue %></h4>
+    <div class="issue-abst-footer">
+      <div class="issue-tag-container">
+        <% issue.tags.pluck(:name).each do |tag_name| %>
+          <%= link_to tag_name, redirect_to_current_path(q:{tags_name_eq: tag_name}), class: "tag light-green" %>
+        <% end %>
+      </div>
+      <div class="issue-btn-container flex">
+        <%= content_tag(:div, class: "center", id: "favorite-issue-#{issue.id}") do %>
+          <%= render "favorites/favorite_btn", issue: issue %>
+        <% end %>
+        <%= content_tag(:div, class:"center", id: "stock-issue-#{issue.id}") do %>
+          <%= render "stocks/stock_btn", issue: issue %>
+        <% end %>
+        <%= content_tag(:div, class: "center") do %>
+          <div class="comment-count">
+            <% if issue.comments.size.zero? %>
+              <span class="material-icons">chat_bubble_outline</span>
+            <% else %>
+              <span class="material-icons">chat_bubble</span>
+            <% end %>
+            <span><%= issue.comments.size %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

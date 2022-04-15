@@ -15,7 +15,7 @@ class IssuesController < ApplicationController
       distinct = false
     end
     @q = Issue.all.ransack(q_params)
-    @issues = @q.result(distinct: distinct).joins(:user).includes(:user).includes(:tags).with_rich_text_description.page(params[:page])
+    @issues = @q.result(distinct: distinct).joins(:user).includes(:user).includes(:tags).with_rich_text_description.recent.page(params[:page])
   end
 
   def new

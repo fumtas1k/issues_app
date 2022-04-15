@@ -31,7 +31,7 @@
               <%= form.label :tags_name, class: "sr-only" %>
               <%= form.collection_select :tags_name_eq, Issue.tags_on(:tags).order(taggings_count: :desc), :name, :name, {include_blank: Issue.human_attribute_name(:tag)}, class: "form-control"  %>
             </div>
-            <%= form.submit class: "btn btn-outline-primary" %>
+            <%= form.submit class: "btn btn-outline-primary btn-search" %>
             <%= link_to t("views.btn.reset"), redirect_to_current_path(anchor: nil), class: "btn btn-outline-danger" %>
           <% end %>
       </div>

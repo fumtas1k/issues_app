@@ -1,5 +1,5 @@
 <% provide(:title, t("views.issues.show.title")) %>
-<div class="issue-container">
+<div class="issue-show-container">
   <h2><%= "#{Issue.model_name.human}: #{@issue.title}" %></h2>
   <p><%= "#{Issue.human_attribute_name(:user)}: #{@issue.user.name}"%></p>
   <p><%= "#{Issue.human_attribute_name(:status)}: #{Issue.human_enum_status(@issue.status)}"%></p>

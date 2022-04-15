@@ -8,6 +8,7 @@ module ApplicationHelper
     end
   end
 
+  # cssのclassを変更するメソッド群
   def activate_css(controller, action)
     "active" if controller.to_s == controller_name && action.to_s == action_name
   end
@@ -24,7 +25,11 @@ module ApplicationHelper
     "hidden" if display_pagination.exclude?([controller, action])
   end
 
-  ## ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
+  def sort_css(q, sort_name)
+  end
+
+
+  # ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
   def display_pagination
     [
       %w[users index]

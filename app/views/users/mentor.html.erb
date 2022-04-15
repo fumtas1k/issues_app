@@ -4,44 +4,13 @@
 <%= render "member_profile", user: @user, issues: @issues, group_member: @group_member %>
 <%= render "issues/search", q: @q, show_collapse: nil %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th><%= Issue.human_attribute_name(:title) %></th>
-      <th><%= Issue.human_attribute_name(:user) %></th>
-      <th><%= Issue.human_attribute_name(:status) %></th>
-      <th><%= Issue.human_attribute_name(:scope) %></th>
-      <th><%= Favorite.model_name.human %></th>
-      <th><%= Stock.model_name.human %></th>
-      <th><%= Issue.human_attribute_name(:created_at) %></th>
-      <th><%= Issue.human_attribute_name(:updated_at) %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% issue_count = 0 %>
-    <% @issues&.each do |issue| %>
-      <% if issue.accessible?(@user) %>
-        <% issue_count += 1 %>
-        <tr>
-          <td class="middle"><%= link_to issue do %>
-            <%= issue.title %>
-          <% end %></td>
-          <td class="middle"><%= issue.user.name %></td>
-          <td class="middle"><%= Issue.human_enum_status(issue.status) %></td>
-          <td class="middle"><%= Issue.human_enum_scope(issue.scope) %></td>
-          <td class="middle">
-            <div id=<%= "favorite-issue-#{issue.id}" %> class="center"><%= render "favorites/favorite_btn", issue: issue %></div>
-          </td>
-          <td class="middle">
-            <div id=<%= "stock-issue-#{issue.id}" %> class="center"><%= render "stocks/stock_btn", issue: issue %></div>
-          </td>
-          <td class="middle"><%= l issue.created_at, format: :medium %></td>
-          <td class="middle"><%= l issue.updated_at, format: :medium %></td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
+<% issue_count = 0 %>
+<% @issues&.each do |issue| %>
+  <% if issue.accessible?(@user) %>
+    <% issue_count += 1 %>
+    <%= render "issues/issue", issue: issue %>
+  <% end %>
+<% end %>
 
 <% if issue_count.zero? %>
   <h3 class="red"><%= t("views.blank") %></h3>
