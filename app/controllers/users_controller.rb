@@ -25,8 +25,6 @@ class UsersController < ApplicationController
     @group_member =
       if @user.group.members.pluck(:id).include?(params.dig(:q, :user_id_eq).to_i)
         User.find_by(id: params.dig(:q, :user_id_eq))
-      else
-        nil
       end
   end
 

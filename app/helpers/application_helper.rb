@@ -25,10 +25,6 @@ module ApplicationHelper
     "hidden" if display_pagination.exclude?([controller, action])
   end
 
-  def sort_css(q, sort_name)
-  end
-
-
   # ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
   def display_pagination
     [
@@ -93,13 +89,13 @@ module ApplicationHelper
   def redirect_to_current_path(**options)
     add_params = {anchor: "accordionExample"}.merge(options)
     case [controller_name, action_name]
-    when ["users", "show"]
+    when %w[users show]
       add_params.dig(:q, :user_id_eq).present? ? mentor_user_path(current_user, add_params) : user_path(current_user, add_params)
-    when ["users", "stocked"]
+    when %w[users stocked]
       stocked_user_path(current_user, add_params)
-    when ["users", "mentor"]
+    when %w[users mentor]
       mentor_user_path(current_user, add_params)
-    when ["issues", "index"]
+    when %w[issues index]
       issues_path(add_params)
     end
   end
