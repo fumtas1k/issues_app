@@ -8,6 +8,7 @@ module ApplicationHelper
     end
   end
 
+  # cssのclassを変更するメソッド群
   def activate_css(controller, action)
     "active" if controller.to_s == controller_name && action.to_s == action_name
   end
@@ -24,7 +25,7 @@ module ApplicationHelper
     "hidden" if display_pagination.exclude?([controller, action])
   end
 
-  ## ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
+  # ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
   def display_pagination
     [
       %w[users index]
@@ -85,11 +86,17 @@ module ApplicationHelper
     end
   end
 
-  def choose_show_or_stocked(user, issue_user_id)
-    if action_name == "show"
-      user_path(user, issue_user_id: issue_user_id)
-    else
-      stocked_user_path(user, issue_user_id: issue_user_id)
+  def redirect_to_current_path(**options)
+    add_params = {anchor: "accordionExample"}.merge(options)
+    case [controller_name, action_name]
+    when %w[users show]
+      add_params.dig(:q, :user_id_eq).present? ? mentor_user_path(current_user, add_params) : user_path(current_user, add_params)
+    when %w[users stocked]
+      stocked_user_path(current_user, add_params)
+    when %w[users mentor]
+      mentor_user_path(current_user, add_params)
+    when %w[issues index]
+      issues_path(add_params)
     end
   end
 end

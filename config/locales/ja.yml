@@ -24,7 +24,7 @@ ja:
         avatar: 写真
         mentor: メンター
         staff: 部員
-        entered_at: 入職日
+        entered_at: 入職年
         admin: 管理者
         confirmation_sent_at: パスワード確認送信時刻
         confirmation_token: パスワード確認用トークン
@@ -129,11 +129,18 @@ ja:
     users:
       index:
         title: 部員一覧
+      profile:
+        issue_count: イシュー数
+        pending_count: 未解決数
+        favorite_count: いいね総数
+        recent_issue: 最新イシュー
       show:
         title: マイページ
       stocked:
         title: ストック
       role: 役割
+      mentor:
+        title: メンター
     users/role:
       mentor: メンター
       non-mentor: 部員

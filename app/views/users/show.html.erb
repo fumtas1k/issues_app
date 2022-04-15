@@ -1,8 +1,13 @@
 <% provide(:title, @user.name) %>
-<h1><%= t("views.users.show.title") %></h1>
 <%= render "profile_format", user: @user %>
-<% if @user.mentor %>
-  <%= render "mentor_show_format", user: @user, issues: @issues %>
-<% else %>
-  <%= render "show_format", user: @user, issues: @issues %>
+<%= render "my_nav", user: @user %>
+
+<% issue_count = 0 %>
+<% @issues&.each do |issue| %>
+  <% issue_count += 1 %>
+  <%= render "issues/issue", issue: issue %>
+<% end %>
+
+<% if issue_count.zero? %>
+  <h3 class="red"><%= t("views.blank") %></h3>
 <% end %>

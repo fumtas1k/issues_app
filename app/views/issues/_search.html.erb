@@ -3,14 +3,14 @@
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          SEARCH
+          <%= t("views.btn.search") %>
         </button>
       </h5>
     </div>
 
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div id="collapseOne" class="collapse <%= show_collapse %>" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-          <%= search_form_for q, class: "form-inline" do |form| %>
+          <%= search_form_for q, class: "form-inline", url: redirect_to_current_path(anchor: nil) do |form| %>
             <div class="form-group">
               <%= form.label :title_or__description_body_or_comments__content_body_or_cont, class: "sr-only" %>
               <%= form.search_field :title_or__description_body_or_comments__content_body_cont, class: "form-control", placeholder: t("views.ransack.issue_or_comment") %>
@@ -29,10 +29,10 @@
             </div>
             <div class="form-group">
               <%= form.label :tags_name, class: "sr-only" %>
-              <%= form.collection_select :tags_name_eq, Issue.tag_counts, :name, :name, {include_blank: Issue.human_attribute_name(:tag)}, class: "form-control"  %>
+              <%= form.collection_select :tags_name_eq, Issue.tags_on(:tags).order(taggings_count: :desc), :name, :name, {include_blank: Issue.human_attribute_name(:tag)}, class: "form-control"  %>
             </div>
-            <%= form.submit class: "btn btn-outline-primary" %>
-            <%= link_to t("views.btn.reset"), issues_path, class: "btn btn-outline-danger" %>
+            <%= form.submit class: "btn btn-outline-primary btn-search" %>
+            <%= link_to t("views.btn.reset"), redirect_to_current_path(anchor: nil), class: "btn btn-outline-danger" %>
           <% end %>
       </div>
     </div>

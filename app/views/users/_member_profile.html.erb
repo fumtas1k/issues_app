@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="group-members-nav">
+      <% user.group.members.each do |member| %>
+        <li class="nav-item">
+          <% active = group_member == member ? "active" : nil %>
+          <%= link_to member.name, redirect_to_current_path(anchor: nil, q: {user_id_eq: member.id}), class: "nav-link #{active}" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="group-member-container">
+    <% if group_member %>
+      <span><%= "#{User.human_attribute_name(:entered_at)}: #{l(group_member.entered_at, format: :year)}" %></span>
+      <% if (member_issues = group_member.issues.where.not(scope: :draft).presence) %>
+        <h3 class="count-item">
+          <%= link_to t("views.users.profile.pending_count"), redirect_to_current_path(q:{user_id_eq: group_member.id, status_eq: Issue.statuses[:pending] }) %>:
+          <%= "#{member_issues.where(status: :pending).size} / #{member_issues.size}" %>
+        </h3>
+        <p>
+          <% recent_issue = member_issues.recent.first %>
+          <%= t "views.users.profile.recent_issue"%>(<%= time_ago_in_words recent_issue.created_at %>): <%= link_to recent_issue.title, issue_path(recent_issue) %>(<%= Issue.human_enum_status(recent_issue.status) %>)
+        </p>
+        <% member_issues.includes(:tags).tags_on(:tags).most_used(5).pluck(:name).each do |tag_name| %>
+          <%= link_to tag_name, redirect_to_current_path(q:{user_id_eq: group_member.id, tags_name_eq: tag_name}), class: "tag light-green" %>
+        <% end %>
+      <% else %>
+        <h3 class="red"><%= t("views.blank") %></h3>
+      <% end %>
+    <% end %>
+  </div>
+</div>

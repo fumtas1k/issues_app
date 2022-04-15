@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       end
       member do
         get :stocked
+        get :mentor
       end
     end
   end

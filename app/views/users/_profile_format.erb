@@ -1,27 +1,30 @@
 <table class="table">
   <tr>
-    <td><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
+    <td class="td-width-150"><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
     <td>
-      <h4><%= User.human_attribute_name(:name) %>: <%= user.name %></h4>
-      <p><%= User.human_attribute_name(:code) %>: <%= user.code %></p>
-      <p><%= User.human_attribute_name(:email) %>: <%= user.email %></p>
-      <p><%= User.human_attribute_name(:entered_at) %>: <%= l(user.entered_at, format: :year) %></p>
-      <% if user.mentor %>
-        <p>
-          <%= Group.human_attribute_name(:members) %>:
-          <% user.group.members.each do |member| %>
-            <%= link_to member.name, choose_show_or_stocked(user, member.id) %>
-          <% end %>
-        </p>
-      <% else %>
+      <div class="flex">
+        <h2><%= user.name %></h2>
+        <div class="user-edit-btn-container">
+          <%= link_to t("views.btn.edit"), edit_user_registration_path, class: "user-edit-btn" %>
+        </div>
+      </div>
+      <div class="grid-auto-20">
+        <span><%= User.human_attribute_name(:code) %>: <%= user.code %></span>
+        <span><%= User.human_attribute_name(:entered_at) %>: <%= l(user.entered_at, format: :year) %></span>
+      </div>
+      <div class="user-show-count grid-auto-20">
+        <span class="count-item"><%= t("views.users.profile.issue_count")%>: <%= user.issues.size %></span>
+        <span class="count-item"><%= t("views.users.profile.pending_count")%>: <%= user.issues.where(status: :pending).size %></span>
+        <span class="count-item"><%= t("views.users.profile.favorite_count")%>: <%= Favorite.where(issue_id: user.issues.pluck(:id)).size %></span>
+      </div>
+      <% unless user.mentor %>
         <p>
           <%= User.human_attribute_name(:mentor) %>:
-          <% user.join_groups.each do |group| %>
-            <%= group.user.name %>
+          <% user.join_groups&.each do |group| %>
+            <span class="tag light-gray"><%= group.user.name %></span>
           <% end %>
         </p>
       <% end %>
     </td>
   </tr>
 </table>
-<%= link_to t("views.btn.edit"), edit_user_registration_path, class: "btn btn-success" %>

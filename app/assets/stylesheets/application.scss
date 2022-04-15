@@ -3,18 +3,25 @@
  *= require_self
  */
 
+ @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100&family=Noto+Serif+JP:wght@600&display=swap');
+
+  // 全体
  body {
-   min-height: 100vh;
+  min-height: 100vh;
  }
  header {
    position: fixed;
    top: 0;
    z-index: 100;
    width: 100%;
+   font-family: 'M PLUS Rounded 1c', sans-serif;
+   font-family: 'Noto Serif JP', serif;
  }
  main {
    padding-top: 50px;
    padding-bottom: 50px;
+   font-family: 'M PLUS Rounded 1c', sans-serif;
+   font-family: 'Noto Serif JP', serif;
  }
  footer.footer {
   position: fixed;
@@ -22,7 +29,6 @@
   z-index: 100;
   background-color: lightgray;
 }
-
  .avatar200 {
   display: block;
   width: 200px;
@@ -38,11 +44,56 @@
   border-radius: 50%;
 }
 .avatar50 {
-  display: block;
+  display: inline-block;
   width: 50px;
   height: 50px;
   object-fit: cover;
   border-radius: 50%;
+}
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  &:hover {
+    text-decoration: none;
+    box-shadow: 2px 2px 4px;
+  }
+}
+
+// grid, flex
+.grid-auto-20{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.flex {
+  display: flex;
+}
+.flex-space-between {
+  justify-content: space-between;
+}
+
+// padding
+.right-p5 {
+  padding-right: 5px;
+}
+.center {
+  text-align: center;
+}
+
+// background-color
+.light-green {
+  background-color: #41b883;
+  color: #fff;
+}
+.light-gray {
+  background-color: #ccc;
+}
+.red {
+  background-color: crimson;
+  color: white;
 }
 
 // home template
@@ -66,32 +117,6 @@
   vertical-align: middle;
 }
 
-//mentors
-span.mentors {
-  margin: 2px;
-  padding: 2px 5px;
-  background-color: rgb(190, 240, 255);
-  border-radius: 5px;
-  box-shadow: 5px 2px 2px rgb(173, 217, 231);
-  display: inline-block;
-}
-
-.flex {
-  display: flex;
-}
-.center {
-  text-align: center;
-}
-
-// tags
-.tag{
-  display: inline-block;
-  background-color: rgb(137, 255, 184);
-  padding: 2px 5px;
-  border-radius: 5px;
-  margin: 0 5px;
-}
-
 // notification index
 .notification-container {
   margin: 5px;
@@ -106,4 +131,120 @@ span.mentors {
 // pagination 非表示にする設定
 nav .hidden {
   display: none;
+}
+
+// user-profile用
+td.td-width-150 {
+  width: 150px;
+}
+.user-edit-btn-container{
+  padding: 5px 0 5px 30px;
+}
+.user-edit-btn{
+  display: inline-block;
+  height: 30px;
+  padding: 5px 9px;
+  border: 1px solid rgb(219,219,219);
+  border-radius: 5px;
+  line-height: 18px;
+  color: inherit;
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+    background-color: rgb(219,219,219);
+  }
+}
+.user-show-count{
+  padding: 10px 0px;
+}
+span.mentor-item {
+  display: inline-block;
+  background-color: #ccc;
+  padding: 2px 10px;
+  border-radius: 5px;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+    box-shadow: 2px 2px 4px;
+  }
+}
+
+// member-profile
+.group-member-container {
+  width: 100%;
+  max-height: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-top: none;
+  box-shadow: 1px 1px 2px rgb(171, 171, 171);
+  border-radius: 5px;
+}
+
+// issue index用
+.issues-container {
+  width: 100%;
+  padding-top: 10px;
+}
+.issue-container {
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  box-shadow: 1px 1px 2px #ccc;
+}
+.issue-abstract {
+  width: 100%;
+}
+.issue-abst-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.issue-status {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  padding: 5px 15px 5px 5px;
+  text-align: center;
+  span {
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+}
+.comment-count {
+  padding: 6px 12px;
+  margin: 1px;
+}
+.issue-abst-footer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.issue-title-container {
+  width: 100%;
+}
+.scope-release {
+  color: cornflowerblue;
+  font-size: 22px;
+  font-weight: bold;
+}
+.scope-limited {
+  color: crimson;
+  font-size: 28px;
+  font-weight: bold;
+}
+.scope-draft {
+  color: yellowgreen;
+  font-weight: bold;
+}
+.status-pending {
+  background-color: crimson;
+  color: white;
+}
+.status-solving {
+  background-color: lightseagreen;
+  color: white;
 }
