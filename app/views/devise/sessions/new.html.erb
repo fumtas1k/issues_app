@@ -23,6 +23,7 @@
   <% end %>
 </div>
 <div class="enter-login-container">
-  <p><%= t(".not_have_account") %> <%= render "devise/shared/links" %>
-</p>
+  <p><%= t(".not_have_account") %> <%= render "devise/shared/links" %></p>
 </div>
+
+<%= javascript_pack_tag 'vanta_background', 'data-turbolinks-track': 'reload' %>
