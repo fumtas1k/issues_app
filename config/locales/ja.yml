@@ -135,6 +135,10 @@ ja:
         pending_count: 未解決数
         favorite_count: いいね総数
         recent_issue: 最新イシュー
+      edit_avatar:
+        title: プロフィール写真変更
+        delete-avatar-caution: ファイル選択なく更新ボタンを押すと元々の写真が削除されます。
+        confirm: ファイル選択なく更新ボタンを押すと元々の写真が削除されます。よろしいですか？
       show:
         title: マイページ
       stocked:

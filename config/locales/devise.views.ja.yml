@@ -75,7 +75,7 @@ ja:
       new:
         sign_up: アカウント登録
         subtitle: 登録して問題解決能力を養おう
-        avatar_explanation: 写真(アバター用:非必須)
+        avatar_explanation: プロフィール写真(非必須)
         explanation_rule: 登録することで、本規約、データに関するポリシー、Cookieポリシーに同意するものとします。
         have_account: アカウントをお持ちですか？
       signed_up: アカウント登録が完了しました。

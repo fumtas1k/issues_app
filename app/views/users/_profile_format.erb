@@ -2,7 +2,7 @@
   <tr>
     <td class="td-width-150"><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
     <td>
-      <div class="flex">
+      <div class="profile-name">
         <h2><%= user.name %></h2>
         <div class="user-edit-btn-container">
           <%= link_to t("views.btn.edit"), edit_user_registration_path, class: "user-edit-btn" %>

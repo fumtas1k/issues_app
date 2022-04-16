@@ -1,4 +1,4 @@
-<%= button_to(user_registration_path(user_id: user.id), name: "mentor", method: :put, class: "btn btn-outline-success", id: "btn-role-#{user.id}", remote: true, data: role_confirm(user)) do %>
+<%= button_to(user_registration_path(user_id: user.id, mentor: true), method: :put, class: "btn btn-outline-success", id: "btn-role-#{user.id}", remote: true, data: role_confirm(user)) do %>
   <% if user.mentor %>
     <%= t("views.users/role.mentor") %>
   <% else %>

@@ -18,12 +18,6 @@
       <%= f.email_field :email, autocomplete: "email", class: "form-control", placeholder: User.human_attribute_name(:email), required: true %>
     </div>
     <div class="field in-small">
-      <%= f.label :avatar, class: "sr-only" %>
-      <%= content_tag(:small, t(".avatar_explanation")) %>
-      <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control", accept: "image/png, image/jpeg, image/jpg, image/gif, image/bmp", direct_upload: true %>
-      <%= f.hidden_field :avatar_blob_id, value: resource.avatar.blob_id if resource.avatar.attached? %>
-    </div>
-    <div class="field in-small">
       <%= f.label :entered_at, class: "sr-only" %>
       <%= content_tag(:small, User.human_attribute_name(:entered_at)) %>
       <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", required: true %>

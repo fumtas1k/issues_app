@@ -11,14 +11,15 @@ Rails.application.routes.draw do
   devise_scope :user do
     post "users/guest_sign_in", to: "users/sessions#guest_sign_in"
     resources :users, only: %i[index show] do
+      member do
+        get :stocked
+        get :mentor
+        get :edit_avatar
+      end
       resources :notifications, only: %i[index update] do
         collection do
           patch :read_all
         end
-      end
-      member do
-        get :stocked
-        get :mentor
       end
     end
   end

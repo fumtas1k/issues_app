@@ -134,6 +134,10 @@ nav .hidden {
 }
 
 // user-profile用
+.profile-name {
+  display: flex;
+  flex-wrap: wrap;
+}
 td.td-width-150 {
   width: 150px;
 }
@@ -143,7 +147,7 @@ td.td-width-150 {
 .user-edit-btn{
   display: inline-block;
   height: 30px;
-  padding: 5px 9px;
+  padding: 5px 15px;
   border: 1px solid rgb(219,219,219);
   border-radius: 5px;
   line-height: 18px;

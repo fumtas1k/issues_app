@@ -4,30 +4,33 @@
     <table class="edit-user-table">
       <tr>
         <th><%= image_tag prepare_avatar(resource), class: "avatar100" %></th>
-        <td><%= resource.name %></td>
+        <td>
+          <%= resource.name %><br>
+          <%= link_to t("views.users.edit_avatar.title"), edit_avatar_user_path(resource) %>
+        </td>
       </tr>
       <tr>
         <th><%= f.label :name %></th>
         <td>
-          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: User.human_attribute_name(:name), require: true %>
+          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: User.human_attribute_name(:name), required: true %>
         </td>
       </tr>
       <tr>
         <th><%= f.label :code %></th>
         <td>
-          <%= f.text_field :code, autocomplete: "code", class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), require: true %>
+          <%= f.text_field :code, autocomplete: "code", class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), required: true %>
         </td>
       </tr>
       <tr>
         <th><%= f.label :email %></th>
         <td>
-          <%= f.email_field :email, autocomplete: "email", class: "form-control", placeholder: User.human_attribute_name(:email), require: true %>
+          <%= f.email_field :email, autocomplete: "email", class: "form-control", placeholder: User.human_attribute_name(:email), required: true %>
         </td>
       </tr>
       <tr>
         <th><%= f.label :entered_at %></th>
         <td>
-          <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", require: true %>
+          <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", required: true %>
         </td>
       </tr>
       <tr style="display: none;">
@@ -41,8 +44,8 @@
       <tr>
         <th><%= f.label :current_password %></th>
         <td>
-          <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", require: true %>
-          <small class="password-required"><%= t('.we_need_your_current_password_to_confirm_your_changes') %></small>
+          <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", required: true %>
+          <small class="attention"><%= t('.we_need_your_current_password_to_confirm_your_changes') %></small>
         </td>
       </tr>
       <tr>
@@ -59,10 +62,14 @@
         </td>
       </tr>
     </table>
-    <div class="actions user-edit-btns">
-      <%= f.submit t('.update'), class: "btn btn-primary" %>
-      <%= link_to t('devise.shared.links.back'), :back, class: "btn btn-info" %>
+    <div class="actions btn-container">
+      <%= f.submit t('.update'), class: "btn btn-primary btn-block" %>
     </div>
   <% end %>
-  <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete, class: "btn btn-danger" %>
+  <div class="btn-container">
+    <%= link_to t('devise.shared.links.back'), resource, class: "btn btn-info btn-block" %>
+  </div>
+  <div class="btn-container">
+    <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete, class: "btn btn-danger btn-block" %>
+  </div>
 </div>
