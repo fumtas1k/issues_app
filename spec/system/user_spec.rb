@@ -11,13 +11,15 @@ RSpec.describe :user, type: :system do
       fill_in "user_code", with: user_params[:code]
       fill_in "user_email", with: user_params[:email]
       fill_in "user_entered_at", with: user_params[:entered_at]
+      attach_file "user_avatar", user_params[:avatar]
       fill_in "user_password", with: user_params[:password]
-      fill_in "user_password_confirmation", with: user_params[:password]
+      fill_in "user_password_confirmation", with: user_params[:password_confirmation]
       click_on "commit"
+      sleep 0.2
     end
 
     context "必須項目を全て入力してアカウント登録した場合" do
-      let!(:user_params){attributes_for(:user)}
+      let!(:user_params){attributes_for(:user).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "サインアップできる" do
         expect(current_path).to eq user_path(User.last)
         expect(page).to have_content user_params[:code]
@@ -25,18 +27,40 @@ RSpec.describe :user, type: :system do
     end
 
     context "パスワード関連を空白にしてアカウント登録した場合" do
-      let!(:user_params){attributes_for(:user, password: "")}
+      let!(:user_params){attributes_for(:user, password: "").merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "アカウント登録ページでエラーメッセージが表示される" do
+        expect(current_path).to eq new_user_registration_path
+        expect(page).to have_content I18n.t("devise.registrations.new.subtitle")
+      end
+    end
+
+    context "パスワードと確認用パスワードを異なる入力をしてアカウント登録した場合" do
+      let!(:user_params){attributes_for(:user, password: "password", password_confirmation: "password".reverse).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
+      it "アカウント登録ページにリダイレクトしエラーメッセージが表示される" do
         expect(current_path).to eq users_path
-        expect(page).to have_content I18n.t("devise.registrations.new.sign_up")
+        expect(page).to have_content I18n.t("devise.registrations.new.subtitle")
         within "#error_explanation" do
-          expect(page).to have_content I18n.t("errors.messages.blank"), count: 1
+          expect(page).to have_content I18n.t("errors.messages.confirmation", attribute: User.human_attribute_name(:password)), count: 1
         end
       end
     end
 
+    context "バリデーションに引っかかった後、ファイルを添付せず修正し、正常に投稿した場合" do
+      let!(:user_params){attributes_for(:user, password: "password", password_confirmation: "password".reverse).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
+      before do
+        fill_in "user_password", with: user_params[:password]
+        fill_in "user_password_confirmation", with: user_params[:password]
+        click_on "commit"
+        sleep 0.1
+      end
+      it "avatarは正常に登録されている" do
+        expect(current_path).to eq user_path(User.last)
+        expect(User.last.avatar.blob.filename.to_s).to eq "avatar.jpg"
+      end
+    end
+
     context "サインアップした状態でアカウント登録ページにアクセスしようとした場合" do
-      let!(:user_params){attributes_for(:user)}
+      let!(:user_params){attributes_for(:user).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "rootページにリダイレクトしフラッシュが表示される" do
         visit new_user_registration_path
         expect(current_path).to eq root_path
@@ -63,12 +87,68 @@ RSpec.describe :user, type: :system do
 
     context "パスワード関連を空白にしてログインした場合" do
       let!(:user_params){attributes_for(:user, password: "")}
-      it "ログインページでエラーメッセージが表示される" do
+      it "ログインページから移動できない" do
         expect(current_path).to eq new_user_session_path
         expect(page).to have_content I18n.t("devise.sessions.new.sign_in")
-        within ".alert-danger" do
-          expect(page).to have_content User.human_attribute_name(:password)
-        end
+      end
+    end
+  end
+
+  describe "ユーザー編集機能" do
+    let!(:user){create(:user, :seq)}
+    before do
+      sign_in user
+      visit edit_user_registration_path(user)
+      fill_in "user_name", with: user_params[:name]
+      fill_in "user_code", with: user_params[:code]
+      fill_in "user_email", with: user_params[:email]
+      fill_in "user_entered_at", with: user_params[:entered_at]
+      fill_in "user_current_password", with: user_params[:password]
+      click_on "commit"
+      sleep 0.1
+    end
+
+    context "パスワード変更以外入力し更新ボタンを押した場合" do
+      let!(:user_params) { attributes_for(:user, name: "update_name", code: "upcode", email: "update@diver.com",
+                          entered_at: Date.new(2023,4,1), password: user.password) }
+
+      it "マイページにリダイレクトし、入力したデータに更新される" do
+        expect(current_path).to eq user_path(user)
+        expect(page).to have_content user_params[:name], count: 2
+        expect(page).to have_content user_params[:code]
+        expect(page).to have_content user_params[:entered_at].year
+      end
+    end
+  end
+
+  describe "avatar編集機能" do
+    let!(:user){create(:user, :seq)}
+    before do
+      sign_in user
+      user.avatar = fixture_file_upload("/images/avatar.jpg")
+      visit edit_avatar_user_path(user)
+    end
+
+    context "avatar編集ページでファイルを添付し更新ボタンを押した場合" do
+      before do
+        attach_file "user_avatar", "#{Rails.root}/app/assets/images/dummy_user.jpg"
+      end
+      it "編集ページにリダイレクトしavatarが変更される" do
+        expect {
+          page.accept_confirm { click_on "commit" }
+          sleep 0.1
+          expect(current_path).to eq edit_user_registration_path(user)
+        }.to change {User.last.avatar.blob.filename.to_s}.from("avatar.jpg").to("dummy_user.jpg")
+      end
+    end
+
+    context "avatar編集ページでファイルを添付せずに更新ボタンを押した場合" do
+      it "編集ページにリダイレクトしavatarが削除される" do
+        expect {
+          page.accept_confirm { click_on "commit" }
+          sleep 0.1
+          expect(current_path).to eq edit_user_registration_path(user)
+        }.to change {User.last.avatar.attached?}.from(true).to(false)
       end
     end
   end

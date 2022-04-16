@@ -22,6 +22,15 @@
       <%= content_tag(:small, User.human_attribute_name(:entered_at)) %>
       <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", required: true %>
     </div>
+    <div class="avatar-container">
+      <%= image_tag prepare_avatar(@user), class: "avatar50" %>
+    </div>
+    <div class="field in-small">
+      <%= f.label :avatar, class: "sr-only" %>
+      <%= content_tag(:small, t(".avatar_explanation"), class: "delete-avatar-caution") %>
+      <%= f.hidden_field :avatar, value: f.object.avatar.signed_id if f.object.avatar.present? %>
+      <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control", accept: "image/png, image/jpeg, image/jpg, image/gif, image/bmp", direct_upload: true %>
+    </div>
     <div class="field">
       <%= f.label :password, class: "sr-only" %>
       <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: User.human_attribute_name(:password), required: true, minlength: @minimum_password_length %>
