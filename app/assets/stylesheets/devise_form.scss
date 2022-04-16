@@ -1,0 +1,146 @@
+/* form.html用 */
+.login-form-container {
+  max-width: 350px;
+  margin: 10px auto;
+  padding-bottom: 20px;
+  background-color: rgb(255,255,255);
+  border: 1px solid rgb(219,219,219);
+  text-align: center;
+}
+.login-form-sub-container {
+  max-width: 268px;
+  width: 100%;
+  margin: 0 auto;
+}
+.login-form-header {
+  width: 100%;
+  height: 40px;
+  margin: 5px auto 10px;
+}
+.login-form-title {
+  line-height: 51px;
+}
+.login-form-subtitle {
+  color: rgb(142, 142, 142);
+  font-weight: 400;
+  max-width: 268px;
+  margin: 0 auto 10px;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.in-small {
+  text-align: left;
+  small {
+    font-size: 12px;
+    overflow-wrap: break-word;
+  }
+}
+.login-form input {
+  width: 268px;
+  margin: 1px;
+}
+.login-form input[type="file"] {
+  font-size: 12px;
+}
+.login-form input[type="submit"] {
+  margin: 8px auto;
+  padding: 0;
+  line-height: 35px;
+}
+.login-form input[type="checkbox"] {
+  width: 20px;
+}
+.remember-field {
+  display: flex;
+  align-items: center;
+  label {
+    margin: 0;
+  }
+}
+.explanation-rule {
+  color: rgb(142, 142, 142);
+  font-size: 12px;
+  width: 268px;
+  margin: 0 auto;
+}
+.enter-login-container {
+  width: 350px;
+  height: 50px;
+  margin: 10px auto;
+  background-color: rgb(255,255,255);
+  border: 1px solid rgb(219,219,219);
+  text-align: center;
+}
+.enter-login-container p {
+  font-size: 14px;
+  line-height: 50px;
+}
+.enter-login-container a:hover {
+  text-decoration: none;
+}
+.login-form #error_explanation {
+  text-align: left;
+}
+
+/* edit用 */
+.user-edit-container {
+  max-width: 620px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 5px 10px;
+}
+.edit-user-form {
+  width: 100%;
+}
+.edit-user-table {
+  margin: 32px 0;
+  tr {
+    height: 30px;
+    margin: 8px;
+  }
+  th {
+    max-width: 280px;
+    padding: 0 32px;
+  }
+  td {
+    max-width: 320px;
+    padding: 4px 0px;
+  }
+}
+@media screen and (max-width: 540px) {
+  .edit-user-table,
+  .edit-user-table tr,
+  .edit-user-table th,
+  .edit-user-table td {
+    display: block;
+  }
+  .edit-user-table {
+    tr {
+    height: auto;
+    }
+    th {
+      width: 100%;
+      padding: 5px 0 0;
+    }
+  }
+}
+.edit-user-table small {
+  font-size: 12px;
+  color: rgb(142, 142, 142);
+}
+small.attention {
+  color: red;
+}
+.btn-container {
+  padding-bottom: 5px;
+}
+
+/* edit_avarar用 */
+.avatar-container {
+  width: 200px;
+  margin: 0 auto;
+}

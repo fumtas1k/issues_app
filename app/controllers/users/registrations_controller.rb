@@ -29,6 +29,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
         format.html {redirect_to users_path}
         format.js {render "users/role_change"}
       end
+    elsif params[:avatar]
+      @user = User.find(params[:user_id])
+      @user.update_attribute(:avatar, params.dig(:user, :avatar))
+      redirect_to edit_user_registration_path(@user)
     else
       super
     end

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
   before_action :ensure_correct_mentor, only: %i[index mentor]
-  before_action :set_user, only: %i[show stocked mentor]
+  before_action :set_user, only: %i[show stocked mentor edit_avatar]
   before_action :ensure_correct_user, only: %i[show stocked]
 
   def index
@@ -27,6 +27,8 @@ class UsersController < ApplicationController
         User.find_by(id: params.dig(:q, :user_id_eq))
       end
   end
+
+  def edit_avatar; end
 
   private
 

@@ -1,29 +1,27 @@
 /*
- *= require_tree .
- *= require_self
- */
+*= require_tree .
+*= require_self
+*/
 
- @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100&family=Noto+Serif+JP:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100&family=Noto+Serif+JP:wght@600&display=swap');
 
-  // 全体
- body {
-  min-height: 100vh;
- }
- header {
-   position: fixed;
-   top: 0;
-   z-index: 100;
-   width: 100%;
-   font-family: 'M PLUS Rounded 1c', sans-serif;
-   font-family: 'Noto Serif JP', serif;
- }
- main {
-   padding-top: 50px;
-   padding-bottom: 50px;
-   font-family: 'M PLUS Rounded 1c', sans-serif;
-   font-family: 'Noto Serif JP', serif;
- }
- footer.footer {
+/* 全体 */
+.all-container {
+min-height: 100vh;
+font-family: 'M PLUS Rounded 1c', sans-serif;
+font-family: 'Noto Serif JP', serif;
+}
+header {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+main {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+footer.footer {
   position: fixed;
   bottom: 0;
   z-index: 100;
@@ -62,7 +60,7 @@
   }
 }
 
-// grid, flex
+/* grid, flex */
 .grid-auto-20{
   display: grid;
   gap: 10px;
@@ -75,7 +73,7 @@
   justify-content: space-between;
 }
 
-// padding
+/* padding */
 .right-p5 {
   padding-right: 5px;
 }
@@ -83,7 +81,7 @@
   text-align: center;
 }
 
-// background-color
+/* background-color */
 .light-green {
   background-color: #41b883;
   color: #fff;
@@ -96,7 +94,7 @@
   color: white;
 }
 
-// home template
+/* home template */
  .bd-placeholder-img {
    font-size: 1.125rem;
    text-anchor: middle;
@@ -112,12 +110,12 @@
    }
  }
 
-// users/index
+/* users/index */
 .table td.middle {
   vertical-align: middle;
 }
 
-// notification index
+/* notification index */
 .notification-container {
   margin: 5px;
   padding: 5px 10px;
@@ -128,12 +126,16 @@
   background-color: rgb(239, 239, 239);
 }
 
-// pagination 非表示にする設定
+/* pagination 非表示にする設定 */
 nav .hidden {
   display: none;
 }
 
-// user-profile用
+/* user-profile用 */
+.profile-name {
+  display: flex;
+  flex-wrap: wrap;
+}
 td.td-width-150 {
   width: 150px;
 }
@@ -143,7 +145,7 @@ td.td-width-150 {
 .user-edit-btn{
   display: inline-block;
   height: 30px;
-  padding: 5px 9px;
+  padding: 5px 15px;
   border: 1px solid rgb(219,219,219);
   border-radius: 5px;
   line-height: 18px;
@@ -169,7 +171,7 @@ span.mentor-item {
   }
 }
 
-// member-profile
+/* member-profile */
 .group-member-container {
   width: 100%;
   max-height: 150px;
@@ -180,7 +182,7 @@ span.mentor-item {
   border-radius: 5px;
 }
 
-// issue index用
+/* issue index用 */
 .issues-container {
   width: 100%;
   padding-top: 10px;

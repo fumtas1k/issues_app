@@ -3,41 +3,42 @@
 
 <%= render "search", q: @q, users: @users %>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= Group.human_attribute_name(:members) %></th>
-      <th><%= User.human_attribute_name(:avatar) %></th>
-      <th><%= sort_link(@q, :name, class: "sort-link", id: "sort-user-name") %></th>
-      <th><%= sort_link(@q, :code, class: "sort-link", id: "sort-user-code") %></th>
-      <th><%= sort_link(@q, :mentor, t("views.users.role"), class: "sort-link", id: "sort-user-role") %></th>
-      <th><%= User.human_attribute_name(:mentor) %></th>
-      <th><%= sort_link(@q, :entered_at, class: "sort-link", id: "sort-user-entered_at") %></th>
-      <th><%= User.human_attribute_name(:created_at) %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
+<div class="table-responsive-sm">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td class="middle">
-          <div id=<%= "group-member-#{user.id}"%>><%= render "groupings/member_btn", user: user %></div>
-        </td>
-        <td><%= image_tag prepare_avatar(user), class: "avatar50" %></td>
-        <td class="middle"><%= user.name %></td>
-        <td class="middle"><%= user.code %></td>
-        <td class="middle">
-          <div id=<%= "role-mentor-#{user.id}"%>><%= render "role_btn", user: user %></div>
-        </td>
-        <td class="middle">
-          <div id=<%= "mentor-#{user.id}"%>><%= render "groupings/mentor", user: user %></div>
-        </td>
-        <td class="middle"><%= l(user.entered_at) %></td>
-        <td class="middle"><%= l(user.created_at, format: :medium) %></td>
+        <th><%= Group.human_attribute_name(:members) %></th>
+        <th><%= User.human_attribute_name(:avatar) %></th>
+        <th><%= sort_link(@q, :name, class: "sort-link", id: "sort-user-name") %></th>
+        <th><%= sort_link(@q, :code, class: "sort-link", id: "sort-user-code") %></th>
+        <th><%= sort_link(@q, :mentor, t("views.users.role"), class: "sort-link", id: "sort-user-role") %></th>
+        <th><%= User.human_attribute_name(:mentor) %></th>
+        <th><%= sort_link(@q, :entered_at, class: "sort-link", id: "sort-user-entered_at") %></th>
+        <th><%= User.human_attribute_name(:created_at) %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td class="middle">
+            <div id=<%= "group-member-#{user.id}"%>><%= render "groupings/member_btn", user: user %></div>
+          </td>
+          <td><%= image_tag prepare_avatar(user), class: "avatar50" %></td>
+          <td class="middle"><%= user.name %></td>
+          <td class="middle"><%= user.code %></td>
+          <td class="middle">
+            <div id=<%= "role-mentor-#{user.id}"%>><%= render "role_btn", user: user %></div>
+          </td>
+          <td class="middle">
+            <div id=<%= "mentor-#{user.id}"%>><%= render "groupings/mentor", user: user %></div>
+          </td>
+          <td class="middle"><%= l(user.entered_at) %></td>
+          <td class="middle"><%= l(user.created_at, format: :medium) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <%= paginate @users %>
 
 <% if @users.size.zero? %>

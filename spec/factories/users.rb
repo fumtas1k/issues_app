@@ -5,6 +5,7 @@ FactoryBot.define do
     email     { "first@diver.com" }
     entered_at{ Date.new(Date.current.year, 4, 1) }
     password  { "password" }
+    password_confirmation { "password" }
 
     trait :seq do
       sequence :name, "user01"
@@ -20,6 +21,7 @@ FactoryBot.define do
     email   { "mentor@diver.com" }
     entered_at { Date.new(2020, 4, 1) }
     password{ "password" }
+    password_confirmation { "password" }
     mentor  { true }
   end
 
@@ -29,6 +31,7 @@ FactoryBot.define do
     email   { "admin@diver.com" }
     entered_at { Date.new(2014, 4, 1) }
     password{ "password" }
+    password_confirmation { "password" }
     mentor  { true }
     admin   { true }
   end

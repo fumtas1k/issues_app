@@ -24,7 +24,7 @@ class User < ApplicationRecord
          :trackable
 
   validates :name, presence: true, length: {maximum: 255}
-  validates :code, presence: true, length: {is: 6}
+  validates :code, presence: true, length: {is: 6}, uniqueness: true
   attribute :mentor, :boolean, default: false
   validates :entered_at, presence: true
   attribute :admin, :boolean, default: false

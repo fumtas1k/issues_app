@@ -1,5 +1,6 @@
 ---
 ja:
+  app: 意集(issue)
   activerecord:
     errors:
       messages:
@@ -40,7 +41,7 @@ ja:
         last_sign_in_ip: 最終ログインIPアドレス
         locked_at: ロック時刻
         password: パスワード
-        password_confirmation: パスワード（確認用）
+        password_confirmation: 確認用パスワード
         remember_created_at: ログイン記憶時刻
         remember_me: ログインを記憶する
         reset_password_sent_at: パスワードリセット送信時刻
@@ -134,6 +135,10 @@ ja:
         pending_count: 未解決数
         favorite_count: いいね総数
         recent_issue: 最新イシュー
+      edit_avatar:
+        title: プロフィール写真変更
+        delete-avatar-caution: ファイル選択なく更新ボタンを押すと元々の写真が削除されます。
+        confirm: ファイル選択なく更新ボタンを押すと元々の写真が削除されます。よろしいですか？
       show:
         title: マイページ
       stocked:

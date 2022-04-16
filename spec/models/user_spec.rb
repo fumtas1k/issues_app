@@ -33,6 +33,11 @@ RSpec.describe User, type: :model do
       it_behaves_like "バリデーションに引っかかる"
     end
 
+    context "既に登録されているcodeを入力した場合" do
+      let!(:code_user){ create(:user, :seq, code: user.code)}
+      it_behaves_like "バリデーションに引っかかる"
+    end
+
     context "emailが空白の場合" do
       before {user.email = ""}
       it_behaves_like "バリデーションに引っかかる"
@@ -42,6 +47,11 @@ RSpec.describe User, type: :model do
       before {user.email = "a@"}
       it_behaves_like "バリデーションに引っかかる"
       before {user.email = "a.a.com"}
+      it_behaves_like "バリデーションに引っかかる"
+    end
+
+    context "既に登録されているemailを入力した場合" do
+      let!(:email_user){ create(:user, :seq, email: user.email)}
       it_behaves_like "バリデーションに引っかかる"
     end
 
