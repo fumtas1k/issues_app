@@ -6,6 +6,7 @@ class User < ApplicationRecord
   before_destroy :prevent_destroy_admin!
   after_save_commit :group_create_or_destroy_depend_on_mentor
 
+  attr_accessor :avatar_blob_id
   has_one_attached :avatar
   has_one :group, dependent: :destroy
   has_many :groupings, dependent: :destroy

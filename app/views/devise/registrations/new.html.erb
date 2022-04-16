@@ -1,46 +1,48 @@
-<h2><%= t('.sign_up') %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :name, class: "sr-only" %>
-    <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: User.human_attribute_name(:name), require: true %>
+<div class="login-form-container">
+  <div class="login-form-header">
+    <h2 class="login-form-title"><%= t("app") %></h2>
   </div>
-
-  <div class="field">
-    <%= f.label :code, class: "sr-only" %>
-    <%= f.text_field :code, class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), require: true, maxlength: 6 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :avatar, class: "sr-only" %>
-    <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control", accept: "image/png, image/jpeg, image/jpg, image/gif, image/bmp" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :entered_at, class: "sr-only" %>
-    <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", require: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email, class: "sr-only" %>
-    <%= f.email_field :email, autocomplete: "email", class: "form-control", placeholder: User.human_attribute_name(:email), require: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, class: "sr-only" %>
-    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: User.human_attribute_name(:password), require: true, minlength: @minimum_password_length %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, class: "sr-only" %>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: User.human_attribute_name(:password_confirmation), require: true, minlength: @minimum_password_length %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('.sign_up'), class: "btn btn-primary" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name), class: "login-form", local: true) do |f| %>
+    <h6 class="login-form-subtitle"><%= t(".subtitle") %></h6>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="field">
+      <%= f.label :name, class: "sr-only" %>
+      <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", placeholder: User.human_attribute_name(:name), required: true %>
+    </div>
+    <div class="field">
+      <%= f.label :code, class: "sr-only" %>
+      <%= f.text_field :code, class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), required: true, maxlength: 6 %>
+    </div>
+    <div class="field">
+      <%= f.label :email, class: "sr-only" %>
+      <%= f.email_field :email, autocomplete: "email", class: "form-control", placeholder: User.human_attribute_name(:email), required: true %>
+    </div>
+    <div class="field in-small">
+      <%= f.label :avatar, class: "sr-only" %>
+      <%= content_tag(:small, t(".avatar_explanation")) %>
+      <%= f.file_field :avatar, autocomplete: "avatar", class: "form-control", accept: "image/png, image/jpeg, image/jpg, image/gif, image/bmp", direct_upload: true %>
+      <%= f.hidden_field :avatar_blob_id, value: resource.avatar.blob_id if resource.avatar.attached? %>
+    </div>
+    <div class="field in-small">
+      <%= f.label :entered_at, class: "sr-only" %>
+      <%= content_tag(:small, User.human_attribute_name(:entered_at)) %>
+      <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", required: true %>
+    </div>
+    <div class="field">
+      <%= f.label :password, class: "sr-only" %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: User.human_attribute_name(:password), required: true, minlength: @minimum_password_length %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation, class: "sr-only" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: User.human_attribute_name(:password_confirmation), required: true, minlength: @minimum_password_length %>
+    </div>
+    <div class="actions">
+      <%= f.submit t('.sign_up'), class: "btn btn-primary" %>
+    </div>
+    <p class="explanation-rule"><%= t(".explanation_rule") %></p>
+  <% end %>
+</div>
+<div class="enter-login-container">
+  <p><%= t(".have_account") %>
+  <%= render "devise/shared/links" %></p>
+</div>

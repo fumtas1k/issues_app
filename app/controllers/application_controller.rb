@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name email avatar mentor entered_at])
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[name email avatar mentor entered_at])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name email avatar avatar_blob_id mentor entered_at])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[name email avatar avatar_blob_id mentor entered_at])
   end
 end
