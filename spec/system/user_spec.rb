@@ -109,8 +109,7 @@ RSpec.describe :user, type: :system do
     end
 
     context "パスワード変更以外入力し更新ボタンを押した場合" do
-      let!(:user_params) { attributes_for(:user, name: "update_name", code: "upcode", email: "update@diver.com",
-                          entered_at: Date.new(2023,4,1), password: user.password) }
+      let!(:user_params) { attributes_for(:user, name: "update_name", code: "upcode", email: "update@diver.com", entered_at: Date.new(2023,4,1), password: user.password) }
 
       it "マイページにリダイレクトし、入力したデータに更新される" do
         expect(current_path).to eq user_path(user)
