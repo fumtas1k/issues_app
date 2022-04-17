@@ -27,7 +27,7 @@ admin_user.issues.create!(
 )
 
 # mentor 作成
-mentors = [admin_user]
+mentors = [admin_user, User.guest_admin_user]
 M.times do |i|
   code = format("%06d", rand(999_999))
   mentor = User.find_or_create_by!(code: code) do |user|

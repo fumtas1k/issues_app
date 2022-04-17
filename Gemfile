@@ -14,10 +14,12 @@ gem 'image_processing'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'actiontext'
-gem "acts-as-taggable-on"
+gem 'acts-as-taggable-on'
+gem 'aws-sdk-s3', require: false
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
+gem 'dotenv-rails'
 gem 'faker'
 gem 'kaminari'
 gem 'rails_admin'
