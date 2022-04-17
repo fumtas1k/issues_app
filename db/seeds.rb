@@ -1,7 +1,7 @@
 N = 20
 M = 5
 I = 5
-C = 3
+C = 1
 srand(0)
 
 # admin 作成
@@ -14,6 +14,17 @@ admin_user = User.find_or_create_by!(code: "admin1") do |user|
   user.mentor = true
   user.admin = true
 end
+admin_user.avatar.attach(io: File.open(Rails.root.join("spec/fixtures/images/avatar.jpg")), filename: "avatar.jpg")
+
+TAGS = %w[調剤 注射 TPN 抗がん剤 当直 製剤 DI TDM].freeze
+
+admin_user.issues.create!(
+  title: "Please don't delete it!",
+  description: "タグ作成用のイシューです。削除しないで下さい。",
+  tag_list: TAGS,
+  status: :solving,
+  scope: :draft
+)
 
 # mentor 作成
 mentors = [admin_user]
@@ -45,7 +56,7 @@ N.times do |n|
     issue = new_user.issues.create(
       title: Faker::Movie.title[0,20],
       description: Faker::Hacker.say_something_smart,
-      tag_list: Faker::Games::Pokemon.name,
+      tag_list: TAGS.sample(2),
       status: rand(2),
       scope: rand(3)
     )

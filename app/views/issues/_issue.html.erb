@@ -7,8 +7,11 @@
       <div class="issue-author-profile">
         <%= image_tag prepare_avatar(issue.user), class: "avatar50" %>
         <%= content_tag(:span, issue.user.code, class: "right-p5") %>
-        <%= content_tag(:span, issue.user.name, class:"right-p5") %>
+        <%= content_tag(:span, issue.user.name, class:"right-p5 issue-item-user") %>
         <%= content_tag(:span, time_ago_in_words(issue.created_at)) %>
+        <% if edited?(issue) %>
+          <%= content_tag(:span, t("views.edited"), class:"right-p5") %>
+        <% end %>
       </div>
       <div class="issue-scope">
         <%= content_tag(:span, Issue.human_enum_scope(issue.scope), class: "scope-#{(issue.scope)}") %>

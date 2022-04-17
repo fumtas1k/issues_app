@@ -227,7 +227,7 @@ RSpec.describe :notification, type: :system do
 
     context "未読の通知をクリックした場合" do
       before do
-        all(".notification-container").first.click
+        all(".default-container").first.click
       end
 
       it "通知のリンク先にリダイレクトする" do
@@ -243,9 +243,9 @@ RSpec.describe :notification, type: :system do
 
     context "既読の通知をクリックした場合" do
       before do
-        all(".notification-container")[1].click
+        all(".default-container")[1].click
         visit user_notifications_path(user)
-        all(".notification-container")[1].click
+        all(".default-container")[1].click
       end
 
       it "通知のリンク先にリダイレクトする" do

@@ -170,7 +170,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         find("#sort-issue-created_at").click
-        sleep 0.1
+        sleep 0.2
       end
       it "作成日の昇順でソートされる" do
         expect(all(".issue-container")[0]).to have_content issue_charlie_3rd_2010.user.name

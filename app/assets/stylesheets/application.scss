@@ -60,6 +60,32 @@ footer.footer {
   }
 }
 
+/* ボタンコンテナ */
+.btn2-container {
+  width: 100%;
+  padding: 0px 0px 5px;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.btn3-container {
+  width: 100%;
+  padding: 0px 0px 5px;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* なんでもコンテナ */
+.default-container {
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 1px 1px 2px #ccc;
+}
+
 /* grid, flex */
 .grid-auto-20{
   display: grid;
@@ -116,14 +142,8 @@ footer.footer {
 }
 
 /* notification index */
-.notification-container {
-  margin: 5px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  box-shadow: 1px 2px 2px #ccc;
-}
 .unread {
-  background-color: rgb(239, 239, 239);
+  background-color: rgb(243, 243, 243);
 }
 
 /* pagination 非表示にする設定 */
@@ -132,6 +152,9 @@ nav .hidden {
 }
 
 /* user-profile用 */
+table.profile-table {
+  margin-bottom: 0;
+}
 .profile-name {
   display: flex;
   flex-wrap: wrap;
@@ -180,73 +203,4 @@ span.mentor-item {
   border-top: none;
   box-shadow: 1px 1px 2px rgb(171, 171, 171);
   border-radius: 5px;
-}
-
-/* issue index用 */
-.issues-container {
-  width: 100%;
-  padding-top: 10px;
-}
-.issue-container {
-  width: 100%;
-  margin-bottom: 5px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  display: flex;
-  box-shadow: 1px 1px 2px #ccc;
-}
-.issue-abstract {
-  width: 100%;
-}
-.issue-abst-header {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.issue-status {
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  padding: 5px 15px 5px 5px;
-  text-align: center;
-  span {
-    font-size: 20px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-}
-.comment-count {
-  padding: 6px 12px;
-  margin: 1px;
-}
-.issue-abst-footer {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.issue-title-container {
-  width: 100%;
-}
-.scope-release {
-  color: cornflowerblue;
-  font-size: 22px;
-  font-weight: bold;
-}
-.scope-limited {
-  color: crimson;
-  font-size: 28px;
-  font-weight: bold;
-}
-.scope-draft {
-  color: yellowgreen;
-  font-weight: bold;
-}
-.status-pending {
-  background-color: crimson;
-  color: white;
-}
-.status-solving {
-  background-color: lightseagreen;
-  color: white;
 }

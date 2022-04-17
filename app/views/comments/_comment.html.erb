@@ -1,11 +1,24 @@
-<div class="comment-container jumbotron" id=<%= "this-comment-#{comment.id}" %>>
-  <%= comment.content %>
-  <%= comment.user.name %>
-  <%= time_ago_in_words(comment.updated_at) %>
-  <%= link_to edit_issue_comment_path(issue, comment), class:"comment-edit-btn", remote: true do %>
-    <span class="material-icons">edit_note</span>
-  <% end %>
-  <%= link_to issue_comment_path(issue, comment), class: "comment-delete-btn", remote: true, method: :delete, data: {confirm: t("views.comments.confirm.delete")} do %>
-    <span class="material-icons">delete_forever</span>
-  <% end %>
+<div class="default-container" id=<%= "this-comment-#{comment.id}" %>>
+  <div class="issue-abst-header">
+    <div class="issue-author-profile">
+      <%= image_tag prepare_avatar(comment.user), class: "avatar50" %>
+      <%= content_tag(:span, comment.user.code, class: "right-p5") %>
+      <%= content_tag(:span, comment.user.name, class:"right-p5 issue-item-user") %>
+      <%= content_tag(:span, time_ago_in_words(comment.created_at)) %>
+      <% if edited?(comment) %>
+        <%= content_tag(:span, t("views.edited")) %>
+      <% end %>
+    </div>
+  </div>
+  <div class="comment-content-container">
+    <%= comment.content %>
+  </div>
+  <div class="comment-btn-container">
+    <%= link_to edit_issue_comment_path(issue, comment), class:"comment-edit-btn", remote: true do %>
+      <span class="material-icons">edit_note</span>
+    <% end %>
+    <%= link_to issue_comment_path(issue, comment), class: "comment-delete-btn", remote: true, method: :delete, data: {confirm: t("views.comments.confirm.delete")} do %>
+      <span class="material-icons">delete_forever</span>
+    <% end %>
+  </div>
 </div>

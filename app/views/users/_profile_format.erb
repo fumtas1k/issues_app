@@ -1,30 +1,32 @@
-<table class="table">
-  <tr>
-    <td class="td-width-150"><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
-    <td>
-      <div class="profile-name">
-        <h2><%= user.name %></h2>
-        <div class="user-edit-btn-container">
-          <%= link_to t("views.btn.edit"), edit_user_registration_path, class: "user-edit-btn" %>
+<div class="default-container">
+  <table class="table profile-table">
+    <tr>
+      <td class="td-width-150"><%= image_tag prepare_avatar(user), class: "avatar100" %></td>
+      <td>
+        <div class="profile-name">
+          <h2><%= user.name %></h2>
+          <div class="user-edit-btn-container">
+            <%= link_to t("views.btn.edit"), edit_user_registration_path, class: "user-edit-btn" %>
+          </div>
         </div>
-      </div>
-      <div class="grid-auto-20">
-        <span><%= User.human_attribute_name(:code) %>: <%= user.code %></span>
-        <span><%= User.human_attribute_name(:entered_at) %>: <%= l(user.entered_at, format: :year) %></span>
-      </div>
-      <div class="user-show-count grid-auto-20">
-        <span class="count-item"><%= t("views.users.profile.issue_count")%>: <%= user.issues.size %></span>
-        <span class="count-item"><%= t("views.users.profile.pending_count")%>: <%= user.issues.where(status: :pending).size %></span>
-        <span class="count-item"><%= t("views.users.profile.favorite_count")%>: <%= Favorite.where(issue_id: user.issues.pluck(:id)).size %></span>
-      </div>
-      <% unless user.mentor %>
-        <p>
-          <%= User.human_attribute_name(:mentor) %>:
-          <% user.join_groups&.each do |group| %>
-            <span class="tag light-gray"><%= group.user.name %></span>
-          <% end %>
-        </p>
-      <% end %>
-    </td>
-  </tr>
-</table>
+        <div class="grid-auto-20">
+          <span><%= User.human_attribute_name(:code) %>: <%= user.code %></span>
+          <span><%= User.human_attribute_name(:entered_at) %>: <%= l(user.entered_at, format: :year) %></span>
+        </div>
+        <div class="user-show-count grid-auto-20">
+          <span class="count-item"><%= t("views.users.profile.issue_count")%>: <%= user.issues.size %></span>
+          <span class="count-item"><%= t("views.users.profile.pending_count")%>: <%= user.issues.where(status: :pending).size %></span>
+          <span class="count-item"><%= t("views.users.profile.favorite_count")%>: <%= Favorite.where(issue_id: user.issues.pluck(:id)).size %></span>
+        </div>
+        <% unless user.mentor %>
+          <p>
+            <%= User.human_attribute_name(:mentor) %>:
+            <% user.join_groups&.each do |group| %>
+              <span class="tag light-gray"><%= group.user.name %></span>
+            <% end %>
+          </p>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>

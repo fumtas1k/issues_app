@@ -8,6 +8,9 @@
       <%= form.label :content, class: "sr-only" %>
       <%= form.rich_text_area :content, require: true, placeholder: Comment.human_attribute_name(:content) %>
     </div>
-    <%= form.submit class: "btn btn-primary btn-block", id: "comment-btn-#{comment.id}" %>
+    <div class="btn2-container">
+      <%= form.submit class: "btn btn-primary", id: "comment-btn-#{comment.id}" %>
+      <%= link_to t("views.btn.top"), "#issue-top", class: "btn btn-warning btn-block" %>
+    </div>
   <% end %>
 </div>

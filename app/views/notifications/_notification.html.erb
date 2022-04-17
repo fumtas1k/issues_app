@@ -1,5 +1,5 @@
 <%= link_to user_notification_path(user, notification), method: :patch, class:"notification-link", id: "notification-link-#{notification.id}" do %>
-  <%= content_tag(:div, class: "notification-container #{unread_css(notification)}", id: "this-notification-#{notification.id}") do %>
+  <%= content_tag(:div, class: "default-container #{unread_css(notification)}", id: "this-notification-#{notification.id}") do %>
     <%= simple_format notification.message %>
     <span><%= time_ago_in_words notification.created_at %></span>
   <% end %>
