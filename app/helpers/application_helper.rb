@@ -32,10 +32,12 @@ module ApplicationHelper
     ]
   end
 
+  # アバターがない場合に、ダミー画像を用意
   def prepare_avatar(user)
     user.avatar.presence&.representable? ? user.avatar : "dummy_user.jpg"
   end
 
+  # 自分がメンターを止める場合に警告
   def role_confirm(user)
     if user.mentor && user == current_user
       {confirm: I18n.t("views.users.confirm.mentor")}
@@ -98,5 +100,9 @@ module ApplicationHelper
     when %w[issues index]
       issues_path(add_params)
     end
+  end
+
+  def edited?(object)
+    (object.updated_at - object.created_at).round != 0
   end
 end

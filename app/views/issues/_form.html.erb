@@ -1,32 +1,36 @@
-<%= form_with(model: issue, class: "form", local: true) do |form| %>
-  <% if issue.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= t("errors.messages.title", count: issue.errors.size) %></h4>
-      <ul>
-        <% issue.errors.full_messages.each do |message| %>
-          <%= content_tag(:li, message) %>
-        <% end %>
-      </ul>
+<div class="default-container">
+  <%= form_with(model: issue, class: "form", local: true) do |form| %>
+    <% if issue.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= t("errors.messages.title", count: issue.errors.size) %></h4>
+        <ul>
+          <% issue.errors.full_messages.each do |message| %>
+            <%= content_tag(:li, message) %>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group">
+      <%= form.label :title, class: "sr-only" %>
+      <%= form.text_field :title, class: "form-control", require: true, placeholder: Issue.human_attribute_name(:title) %>
+    </div>
+    <div class="form-group form-inline">
+      <%= form.label :status, class: "sr-only" %>
+      <%= form.select :status, Issue.enum_options_for_select(:status), {}, class: "custom-select mr-sm-2", require: true %>
+      <%= form.label :scope, class: "sr-only" %>
+      <%= form.select :scope, Issue.enum_options_for_select(:scope), {}, class: "custom-select mr-sm-2", require: true %>
+    </div>
+    <%= content_tag(:div, id:"app", data:{tag_list: Issue.tag_counts_on(:tags).pluck(:name).to_json, my_tag_list: issue.tag_list.to_json}) do %>
+      <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag"  :options="options" :multiple="true" :taggable="true" @tag="addTag" id="vue-tag-input"></multiselect>
+      <pre class="language-json" hidden="hidden"><input type="text" name="issue[tag_list]" id="issue_tag_list" v-model="value"></pre>
+    <% end %>
+    <div class="form-group">
+      <%= form.label :description, class: "sr-only" %>
+      <%= form.rich_text_area :description, require: true, placeholder: Issue.human_attribute_name(:description) %>
+    </div>
+    <div class="btn2-container">
+      <%= form.submit class: "btn btn-primary" %>
+      <%= link_to t("views.btn.back"), :back, class: "btn btn-info" %>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= form.label :title, class: "sr-only" %>
-    <%= form.text_field :title, class: "form-control", require: true, placeholder: Issue.human_attribute_name(:title) %>
-  </div>
-  <div class="form-group form-inline">
-    <%= form.label :status, class: "sr-only" %>
-    <%= form.select :status, Issue.enum_options_for_select(:status), {}, class: "custom-select mr-sm-2", require: true %>
-    <%= form.label :scope, class: "sr-only" %>
-    <%= form.select :scope, Issue.enum_options_for_select(:scope), {}, class: "custom-select mr-sm-2", require: true %>
-  </div>
-  <%= content_tag(:div, id:"app", data:{tag_list: Issue.tag_counts_on(:tags).pluck(:name).to_json, my_tag_list: issue.tag_list.to_json}) do %>
-    <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag"  :options="options" :multiple="true" :taggable="true" @tag="addTag" id="vue-tag-input"></multiselect>
-    <pre class="language-json" hidden="hidden"><input type="text" name="issue[tag_list]" id="issue_tag_list" v-model="value"></pre>
-  <% end %>
-  <div class="form-group">
-    <%= form.label :description, class: "sr-only" %>
-    <%= form.rich_text_area :description, require: true, placeholder: Issue.human_attribute_name(:description) %>
-  </div>
-  <%= form.submit class: "btn btn-primary btn-block" %>
-  <%= link_to t("views.btn.back"), :back, class: "btn btn-info" %>
-<% end %>
+</div>

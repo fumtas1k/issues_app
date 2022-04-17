@@ -103,6 +103,7 @@ ja:
         updated_at: 更新日
   views:
     blank: 該当するデータがありません。
+    edited: (編集済み)
     ransack:
       issue_or_comment: イシュー/コメント
       name_or_code: 名前/職員コード
@@ -122,6 +123,8 @@ ja:
       back: 戻る
       reset: リセット
       search: 検索
+      comment: コメント投稿
+      top: トップ
     home:
       confirm:
         mentor: 本当にメンターをやめますか?
