@@ -16,9 +16,9 @@ admin_user = User.find_or_create_by!(code: "admin1") do |user|
 end
 admin_user.avatar.attach(io: File.open(Rails.root.join("spec/fixtures/images/avatar.jpg")), filename: "avatar.jpg")
 
-TAGS = %w[調剤 注射 TPN 抗がん剤 当直 製剤 DI TDM]
+TAGS = %w[調剤 注射 TPN 抗がん剤 当直 製剤 DI TDM].freeze
 
-first_issue = admin_user.issues.create!(
+admin_user.issues.create!(
   title: "Please don't delete it!",
   description: "タグ作成用のイシューです。削除しないで下さい。",
   tag_list: TAGS,
