@@ -1,6 +1,6 @@
 class Favorite < ApplicationRecord
   belongs_to :user
-  belongs_to :issue
+  belongs_to :issue, counter_cache: true
   has_one :notification, as: :subject, dependent: :destroy
 
   validates_uniqueness_of :issue_id, scope: :user_id

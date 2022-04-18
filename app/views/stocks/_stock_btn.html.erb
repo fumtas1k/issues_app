@@ -4,5 +4,5 @@
   <% else %>
     <span class="material-icons text-success">bookmark_border</span>
   <% end %>
-  <%= issue.stocks.size %>
+  <%= issue.reload.stocks.size %>
 <% end %>
