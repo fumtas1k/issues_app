@@ -1,7 +1,7 @@
-<nav class="nav nav-pills flex-column flex-sm-row">
-  <%= link_to t("views.users.show.title"), user_path(user), class: "flex-sm-fill text-sm-center nav-link #{activate_css(:users, :show)}" %>
+<nav class="nav nav-pills btn3-container">
+  <%= link_to t("views.users.show.title"), user_path(user), class: "flex-fill text-center nav-link #{activate_css(:users, :show)}" %>
   <% if user.mentor? %>
-    <%= link_to t("views.users.mentor.title"), mentor_user_path(user), class: "flex-sm-fill text-sm-center nav-link #{activate_css(:users, :mentor)}" %>
+    <%= link_to t("views.users.mentor.title"), mentor_user_path(user), class: "flex-fill text-center nav-link #{activate_css(:users, :mentor)}" %>
   <% end %>
-  <%= link_to t("views.users.stocked.title"), stocked_user_path(user), class: "flex-sm-fill text-sm-center nav-link #{activate_css(:users, :stocked)}" %>
+  <%= link_to t("views.users.stocked.title"), stocked_user_path(user), class: "flex-fill text-center nav-link #{activate_css(:users, :stocked)}" %>
 </nav>

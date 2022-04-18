@@ -3,6 +3,19 @@
   width: 100%;
   padding-top: 10px;
 }
+.sorts-container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  text-align: center;
+  .sort-link {
+    color: inherit;
+    font-size: 14px;
+    display: inline-block;
+    background-color: #ccc;
+    border-radius: 5px;
+  }
+}
 
 /* issue */
 .issue-container {
