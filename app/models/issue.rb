@@ -49,47 +49,4 @@ class Issue < ApplicationRecord
       end
     end
   end
-
-  # ransack用メソッド
-  ransacker :comment_count do
-    query = <<-SQL
-      (SELECT
-         COUNT(comments.issue_id)
-       FROM
-         comments
-       WHERE
-         comments.issue_id = issues.id
-       GROUP BY
-         comments.issue_id)
-    SQL
-    Arel.sql(query)
-  end
-
-  ransacker :favorite_count do
-    query = <<-SQL
-      (SELECT
-        COUNT(favorites.issue_id)
-      FROM
-        favorites
-      WHERE
-        favorites.issue_id = issues.id
-      GROUP BY
-        favorites.issue_id)
-    SQL
-    Arel.sql(query)
-  end
-
-  ransacker :stock_count do
-    query = <<-SQL
-      (SELECT
-        COUNT(stocks.issue_id)
-      FROM
-        stocks
-      WHERE
-        stocks.issue_id = issues.id
-      GROUP BY
-        stocks.issue_id)
-    SQL
-    Arel.sql(query)
-  end
 end

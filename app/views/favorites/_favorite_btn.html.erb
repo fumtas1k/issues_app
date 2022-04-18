@@ -4,5 +4,5 @@
   <% else %>
     <span class="material-icons text-danger">favorite_border</span>
   <% end %>
-  <span><%= issue.favorites.size %></span>
+  <span><%= issue.reload.favorites_count %></span>
 <% end %>

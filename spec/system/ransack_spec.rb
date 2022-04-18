@@ -180,11 +180,36 @@ RSpec.describe :issue, type: :system do
     end
 
     context "いいね数でソートした場合" do
-      pending "一番大きい数が0となってしまう問題発生中"
+      before do
+        FactoryBot.create(:favorite, user: alice, issue: issue_charlie_3rd_2010)
+        FactoryBot.create(:favorite, user: alice, issue: issue_bob_1st_2015)
+        FactoryBot.create(:favorite, user: charlie, issue: issue_bob_1st_2015)
+        visit issues_path
+        find("#sort-favorites_count").click
+        sleep 0.1
+      end
+      it "いいね数が多い順にソートされる" do
+        expect(all(".issue-container")[0]).to have_content issue_alice_2nd_2020.title
+        expect(all(".issue-container")[1]).to have_content issue_charlie_3rd_2010.title
+        expect(all(".issue-container")[2]).to have_content issue_bob_1st_2015.title
+      end
     end
 
     context "ストック数でソートした場合" do
-      pending "一番大きい数が0となってしまう問題発生中"
+      before do
+        FactoryBot.create(:stock, user: alice, issue: issue_bob_1st_2015)
+        FactoryBot.create(:stock, user: alice, issue: issue_charlie_3rd_2010)
+        FactoryBot.create(:stock, user: bob, issue: issue_charlie_3rd_2010)
+        visit issues_path
+        find("#sort-stocks_count").click
+        sleep 0.1
+      end
+      it "昇順にソートされる" do
+        expect(all(".issue-container")[0]).to have_content issue_alice_2nd_2020.title
+        expect(all(".issue-container")[1]).to have_content issue_bob_1st_2015.title
+        expect(all(".issue-container")[2]).to have_content issue_charlie_3rd_2010.title
+
+      end
     end
   end
 end

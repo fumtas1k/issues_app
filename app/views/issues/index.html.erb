@@ -3,10 +3,10 @@
 <%= render "search", q: @q, show_collapse: "show" %>
 
 <nav class="nav nav-pills flex-column flex-sm-row">
-  <%= sort_link @q, :title, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-title", no_distinct: nil %>
-  <%= sort_link @q, :user_name, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-user", no_distinct: nil %>
-  <%= sort_link @q, :favorite_count, Favorite.model_name.human, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-favorite", no_distinct: true %>
-  <%= sort_link @q, :stock_count, Stock.model_name.human, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-stock", no_distinct: true %>
+  <%= sort_link @q, :title, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-title" %>
+  <%= sort_link @q, :user_name, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-user" %>
+  <%= sort_link @q, :favorites_count, Favorite.model_name.human, class: "flex-sm-fill text-sm-center nav-link", id: "sort-favorites_count" %>
+  <%= sort_link @q, :stocks_count, Stock.model_name.human, class: "flex-sm-fill text-sm-center nav-link", id: "sort-stocks_count" %>
   <%= sort_link @q, :created_at, class: "flex-sm-fill text-sm-center nav-link", id: "sort-issue-created_at" %>
 </nav>
 
