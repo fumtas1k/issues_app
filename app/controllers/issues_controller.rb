@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
 
   def index
     @q = Issue.all.ransack(params[:q])
-    @issues = @q.result(distinct: true).joins(:user).includes(:user).includes(:tags).with_rich_text_description.recent.page(params[:page])
+    @issues = @q.result(distinct: true).joins(:user).includes(:user).includes(:tag_taggings).recent.page(params[:page])
   end
 
   def new
