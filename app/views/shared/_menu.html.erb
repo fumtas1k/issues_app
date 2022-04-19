@@ -1,13 +1,5 @@
 <div class="menu-container">
   <% if user_signed_in? %>
-    <% if current_user.mentor? %>
-      <div class="nav-item <%= activate_css(:users, :mentor)%>">
-        <%= link_to(mentor_user_path(current_user), class:"nav-link icon-container") do %>
-          <span class="material-icons">people_alt</span>
-          <span class="icon-explanation"><%= User.human_attribute_name(:mentor) %></span>
-        <% end %>
-      </div>
-    <% end %>
     <div class="nav-item <%= activate_css(:issues, :index)%>">
       <%= link_to(issues_path, class: "nav-link icon-container") do %>
         <span class="material-icons">find_in_page</span>
