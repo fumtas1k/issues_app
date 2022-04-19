@@ -2,6 +2,9 @@
 .table td.middle {
   vertical-align: middle;
 }
+.table-striped th {
+  min-width: 120px;
+}
 
 /* user-profile用 */
 .profile-container {

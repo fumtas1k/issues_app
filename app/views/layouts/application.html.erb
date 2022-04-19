@@ -40,10 +40,10 @@
                   <%= link_to t("views.users.index.title"), users_path, class:"nav-link" %>
                 </li>
               <% end %>
-              <li class="nav-item <%= activate_css(:users, :show)%>">
+              <li class="nav-item pc-view <%= activate_css(:users, :show)%>">
                 <%= link_to current_user.name, user_path(current_user), class:"nav-link" %>
               </li>
-              <li class="nav-item <%= activate_css(:notifications, :index)%>">
+              <li class="nav-item pc-view <%= activate_css(:notifications, :index)%>">
                 <%= link_to(user_notifications_path(current_user), class: "nav-link") do %>
                   <% if (unread = current_user.notifications.unreads.presence) %>
                     <span class="material-icons text-warning">notifications_active</span>
@@ -53,10 +53,10 @@
                   <% end %>
                 <% end %>
               </li>
-              <li class="nav-item <%= activate_css(:issues, :index)%>">
+              <li class="nav-item pc-view <%= activate_css(:issues, :index)%>">
                 <%= link_to t("views.issues.index.title"), issues_path, class: "nav-link" %>
               </li>
-              <li class="nav-item <%= activate_css(:issues, :new)%>">
+              <li class="nav-item pc-view <%= activate_css(:issues, :new)%>">
                 <%= link_to t("views.issues.new.title"), new_issue_path, class: "nav-link" %>
               </li>
               <li class="nav-item <%= activate_css(:sessions, :destroy)%>">
@@ -89,7 +89,7 @@
       </div>
     </main>
     <footer class="container-fluid footer">
-      <p>&copy; fumta 2022</p>
+      <%= render "shared/menu" %>
     </footer>
   </div>
   </body>
