@@ -2,31 +2,83 @@
   <div class="container">
     <h1 class="display-3">意集 (issue) </h1>
     <p>仕事をする上で、問題解決能力は重要だがそれを日々の業務をこなすだけで身につけることは難しい。社会人1年目（薬剤師）の問題解決能力向上を手助けする目的でこのアプリを作りました。 日頃の業務の中で遭遇するイシューをアウトプットし、新人同士で情報共有することで問題意識と解決能力を養います。日誌、日報とせず、イシューとすることで、問題意識を持たせることができると考えられます。 ユーザーは、薬剤師のメンターと新人薬剤師を想定しています。 イシューを投稿し、コメントすることができます。また、解決・未解決の分類があり、メンターは未解決のイシューをフォローしたり、解決の方法に問題ないかチェックできます。</p>
-    <p><%= link_to "#{t('views.btn.start')} &raquo;".html_safe, new_user_registration_path, class: "btn btn-primary btn-lg" %>
-</p>
+    <p><%= link_to "#{t('views.btn.start')} &raquo;".html_safe, new_user_registration_path, class: "btn btn-primary btn-lg" %></p>
   </div>
 </div>
 
 <div class="container">
-  <!-- Example row of columns -->
   <div class="row">
-    <div class="col-md-4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      <div class="col-md-4">
+      <h2>問題意識</h2>
+      <p>成功を祝うのはいいが、もっと大切なのは失敗から学ぶことだ: ビル・ゲイツ</p>
+      <p>新人は、毎日新たな問題、失敗、色々な壁にぶつかります。それをアウトプットすることで新たな認識、問題の本質が見える場合があります。イシューを書くとはそれが問題だと認識する事でもあります。</p>
     </div>
     <div class="col-md-4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      <h2>解決能力</h2>
+      <p>発生した問題を自ら解決していく姿勢を持て: まつもとひろゆき</p>
+      <p>人が生活する上で、普遍的に大切なもの...問題解決能力。</p>
     </div>
     <div class="col-md-4">
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      <h2>習慣化</h2>
+      <p>小さいことを積み重ねることが、とんでもないところへ行くただ１つの道: イチロー</p>
+      <p>人は問題に遭遇しても、放置しておいてそれで何とかなる場合、スルーする習慣が身に付きます。逆に、常日頃から、イシューを投稿する事でそれが習慣化し問題意識、解決能力が習慣化すると考えられます。</p>
     </div>
   </div>
-
   <hr>
-
-</div> <!-- /container -->
+</div>
+<div class="container">
+  <h1>機能説明</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>イシュー投稿機能（タグ機能含む）</h2>
+      <p>イシューを投稿できます。<strong>写真やPDF</strong>も投稿可能です。<strong>太文字、アンダーライン、大文字等</strong>の文字のデコレーションも可能です。<strong>タグ付け（イシュー投稿時に新規タグ作成可）</strong>もできます。また、イシューが<strong>解決・未解決</strong>の選択、イシューの<strong>公開範囲</strong>を指定できます。</p>
+      <ul>
+        <li>公開：新人・メンター・管理者へ公開</li>
+        <li>限定：管理者、担当メンターのみに公開</li>
+        <li>下書き：自分のみに公開</li>
+      </ul>
+      <%# <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> %>
+    </div>
+    <div class="col-md-4">
+      <h2>コメント投稿機能</h2>
+      <p>投稿されたイシューに対してコメントが可能です。イシューと同じく<strong>写真やPDFの投稿</strong>が可能です。</p>
+    </div>
+    <div class="col-md-4">
+      <h2>いいね機能</h2>
+      <p>他のユーザーのイシューに対していいねを押すことができます。メンターが確認したという意味で使うこともできます。</p>
+    </div>
+    <div class="col-md-4">
+      <h2>ストック機能</h2>
+      <p>このイシュー気になる、後で見返したい場合などにイシューをストックすることができます。ストックページで見ることが可能です。</p>
+    </div>
+    <div class="col-md-4">
+      <h2>通知機能</h2>
+      <p>新規の投稿、いいね、ストックなどを通知画面でお知らせします。</p>
+      <ul>
+        <li>新人：自分のイシューに対し、新規でコメント、いいね、ストックがされた場合に通知されます。</li>
+        <li>メンター：自分の担当する新人がイシューを投稿、あるいは、イシューが解決した場合に通知されます。</li>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h2>検索・ソート機能</h2>
+      <p>イシュー・コメント・タグでの検索が可能です。また、イシュータイトル、著者、いいね数、ストック数でソートが可能です。メンターは部員一覧画面でユーザーの検索、ソートができます。</p>
+    </div>
+    <div class="col-md-4">
+      <h2>メンター機能（グループ機能）</h2>
+      <p>メンターは部員一覧画面で他のユーザーのメンター権限の付与、削除が可能です。また、担当する新人（メンバー）のの選択も出来ます。メンター画面では、担当している新人のイシューを確認することができ、未解決イシューに簡単にアクセスが可能な仕様になっています。</p>
+    </div>
+    <div class="col-md-4">
+      <h2>メンター機能</h2>
+      <p>メンターは部員一覧画面で他のユーザーのメンター権限の付与、削除が可能です。また、担当する新人（メンバー）のの選択も出来ます。メンター画面では、担当している新人のイシューを確認することができ、未解決イシューに簡単にアクセスが可能な仕様になっています。</p>
+    </div>
+    <div class="col-md-4">
+      <h2>ユーザー権限</h2>
+      <p>新人とメンター、管理者の3つの権限があり以下のことが可能です。</p>
+      <ul>
+        <li>新人：イシューの投稿・編集・削除。コメントの投稿・編集・削除。いいね、ストックの追加・削除。他人の公開イシューの閲覧。</li>
+        <li>メンター：新人の権限に加え、担当新人の限定公開のイシューを閲覧可能。このアプリに登録されているユーザーをメンターへの切り替え可能。また、担当の追加、削除が可能。</li>
+        <li>管理者：メンターの権限に加え、全てのユーザーや投稿、コメント等の作成、追加、編集、削除可能。管理者権限の付与可能。</li>
+      </ul>
+    </div>
+  </div>
+</div>
