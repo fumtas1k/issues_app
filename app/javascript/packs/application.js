@@ -28,6 +28,6 @@ $(document).on('turbolinks:load', function() {
     contentSelector: '.jscroll',
     nextSelector: 'a.next',
     loadingHtml: '読み込み中',
-    padding: 10,
+    padding: 30,
   });
 });
