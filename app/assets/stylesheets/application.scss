@@ -123,9 +123,11 @@ footer.footer {
 .light-gray {
   background-color: #ccc;
 }
-.red {
+.blank-danger {
+  padding: 5px;
   background-color: crimson;
   color: white;
+  text-align: center;
 }
 
 /* home template */
