@@ -13,12 +13,14 @@
   <div class="comment-content-container">
     <%= comment.content %>
   </div>
-  <div class="comment-btn-container">
-    <%= link_to edit_issue_comment_path(issue, comment), class:"comment-edit-btn", remote: true do %>
-      <span class="material-icons">edit_note</span>
-    <% end %>
-    <%= link_to issue_comment_path(issue, comment), class: "comment-delete-btn", remote: true, method: :delete, data: {confirm: t("views.comments.confirm.delete")} do %>
-      <span class="material-icons">delete_forever</span>
-    <% end %>
-  </div>
+  <% if comment.user == current_user %>
+    <div class="comment-btn-container">
+      <%= link_to edit_issue_comment_path(issue, comment), class:"comment-edit-btn", remote: true do %>
+        <span class="material-icons">edit_note</span>
+      <% end %>
+      <%= link_to issue_comment_path(issue, comment), class: "comment-delete-btn", remote: true, method: :delete, data: {confirm: t("views.comments.confirm.delete")} do %>
+        <span class="material-icons">delete_forever</span>
+      <% end %>
+    </div>
+  <% end %>
 </div>

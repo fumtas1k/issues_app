@@ -221,18 +221,18 @@ RSpec.describe :issue, type: :system do
       end
     end
 
-    # 削除ボタンの表示制御機能をつけたらこのテストも消す
-    context "他人の投稿の削除ボタンを押した場合" do
-      it "削除できない" do
-        sign_in other_user
-        visit issue_path(release_issue)
-        expect{
-          page.accept_confirm {
-            click_link I18n.t("views.btn.delete"), href: issue_path(release_issue)
-          }
-          find ".alert", text: I18n.t("views.issues.flash.author_required")
-        }.not_to change {Issue.count}
-      end
-    end
+    # # 削除ボタンの表示制御機能をつけたらこのテストも消す
+    # context "他人の投稿の削除ボタンを押した場合" do
+    #   it "削除できない" do
+    #     sign_in other_user
+    #     visit issue_path(release_issue)
+    #     expect{
+    #       page.accept_confirm {
+    #         click_link I18n.t("views.btn.delete"), href: issue_path(release_issue)
+    #       }
+    #       find ".alert", text: I18n.t("views.issues.flash.author_required")
+    #     }.not_to change {Issue.count}
+    #   end
+    # end
   end
 end

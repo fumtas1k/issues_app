@@ -54,6 +54,10 @@ class User < ApplicationRecord
     Issue.where(user_id: group.members&.pluck(:id))
   end
 
+  def guest?
+    [User.guest_user, User.guest_admin_user].include?(self)
+  end
+
   private
 
   def prevent_change_admin!

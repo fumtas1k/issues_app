@@ -164,6 +164,7 @@ ja:
         title: イシュー一覧
       show:
         title: イシュー詳細
+        draft_explanation: 記載途中で保存したい場合、公開範囲を「下書き」にして保存して下さい。
       new:
         title: イシュー作成
       edit:
