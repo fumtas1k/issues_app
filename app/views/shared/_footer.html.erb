@@ -1,0 +1,42 @@
+<div class="menu-container">
+  <% if user_signed_in? %>
+    <div class="nav-item <%= activate_css(:issues, :index)%>">
+      <%= link_to(issues_path, class: "nav-link icon-container") do %>
+        <span class="material-icons">find_in_page</span>
+        <span class="icon-explanation"><%= Issue.model_name.human %></span>
+      <% end %>
+    </div>
+    <div class="nav-item <%= activate_css(:issues, :new)%>">
+      <%= link_to(new_issue_path, class: "nav-link icon-container") do %>
+        <span class="material-icons">add_box</span>
+        <span class="icon-explanation"><%= t("views.issues.new.title") %></span>
+      <% end %>
+    </div>
+    <div class="nav-item <%= activate_css(:notifications, :index)%>">
+      <%= link_to(user_notifications_path(current_user), class: "nav-link icon-container") do %>
+        <% if (unread = current_user.notifications.unreads.presence) %>
+          <div class="notification-container">
+            <span class="material-icons text-warning">notifications_active</span>
+            <small class="text-warning"><%= "#{unread.size}" %></small>
+          </div>
+        <% else %>
+          <div class="notification-container">
+            <span class="material-icons">notifications_none</span><small>0</small>
+          </div>
+        <% end %>
+        <span class="icon-explanation"><%= Notification.model_name.human %></span>
+      <% end %>
+    </div>
+    <div class="nav-item <%= activate_css(:users, :show)%>">
+      <%= link_to user_path(current_user), class:"nav-link icon-container" do %>
+        <%= image_tag prepare_avatar(current_user), class: "avatar25" %>
+        <span class="icon-explanation"><%= current_user.name %></span>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="company">&copy; fumta 2022</div>
+  <% end %>
+</div>
+<div class="pc-view">
+  <div class="company">&copy; fumta 2022</div>
+</div>
