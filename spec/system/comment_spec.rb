@@ -59,18 +59,19 @@ RSpec.describe :comment, type: :system do
       end
     end
 
-    context "投稿したユーザーとは別のユーザーが編集ボタンを押した場合" do
-      before do
-        sign_in other_user
-        visit issue_path(issue)
-        find(".comment-edit-btn").click
-      end
-      let!(:content) { "change change change" }
-      it "編集フォームは出現しない" do
-        sleep 0.1
-        expect(page).not_to have_css "#comment-form-#{comment.id}"
-      end
-    end
+  #   # ボタン非表示にしたら消す
+  #   context "投稿したユーザーとは別のユーザーが編集ボタンを押した場合" do
+  #     before do
+  #       sign_in other_user
+  #       visit issue_path(issue)
+  #       find(".comment-edit-btn").click
+  #     end
+  #     let!(:content) { "change change change" }
+  #     it "編集フォームは出現しない" do
+  #       sleep 0.1
+  #       expect(page).not_to have_css "#comment-form-#{comment.id}"
+  #     end
+  #   end
   end
 
   describe "削除機能" do
@@ -89,17 +90,18 @@ RSpec.describe :comment, type: :system do
       end
     end
 
-    context "投稿したユーザーとは別のユーザーが削除ボタンを押した場合" do
-      it "削除できない" do
-        sign_in other_user
-        visit issue_path(issue)
-        expect{
-          page.accept_confirm {
-            find(".comment-delete-btn").click
-          }
-          expect(page).to have_content comment.content.to_plain_text
-        }.not_to change {Comment.count}
-      end
-    end
+    # # ボタン非表示にしたら消す
+    # context "投稿したユーザーとは別のユーザーが削除ボタンを押した場合" do
+    #   it "削除できない" do
+    #     sign_in other_user
+    #     visit issue_path(issue)
+    #     expect{
+    #       page.accept_confirm {
+    #         find(".comment-delete-btn").click
+    #       }
+    #       expect(page).to have_content comment.content.to_plain_text
+    #     }.not_to change {Comment.count}
+    #   end
+    # end
   end
 end
