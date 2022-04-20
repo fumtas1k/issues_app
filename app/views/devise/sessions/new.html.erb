@@ -5,11 +5,11 @@
   <%= form_with(model: resource, as: resource_name, url: session_path(resource_name), class: "login-form", local: true) do |f| %>
     <div class="field">
       <%= f.label :code, class: "sr-only" %>
-      <%= f.text_field :code, autofocus: true, autocomplete: "code", class: "form-control", inputmode: "numeric", placeholder: User.human_attribute_name(:code), required: true %>
+      <%= f.text_field :code, autofocus: true, autocomplete: "code", class: "form-control check-blank", inputmode: "numeric", placeholder: User.human_attribute_name(:code), required: true %>
     </div>
     <div class="field">
     <%= f.label :password, class: "sr-only" %>
-      <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: User.human_attribute_name(:password), required: true %>
+      <%= f.password_field :password, autocomplete: "current-password", class: "form-control check-blank", placeholder: User.human_attribute_name(:password), required: true %>
     </div>
     <% if devise_mapping.rememberable? %>
       <div class="field remember-field">
@@ -18,7 +18,7 @@
       </div>
     <% end %>
     <div class="actions">
-      <%= f.submit t('.sign_in'), class: "btn btn-primary", id: "active-btn" %>
+      <%= f.submit t('.sign_in'), class: "btn btn-primary", id: "judge-active" %>
     </div>
   <% end %>
 </div>

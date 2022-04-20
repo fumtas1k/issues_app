@@ -75,21 +75,20 @@ RSpec.describe :user, type: :system do
       visit new_user_session_path
       fill_in "user_code", with: user_params[:code]
       fill_in "user_password", with: user_params[:password]
-      click_on "commit"
     end
     context "必須項目を全て入力してログインした場合" do
       let!(:user_params){attributes_for(:user)}
       it "ログインできる" do
+        click_on "commit"
         expect(current_path).to eq user_path(User.last)
         expect(page).to have_content user_params[:code]
       end
     end
 
-    context "パスワード関連を空白にしてログインした場合" do
+    context "パスワード関連を空白にしてログインしようとした場合" do
       let!(:user_params){attributes_for(:user, password: "")}
-      it "ログインページから移動できない" do
-        expect(current_path).to eq new_user_session_path
-        expect(page).to have_content I18n.t("devise.sessions.new.sign_in")
+      it "ログインボタンを押せない" do
+        expect(page).to have_button "commit", disabled: true
       end
     end
   end

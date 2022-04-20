@@ -16,7 +16,6 @@ RSpec.describe :issue, type: :system do
       fill_in_rich_text_area "issue_description", with: issue_params[:description]
       fill_in("vue-tag-input", with: issue_params[:tag_list], visible: false).send_keys :return
       file_attach
-      click_on I18n.t("helpers.submit.create")
     end
 
     context "必要事項を入力した場合" do
@@ -27,6 +26,7 @@ RSpec.describe :issue, type: :system do
         end
       }
       it "保存されて、詳細ページが表示される" do
+        click_on I18n.t("helpers.submit.create")
         expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content issue_params[:title]
       end
@@ -36,6 +36,7 @@ RSpec.describe :issue, type: :system do
       let(:issue_params) { attributes_for(:issue, :solving) }
       let(:file_attach) { "" }
       it "詳細ページに飛び、選択したstatusが表示される" do
+        click_on I18n.t("helpers.submit.create")
         expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content issue_params[:title]
         expect(page).to have_content Issue.human_enum_status(issue_params[:status])
@@ -46,6 +47,7 @@ RSpec.describe :issue, type: :system do
       let(:issue_params) { attributes_for(:issue, :limited) }
       let(:file_attach) { "" }
       it "詳細ページに飛び、選択したscopeが表示される" do
+        click_on I18n.t("helpers.submit.create")
         expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content issue_params[:title]
         expect(page).to have_content Issue.human_enum_scope(issue_params[:scope])
@@ -59,10 +61,8 @@ RSpec.describe :issue, type: :system do
           page.find(".trix-button--icon-attach").click
         end
       }
-      it "投稿画面に戻りエラーメッセージが表示される" do
-        expect(Issue.count).to eq 0
-        expect(page).to have_content I18n.t("errors.messages.empty")
-        expect(page).to have_content I18n.t("views.issues.new.title")
+      it "投稿ボタンが押せない" do
+        expect(page).to have_button "commit", disabled: true
       end
     end
 
@@ -70,6 +70,7 @@ RSpec.describe :issue, type: :system do
       let(:issue_params) { attributes_for(:issue, description: "") }
       let(:file_attach) { "" }
       it "投稿画面に戻りエラーメッセージが表示される" do
+        click_on I18n.t("helpers.submit.create")
         expect(Issue.count).to eq 0
         expect(page).to have_content I18n.t("errors.messages.empty")
         expect(page).to have_content I18n.t("views.issues.new.title")

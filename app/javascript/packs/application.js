@@ -17,17 +17,43 @@ import "./tags";
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-// ヒストリーバック時にリロードする設定(新着をクリックして戻った時用)
-// おそらく推奨されないため、場合によっては削除する
-window.addEventListener('pageshow',()=>{
-  if(window.performance.navigation.type==2) location.reload();
-});
 
 $(document).on('turbolinks:load', function() {
+
+  // 無限スクロール設定
   $('.jscroll').jscroll({
     contentSelector: '.jscroll',
     nextSelector: 'a.next',
     loadingHtml: '読み込み中',
     padding: 30,
+  });
+});
+
+// 空欄を検知しボタンをdisabledにする設定
+$(document).on('turbolinks:load', function() {
+    // checkClassに空欄があるかどうか確認する。
+  function checkBlank(checkClass){
+    let flag = false;
+    $(checkClass).each(function(index, element){
+      if ($(element).val() == ""){
+        flag = true;
+       }
+    });
+    return flag;
+  }
+
+  // targetIdのボタンを非活性化するか活性化するか判定
+  function setBtnState(targetId, checkClass){
+    if(checkBlank(checkClass)){
+      $(targetId).prop("disabled", true);
+    }else{
+      $(targetId).prop("disabled", false);
+    }
+  }
+
+  // 実行処理
+  setBtnState("#judge-active", ".check-blank");
+  $(".check-blank").on("keyup", function(){
+    setBtnState("#judge-active", ".check-blank");
   });
 });
