@@ -5,9 +5,11 @@
   <div class="profile-description">
     <div class="profile-name">
       <h2><%= user.name %></h2>
-      <div class="user-edit-btn-container">
-        <%= link_to t("views.btn.edit"), edit_user_registration_path, class: "user-edit-btn" %>
-      </div>
+      <% unless current_user.guest? %>
+        <div class="user-edit-btn-container">
+          <%= link_to t("views.btn.edit"), edit_user_registration_path, class: "user-edit-btn" %>
+        </div>
+      <% end %>
     </div>
     <div class="grid-auto-150">
       <span><%= User.human_attribute_name(:code) %>: <%= user.code %></span>
