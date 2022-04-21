@@ -269,4 +269,35 @@ RSpec.describe :notification, type: :system do
     end
   end
 
+  describe "通知の削除機能" do
+    let!(:issue) { create(:issue, user: user) }
+    let!(:other_issue) { create(:issue, user: other_user) }
+    let(:comment_params) { attributes_for(:comment) }
+    before do
+      sign_in other_user
+      visit issue_path(issue)
+      click_on "bookmark_border"
+      click_on "favorite_border"
+      fill_in_rich_text_area "comment_content", with: comment_params[:content]
+      click_on I18n.t("helpers.submit.create")
+      click_on I18n.t("devise.sessions.new.sign_out")
+
+      sign_in user
+      visit issue_path(other_issue)
+      click_on "bookmark_border"
+      visit user_notifications_path(user)
+    end
+
+    context "全削除ボタンを押した場合" do
+      it "自分に対する通知のみ全て削除される" do
+        expect {
+          page.accept_confirm {
+            click_on I18n.t("views.notifications.index.delete_all")
+          }
+          find ".alert", text: I18n.t("views.notifications.flash.delete_all")
+          expect(Notification.count).to eq 1
+        }.to change {user.notifications.count}.from(3).to(0)
+      end
+    end
+  end
 end

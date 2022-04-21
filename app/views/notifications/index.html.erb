@@ -6,7 +6,7 @@
 </div>
 <div class="btn2-container">
   <%= link_to t("views.notifications.index.read_all"), read_all_user_notifications_path, method: :patch, class: "btn btn-warning read-all" %>
-  <%= link_to t("views.notifications.index.destroy_all"), destroy_all_user_notifications_path, method: :delete, class: "btn btn-danger destroy-all", data: {confirm: t("views.notifications.confirm.delete_all")} %>
+  <%= link_to t("views.notifications.index.delete_all"), destroy_all_user_notifications_path, method: :delete, class: "btn btn-danger destroy-all", data: {confirm: t("views.notifications.confirm.delete_all")} %>
 </div>
 <%= render @notifications, user: @user %>
 

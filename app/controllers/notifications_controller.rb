@@ -23,7 +23,10 @@ class NotificationsController < ApplicationController
   def destroy_all
     user = User.find(params[:user_id])
     @notifications = user.notifications
-    @notifications.destroy_all
+    if @notifications.present?
+      @notifications.destroy_all
+      flash[:danger] = I18n.t("views.notifications.flash.delete_all")
+    end
     redirect_to user_notifications_path(user)
   end
 
