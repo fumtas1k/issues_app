@@ -20,6 +20,16 @@ class NotificationsController < ApplicationController
     redirect_to user_notifications_path(user)
   end
 
+  def destroy_all
+    user = User.find(params[:user_id])
+    @notifications = user.notifications
+    if @notifications.present?
+      @notifications.destroy_all
+      flash[:danger] = I18n.t("views.notifications.flash.delete_all")
+    end
+    redirect_to user_notifications_path(user)
+  end
+
   private
 
   def ensure_correct_user
