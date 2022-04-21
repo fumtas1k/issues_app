@@ -6,9 +6,7 @@ class User < ApplicationRecord
   before_destroy :prevent_destroy_admin!
   after_save_commit :group_create_or_destroy_depend_on_mentor
 
-  has_one_attached :avatar do |attachable|
-    attachable.variant
-  end
+  has_one_attached :avatar
   has_one :group, dependent: :destroy
   has_many :groupings, dependent: :destroy
   has_many :join_groups, through: :groupings, source: :group
@@ -93,16 +91,14 @@ class User < ApplicationRecord
   end
 
   def validate_avatar_attachment_byte_size
-    if (attachment = avatar.attachment)
-      if attachment.byte_size > MAX_AVATAR_ATTACHMENT_BYTE_SIZE
-        errors.add(
-          :base,
-          :avatar_attachment_byte_size_is_too_large,
-          max_avatar_attachment_mega_byte_size: MAX_MEGA_BYTES,
-          bytes: attachment.byte_size,
-          max_bytes: MAX_AVATAR_ATTACHMENT_BYTE_SIZE,
-        )
-      end
+    if (attachment = avatar.attachment) && attachment.byte_size > MAX_AVATAR_ATTACHMENT_BYTE_SIZE
+      errors.add(
+        :base,
+        :avatar_attachment_byte_size_is_too_large,
+        max_avatar_attachment_mega_byte_size: MAX_MEGA_BYTES,
+        bytes: attachment.byte_size,
+        max_bytes: MAX_AVATAR_ATTACHMENT_BYTE_SIZE
+      )
     end
   end
 end
