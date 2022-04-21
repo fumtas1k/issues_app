@@ -7,6 +7,7 @@ class Stock < ApplicationRecord
 
   # 通知を生成するメソッド(メソッド名共通)
   def notify
+    return if user = issue.user
     create_notification do |note|
       note.user = issue.user
       note.message = Stock.human_attribute_name(:notify_message, issue: issue.title, user: user.name)
