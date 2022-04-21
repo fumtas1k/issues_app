@@ -19,6 +19,7 @@ RSpec.describe :notification, type: :system do
         click_on I18n.t("helpers.submit.create")
       end
       it "通知は作成されない" do
+        sleep 0.1
         expect(Notification.count).to eq 0
       end
     end
