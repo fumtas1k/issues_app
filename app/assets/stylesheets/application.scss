@@ -217,6 +217,14 @@ a:hover {
 .unread {
   background-color: rgba(243, 243, 243, 0.75);
 }
+#unread-count {
+  font-size: 20px;
+  padding-bottom: 5px;
+  span {
+    display: inline-block;
+    padding: 0 5px;
+  }
+}
 
 /* pagination 非表示にする設定 */
 nav .hidden {

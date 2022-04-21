@@ -1,7 +1,9 @@
 <% provide(:title, t("views.notifications.index.title")) %>
 
 <h1><%= t("views.notifications.index.title") %></h1>
-<div id="unread-count"><%= "#{Notification.human_attribute_name(:unread)}: #{@user.notifications.unreads.size}" %></div>
+<div id="unread-count">
+  <span class="pink-line"><%= "#{Notification.human_attribute_name(:unread)}: #{@user.notifications.unreads.size}" %></span>
+</div>
 <div class="btn2-container">
   <%= link_to t("views.notifications.index.read_all"), read_all_user_notifications_path, method: :patch, class: "btn btn-warning read-all" %>
   <%= link_to t("views.notifications.index.destroy_all"), destroy_all_user_notifications_path, method: :delete, class: "btn btn-danger destroy-all", data: {confirm: t("views.notifications.confirm.delete_all")} %>
