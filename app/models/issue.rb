@@ -1,6 +1,7 @@
 class Issue < ApplicationRecord
   include SqlHelper
   extend GetEnumMethod
+  extend ActionTextValidate
 
   def_human_enum_ :status, :scope
 
@@ -14,6 +15,7 @@ class Issue < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :comment_users, through: :comments, source: :user
   has_many :notifications, as: :subject, dependent: :destroy
+  acts_as_taggable_on :tags
 
   validates :title, presence: true, length: {maximum: 30}
   validates :description, presence: true
@@ -21,8 +23,10 @@ class Issue < ApplicationRecord
   enum status: %i[pending solving]
   validates :scope, presence: true
   enum scope: %i[release limited draft] # publicは使用できないためreleaseとした
+  validate :validate_description_attachment_byte_size
 
-  acts_as_taggable_on :tags
+  MAX_MEGA_BYTES = 5
+  create_validate_attachment :description, MAX_MEGA_BYTES
 
   # scopeとmentorによりアクセス可能かを判定するメソッド
   def accessible?(login_user)

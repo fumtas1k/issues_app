@@ -1,5 +1,6 @@
 class Comment < ApplicationRecord
   include SqlHelper
+  extend ActionTextValidate
 
   belongs_to :user
   belongs_to :issue
@@ -8,6 +9,10 @@ class Comment < ApplicationRecord
   has_one :notification, as: :subject, dependent: :destroy
 
   validates :content, presence: true
+  validate :validate_content_attachment_byte_size
+
+  MAX_MEGA_BYTES = 5
+  create_validate_attachment :content, MAX_MEGA_BYTES
 
   # 通知を生成するメソッド(メソッド名共通)
   def notify

@@ -9,6 +9,19 @@ ja:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
         prevent_loss_of_admin: 管理者権限を持つアカウントが0件になるため更新できません
+      models:
+        user:
+          attributes:
+            base:
+              avatar_attachment_byte_size_is_too_large: 画像サイズは%{max_avatar_attachment_mega_byte_size}MB以下にして下さい[%{bytes}/%{max_bytes}]
+        issue:
+          attributes:
+            base:
+              attachment_byte_size_is_too_large: "添付ファイルは、%{max_attachment_mega_byte_size}MB以下にして下さい[%{filename}: %{bytes}/%{max_bytes}]"
+        comment:
+          attributes:
+            base:
+              attachment_byte_size_is_too_large: "添付ファイルは、%{max_attachment_mega_byte_size}MB以下にして下さい[%{filename}: %{bytes}/%{max_bytes}]"
     models:
       user: ユーザー
       group: グループ
@@ -140,8 +153,8 @@ ja:
         recent_issue: 最新イシュー
       edit_avatar:
         title: プロフィール写真変更
-        delete-avatar-caution: ファイル選択なく更新ボタンを押すと元々の写真が削除されます。
-        confirm: ファイル選択なく更新ボタンを押すと元々の写真が削除されます。よろしいですか？
+        delete-avatar-caution: ファイル選択なく更新ボタンを押すと元の写真が削除されます。
+        confirm: ファイル選択なく更新ボタンを押すと元の写真が削除されます。よろしいですか？
       show:
         title: マイページ
       stocked:

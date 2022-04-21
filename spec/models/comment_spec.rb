@@ -20,4 +20,19 @@ RSpec.describe Comment, type: :model do
       end
     end
   end
+
+  context "内容の添付ファイルが5MB以下の場合" do
+    pending "ファイルの添付方法不明のため保留"
+    # it "バリデーションが通る" do
+    #   comment.description = fixture_file_upload("/images/sample.jpg")
+    #   expect(comment).to be_valid
+    # end
+  end
+
+  context "内容の添付ファイルが5MBを超える場合" do
+    pending "ファイルの添付方法不明のため保留"
+    # before {comment.description.body = fixture_file_upload("/images/nature6.5MB.jpg")}
+    # it_behaves_like "バリデーションに引っかかる"
+  end
+
 end
