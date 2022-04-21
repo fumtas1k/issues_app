@@ -20,6 +20,13 @@ class NotificationsController < ApplicationController
     redirect_to user_notifications_path(user)
   end
 
+  def destroy_all
+    user = User.find(params[:user_id])
+    @notifications = user.notifications
+    @notifications.destroy_all
+    redirect_to user_notifications_path(user)
+  end
+
   private
 
   def ensure_correct_user

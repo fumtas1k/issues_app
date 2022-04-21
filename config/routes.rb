@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :notifications, only: %i[index update] do
         collection do
           patch :read_all
+          delete :destroy_all
         end
       end
     end

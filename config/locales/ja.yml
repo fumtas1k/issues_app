@@ -191,9 +191,12 @@ ja:
       tag-placeholder: 新規タグ追加
       placeholder: タグの検索or追加
     notifications:
+      confirm:
+        delete_all: 本当に全削除しますか？
       index:
         title: 新着
         read_all: 全既読
+        destroy_all: 全削除
   date:
     abbr_day_names:
     - 日
