@@ -37,5 +37,19 @@ RSpec.describe Issue, type: :model do
       before {issue.status = ""}
       it_behaves_like "バリデーションに引っかかる"
     end
+
+    context "詳細の添付ファイルが5MB以下の場合" do
+      pending "ファイルの添付方法不明のため保留"
+      # it "バリデーションが通る" do
+      #   issue.description = fixture_file_upload("/images/sample.jpg")
+      #   expect(issue).to be_valid
+      # end
+    end
+
+    context "詳細の添付ファイルが5MBを超える場合" do
+      pending "ファイルの添付方法不明のため保留"
+      # before {issue.description.body = fixture_file_upload("/images/nature6.5MB.jpg")}
+      # it_behaves_like "バリデーションに引っかかる"
+    end
   end
 end

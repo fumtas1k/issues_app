@@ -76,6 +76,22 @@ RSpec.describe :issue, type: :system do
         expect(page).to have_content I18n.t("views.issues.new.title")
       end
     end
+    context "詳細の添付がいるが5MBを超えた場合" do
+      let(:issue_params) { attributes_for(:issue) }
+      let(:file_attach) {
+        page.attach_file("#{Rails.root}/spec/fixtures/images/nature6.5MB.jpg") do
+          page.find(".trix-button--icon-attach").click
+        end
+      }
+      it "投稿画面に戻りエラーメッセージが表示される" do
+        sleep 0.4
+        click_on I18n.t("helpers.submit.create")
+        expect(Issue.count).to eq 0
+        expect(page).to have_css ".alert-danger"
+        expect(page).to have_content "6513431"
+        expect(page).to have_content I18n.t("views.issues.new.title")
+      end
+    end
   end
 
   describe "一覧表示機能" do
@@ -221,18 +237,13 @@ RSpec.describe :issue, type: :system do
       end
     end
 
-    # # 削除ボタンの表示制御機能をつけたらこのテストも消す
-    # context "他人の投稿の削除ボタンを押した場合" do
-    #   it "削除できない" do
-    #     sign_in other_user
-    #     visit issue_path(release_issue)
-    #     expect{
-    #       page.accept_confirm {
-    #         click_link I18n.t("views.btn.delete"), href: issue_path(release_issue)
-    #       }
-    #       find ".alert", text: I18n.t("views.issues.flash.author_required")
-    #     }.not_to change {Issue.count}
-    #   end
-    # end
+    # 削除ボタンの表示制御機能をつけたらこのテストも消す
+    context "他人の投稿の削除ボタンを押そうとした場合" do
+      it "ボタンが見当たらず削除できない" do
+        sign_in other_user
+        visit issue_path(release_issue)
+        expect(page).not_to have_content "views.btn.delete"
+      end
+    end
   end
 end

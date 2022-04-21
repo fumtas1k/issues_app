@@ -31,8 +31,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     elsif params[:avatar]
       @user = User.find(params[:user_id])
-      @user.update_attribute(:avatar, params.dig(:user, :avatar))
-      redirect_to edit_user_registration_path(@user)
+      if @user.update(avatar: params.dig(:user, :avatar))
+        redirect_to edit_user_registration_path(@user)
+      else
+        render "users/edit_avatar"
+      end
     else
       super
     end

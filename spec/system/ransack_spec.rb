@@ -319,7 +319,7 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         find("#sort-user-role").click
-        sleep 0.1
+        sleep 0.2
       end
       it "メンターが最下部にくる" do
         expect(all("tbody tr").last).to have_content alice_2_2020_mentor.name

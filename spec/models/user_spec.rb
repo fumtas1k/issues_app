@@ -69,6 +69,18 @@ RSpec.describe User, type: :model do
       before {user.password = "passw"}
       it_behaves_like "バリデーションに引っかかる"
     end
+
+    context "avatarのファイルサイズが2MB以下の場合" do
+      it "バリデーションが通る" do
+        user.avatar = fixture_file_upload("/images/avatar.jpg")
+        expect(user).to be_valid
+      end
+    end
+
+    context "avatarのファイルサイズが2MBを超えている場合" do
+      before {user.avatar = fixture_file_upload("/images/birds2.2MB.jpg")}
+      it_behaves_like "バリデーションに引っかかる"
+    end
   end
 
   describe "最初のユーザーを管理者にするコールバックのテスト" do

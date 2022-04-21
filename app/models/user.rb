@@ -28,6 +28,10 @@ class User < ApplicationRecord
   attribute :mentor, :boolean, default: false
   validates :entered_at, presence: true
   attribute :admin, :boolean, default: false
+  validate :validate_avatar_attachment_byte_size
+
+  MAX_MEGA_BYTES = 2
+  MAX_AVATAR_ATTACHMENT_BYTE_SIZE = MAX_MEGA_BYTES * (1_024 ** 2)
 
   def self.guest_admin_user
     find_or_create_by!(code: "_admin") do |user|
@@ -84,5 +88,17 @@ class User < ApplicationRecord
   def group_create_or_destroy_depend_on_mentor
     return group&.destroy unless mentor
     create_group! if group.nil?
+  end
+
+  def validate_avatar_attachment_byte_size
+    if (attachment = avatar.attachment) && attachment.byte_size > MAX_AVATAR_ATTACHMENT_BYTE_SIZE
+      errors.add(
+        :base,
+        :avatar_attachment_byte_size_is_too_large,
+        max_avatar_attachment_mega_byte_size: MAX_MEGA_BYTES,
+        bytes: attachment.byte_size,
+        max_bytes: MAX_AVATAR_ATTACHMENT_BYTE_SIZE
+      )
+    end
   end
 end
