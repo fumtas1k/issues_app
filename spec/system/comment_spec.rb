@@ -36,6 +36,20 @@ RSpec.describe :comment, type: :system do
         expect(page).to have_content I18n.t("errors.messages.blank")
       end
     end
+    context "詳細の添付がいるが5MBを超えた場合" do
+      let(:comment_params) { attributes_for(:comment) }
+      let(:file_attach) {
+        page.attach_file("#{Rails.root}/spec/fixtures/images/nature6.5MB.jpg") do
+          page.find(".trix-button--icon-attach").click
+        end
+      }
+      it "エラーメッセージが表示され投稿されない" do
+        sleep 0.3
+        expect(Comment.count).to eq 0
+        expect(page).to have_css ".alert-danger"
+        expect(page).to have_content "6513431"
+      end
+    end
   end
 
   describe "編集・更新機能" do
@@ -59,19 +73,13 @@ RSpec.describe :comment, type: :system do
       end
     end
 
-  #   # ボタン非表示にしたら消す
-  #   context "投稿したユーザーとは別のユーザーが編集ボタンを押した場合" do
-  #     before do
-  #       sign_in other_user
-  #       visit issue_path(issue)
-  #       find(".comment-edit-btn").click
-  #     end
-  #     let!(:content) { "change change change" }
-  #     it "編集フォームは出現しない" do
-  #       sleep 0.1
-  #       expect(page).not_to have_css "#comment-form-#{comment.id}"
-  #     end
-  #   end
+    context "投稿したユーザーとは別のユーザーが編集ボタンを押そうとした場合" do
+      it "ボタンは表示されておらず押せない" do
+        sign_in other_user
+        visit issue_path(issue)
+        expect(page).not_to have_css ".comment-edit-btn"
+      end
+    end
   end
 
   describe "削除機能" do
@@ -90,18 +98,12 @@ RSpec.describe :comment, type: :system do
       end
     end
 
-    # # ボタン非表示にしたら消す
-    # context "投稿したユーザーとは別のユーザーが削除ボタンを押した場合" do
-    #   it "削除できない" do
-    #     sign_in other_user
-    #     visit issue_path(issue)
-    #     expect{
-    #       page.accept_confirm {
-    #         find(".comment-delete-btn").click
-    #       }
-    #       expect(page).to have_content comment.content.to_plain_text
-    #     }.not_to change {Comment.count}
-    #   end
-    # end
+    context "投稿したユーザーとは別のユーザーが削除ボタンを押そうとした場合" do
+      it "ボタンが見当たらず削除できない" do
+        sign_in other_user
+        visit issue_path(issue)
+        expect(page).not_to have_css ".comment-delete-btn"
+      end
+    end
   end
 end
