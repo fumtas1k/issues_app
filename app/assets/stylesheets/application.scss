@@ -122,12 +122,15 @@ a:hover {
 }
 
 /* 色 */
-.light-green {
+.lightgreen {
   background-color: #41b883;
   color: #fff;
 }
-.light-gray {
-  background-color: #ccc;
+.lightpurple {
+  background-color: #aca8ff;
+}
+.orange {
+  background-color: #ffc4a4;
 }
 .blank-danger {
   padding: 5px;
@@ -212,6 +215,10 @@ a:hover {
   color: inherit;
   &:hover {
     text-decoration: none;
+    color: inherit;
+  }
+  .default-container:hover {
+    box-shadow: 2px 2px 5px #000;
   }
 }
 .unread {
