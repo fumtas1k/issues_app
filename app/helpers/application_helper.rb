@@ -39,7 +39,7 @@ module ApplicationHelper
 
   # 自分がメンターを止める場合に警告
   def role_confirm(user)
-    if user.mentor && user == current_user
+    if user.mentor
       {confirm: I18n.t("views.users.confirm.mentor")}
     end
   end

@@ -144,7 +144,7 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         find("#sort-issue-title").click
-        sleep 0.1
+        sleep 0.2
       end
       it "タイトルの昇順でソートされる" do
         expect(all(".issue-container")[0]).to have_content issue_bob_1st_2015.title
