@@ -279,7 +279,9 @@ RSpec.describe :user, type: :system do
         sign_in mentor
         visit users_path
         expect{
-          find("#btn-role-#{user.id}").click
+          page.accept_confirm {
+            find("#btn-role-#{user.id}").click
+          }
           sleep 0.1
           user.reload
         }.to change{user.mentor}.to(false)
