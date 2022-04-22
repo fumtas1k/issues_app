@@ -106,7 +106,7 @@ module ApplicationHelper
     (object.updated_at - object.created_at).round != 0
   end
 
-  def set_title(add_title=nil)
+  def title_bar(add_title=nil)
     default_title = "issues"
     title = ""
     title << "#{add_title} | " if add_title.present?
