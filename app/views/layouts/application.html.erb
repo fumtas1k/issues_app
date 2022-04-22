@@ -22,20 +22,20 @@
 
   <body>
     <div class="all-container" id="vanta-background">
-    <header>
-      <%= render "shared/header" %>
-    </header>
-    <main>
-      <% flash.each do |key, message| %>
-        <%= content_tag :div, message, class: "alert alert-#{translate_css(key)}" %>
-      <% end %>
-      <div class="container">
-        <%= yield %>
-      </div>
-    </main>
-    <footer class="container-fluid footer">
-      <%= render "shared/footer" %>
-    </footer>
-  </div>
+      <header>
+        <%= render "shared/header" %>
+      </header>
+      <main>
+        <% flash.each do |key, message| %>
+          <%= content_tag :div, message, class: "alert alert-#{translate_css(key)}" %>
+        <% end %>
+        <div class="container">
+          <%= yield %>
+        </div>
+      </main>
+      <footer class="container-fluid footer">
+        <%= render "shared/footer" %>
+      </footer>
+    </div>
   </body>
 </html>
