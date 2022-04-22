@@ -1,5 +1,5 @@
 <% if user.mentor? %>
   <% user.group&.members&.each do |member| %>
-    <%= content_tag(:span, member.name, class:"tag light-gray") %>
+    <%= content_tag(:span, member.name, class:"tag lightpurple") %>
   <% end %>
 <% end %>

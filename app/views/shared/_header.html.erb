@@ -7,7 +7,7 @@
     <ul class="navbar-nav">
       <% if user_signed_in? %>
         <% if current_user&.admin? %>
-          <li class="nav-item <%= activate_css(:users, :index)%>">
+          <li class="nav-item">
             <%= link_to t("admin.actions.dashboard.title"), rails_admin_path, class:"nav-link" %>
           </li>
         <% end %>

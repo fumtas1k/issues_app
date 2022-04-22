@@ -22,7 +22,7 @@
           <%= t "views.users.profile.recent_issue"%>(<%= time_ago_in_words recent_issue.created_at %>): <%= link_to recent_issue.title, issue_path(recent_issue) %>(<%= Issue.human_enum_status(recent_issue.status) %>)
         </p>
         <% member_issues.includes(:tags).tags_on(:tags).most_used(5).pluck(:name).each do |tag_name| %>
-          <%= link_to tag_name, redirect_to_current_path(q:{user_id_eq: group_member.id, tags_name_eq: tag_name}), class: "tag light-green" %>
+          <%= link_to tag_name, redirect_to_current_path(q:{user_id_eq: group_member.id, tags_name_eq: tag_name}), class: "tag lightgreen" %>
         <% end %>
       <% else %>
         <h4 class="blank-danger"><%= t("views.blank") %></h4>
