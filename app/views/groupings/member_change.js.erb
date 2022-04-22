@@ -1,2 +1,3 @@
 $("#group-member-<%= @user.id %>").html("<%= j(render 'groupings/member_btn', {user: @user}) %>");
-$("#mentor-<%= @user.id %>").html("<%= j(render 'groupings/mentor', {user: @user}) %>");
+$("#mentors-<%= @user.id %>").html("<%= j(render 'groupings/mentors', {user: @user}) %>");
+$("#members-<%= current_user.id %>").html("<%= j(render 'groupings/members', {user: current_user}) %>");
