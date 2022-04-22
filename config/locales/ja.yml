@@ -38,6 +38,7 @@ ja:
         avatar: 写真
         mentor: メンター
         staff: 部員
+        group_members: 担当メンバー
         entered_at: 入職年
         admin: 管理者
         confirmation_sent_at: パスワード確認送信時刻
@@ -139,11 +140,11 @@ ja:
       comment: コメント投稿
       top: トップ
     home:
-      confirm:
-        mentor: 本当にメンターをやめますか?
       index:
         title: ホーム
     users:
+      confirm:
+        mentor: 担当メンバーの設定も削除されます。本当によろしいですか?
       index:
         title: 部員一覧
       profile:

@@ -13,8 +13,8 @@
         <th><%= sort_link(@q, :code, class: "sort-link", id: "sort-user-code") %></th>
         <th><%= sort_link(@q, :mentor, t("views.users.role"), class: "sort-link", id: "sort-user-role") %></th>
         <th><%= User.human_attribute_name(:mentor) %></th>
+        <th><%= User.human_attribute_name(:group_members) %></th>
         <th><%= sort_link(@q, :entered_at, class: "sort-link", id: "sort-user-entered_at") %></th>
-        <th><%= User.human_attribute_name(:created_at) %></th>
       </tr>
     </thead>
     <tbody>
@@ -30,10 +30,12 @@
             <div id=<%= "role-mentor-#{user.id}"%>><%= render "role_btn", user: user %></div>
           </td>
           <td class="middle">
-            <div id=<%= "mentor-#{user.id}"%>><%= render "groupings/mentor", user: user %></div>
+            <div id=<%= "mentors-#{user.id}"%>><%= render "groupings/mentors", user: user %></div>
+          </td>
+          <td class="middle">
+            <div id=<%= "members-#{user.id}"%>><%= render "groupings/members", user: user %></div>
           </td>
           <td class="middle"><%= l(user.entered_at) %></td>
-          <td class="middle"><%= l(user.created_at, format: :medium) %></td>
         </tr>
       <% end %>
     </tbody>

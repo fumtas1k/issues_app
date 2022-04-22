@@ -1,1 +1,2 @@
 $("#role-mentor-<%= @user.id %>").html("<%= j(render 'users/role_btn', {user: @user}) %>");
+$("#members-<%= @user.id %>").html("<%= j(render 'groupings/members', {user: @user}) %>");
