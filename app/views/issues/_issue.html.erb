@@ -21,7 +21,7 @@
     <div class="issue-abst-footer">
       <div class="issue-tag-container">
         <% issue.tags.pluck(:name).each do |tag_name| %>
-          <%= link_to tag_name, redirect_to_current_path(q:{tags_name_eq: tag_name}), class: "tag light-green" %>
+          <%= link_to tag_name, redirect_to_current_path(q:{tags_name_eq: tag_name}), class: "tag lightgreen" %>
         <% end %>
       </div>
       <div class="issue-btn-container flex">

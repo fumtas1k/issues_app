@@ -22,7 +22,7 @@
       <p>
         <%= User.human_attribute_name(:mentor) %>:
         <% user.join_groups&.each do |group| %>
-          <span class="tag light-gray"><%= group.user.name %></span>
+          <span class="tag orange"><%= group.user.name %></span>
         <% end %>
       </p>
     <% end %>
