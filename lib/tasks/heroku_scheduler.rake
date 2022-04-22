@@ -7,8 +7,7 @@ namespace :heroku_scheduler do
   end
 
   task purge_unattached: :environment do
-    ActiveStorage::Blob.unattached.where("active_storage_blobs.created_at <= ?", 1.day.ago)
-    .find_each(&:purge)
+    ActiveStorage::Blob.unattached.where("active_storage_blobs.created_at <= ?", 1.day.ago).find_each(&:purge)
   end
 
   task delete_notification: :environment do
