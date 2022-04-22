@@ -105,4 +105,11 @@ module ApplicationHelper
   def edited?(object)
     (object.updated_at - object.created_at).round != 0
   end
+
+  def set_title(add_title=nil)
+    default_title = "issues"
+    title = ""
+    title << "#{add_title} | " if add_title.present?
+    title << default_title
+  end
 end
