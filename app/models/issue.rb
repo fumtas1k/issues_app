@@ -3,6 +3,9 @@ class Issue < ApplicationRecord
   extend GetEnumMethod
   extend ActionTextValidate
 
+  before_update :notify
+  after_create_commit :notify
+
   def_human_enum_ :status, :scope
 
   belongs_to :user
@@ -36,20 +39,20 @@ class Issue < ApplicationRecord
   end
 
   # 通知を生成するメソッド(メソッド名共通)
-  def notify(before_status=nil)
-    if scope != "draft" && (groups = user.join_groups.presence)
-      notify_message =
-        if before_status.nil?
-          Issue.human_attribute_name(:notify_message, issue: title, user: user.name)
-        elsif [before_status, status] == %w[pending solving]
-          Issue.human_attribute_name(:solving_notify_message, issue: title, user: user.name)
-        end
-      groups.map do |group|
-        notifications.create do |note|
-          note.user = group.user
-          note.message = notify_message
-          note.link_path = Rails.application.routes.url_helpers.issue_path(self)
-        end
+  def notify
+    groups = user.join_groups
+    return if scope == "draft" || groups.blank?
+    notify_message =
+      if status_change.nil? || scope_change&.dig(0) == "draft"
+        Issue.human_attribute_name(:notify_message, issue: title, user: user.name)
+      elsif status_change == %w[pending solving]
+        Issue.human_attribute_name(:solving_notify_message, issue: title, user: user.name)
+      end
+    groups.map do |group|
+      notifications.create do |note|
+        note.user = group.user
+        note.message = notify_message
+        note.link_path = Rails.application.routes.url_helpers.issue_path(self)
       end
     end
   end

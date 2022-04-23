@@ -16,11 +16,12 @@ RSpec.describe :notification, type: :system do
         sign_in user
         visit issue_path(issue)
         fill_in_rich_text_area "comment_content", with: comment_content
-        click_on I18n.t("helpers.submit.create")
       end
       it "通知は作成されない" do
-        sleep 0.1
-        expect(Notification.count).to eq 0
+        expect{
+          click_on I18n.t("helpers.submit.create")
+          sleep 0.1
+        }.not_to change(Notification, :count)
       end
     end
 
@@ -238,7 +239,7 @@ RSpec.describe :notification, type: :system do
       it "その通知のみ既読になる" do
         visit user_notifications_path(user)
         expect(all(".unread").count).to eq 2
-        expect(Notification.unreads.count).to eq 3
+        expect(Notification.unreads.count).to eq 4
       end
     end
 
@@ -253,7 +254,7 @@ RSpec.describe :notification, type: :system do
         expect(current_path).to eq issue_path(issue)
       end
       it "既読数は変化しない" do
-        expect(Notification.unreads.count).to eq 3
+        expect(Notification.unreads.count).to eq 4
       end
     end
 
@@ -265,13 +266,13 @@ RSpec.describe :notification, type: :system do
         expect(user.notifications.unreads.count).to eq 0
       end
       it "他人の通知は既読にならない" do
-        expect(Notification.unreads.count).to eq 1
+        expect(Notification.unreads.count).to eq 2
       end
     end
   end
 
   describe "通知の削除機能" do
-    let!(:issue) { create(:issue, user: user) }
+    let!(:issue) { create(:issue, user: user) } # mentorに1つ通知作成
     let!(:other_issue) { create(:issue, user: other_user) }
     let(:comment_params) { attributes_for(:comment) }
     before do
@@ -296,7 +297,7 @@ RSpec.describe :notification, type: :system do
             click_on I18n.t("views.notifications.index.delete_all")
           }
           find ".alert", text: I18n.t("views.notifications.flash.delete_all")
-          expect(Notification.count).to eq 1
+          expect(Notification.count).to eq 2
         }.to change {user.notifications.count}.from(3).to(0)
       end
     end

@@ -60,13 +60,11 @@ N.times do |n|
       status: rand(2),
       scope: rand(3)
     )
-    issue.notify
 
     next if issue.scope == :draft
     mentors.each do |mentor_user|
       C.times do |c|
         comment = mentor_user.comments.create(content: Faker::Lorem.paragraph(sentence_count: 5), issue: issue)
-        comment.notify
       end
     end
   end
