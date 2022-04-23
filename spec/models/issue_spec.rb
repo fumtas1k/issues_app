@@ -94,7 +94,7 @@ RSpec.describe Issue, type: :model do
           expect(other_mentor.notifications.count).to eq 0
           expect(user.notifications.count).to eq 0
           expect(other.notifications.count).to eq 0
-        }.not_to change{Notification.count}
+        }.not_to change(Notification, :count)
       end
     end
 

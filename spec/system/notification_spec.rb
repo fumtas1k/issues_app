@@ -21,7 +21,7 @@ RSpec.describe :notification, type: :system do
         expect{
           click_on I18n.t("helpers.submit.create")
           sleep 0.1
-        }.not_to change{Notification.count}
+        }.not_to change(Notification, :count)
       end
     end
 

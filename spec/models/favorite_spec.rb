@@ -17,11 +17,11 @@ RSpec.describe Favorite, type: :model do
     let!(:user) { create(:user) }
     let!(:other) { create(:user, :seq) }
     let!(:issue) { create(:issue_rand, user: user) }
-    let!(:favorite) { build(:favorite, user: user, issue: issue ) }
+    let!(:favorite) { build(:favorite, user: user, issue: issue) }
     let!(:favorite_other) { build(:favorite, user: other, issue: issue) }
     context "自分のイシューにいいねした場合" do
       it "通知は作成されない" do
-        expect{favorite.save}.not_to change{Notification.count}
+        expect{favorite.save}.not_to change(Notification, :count)
       end
     end
 
@@ -30,7 +30,7 @@ RSpec.describe Favorite, type: :model do
         expect{
           favorite_other.save
           expect(Notification.last.user).to eq user
-        }.to change{Notification.count}.by(1)
+        }.to change(Notification, :count).by(1)
       end
     end
   end

@@ -165,7 +165,7 @@ RSpec.describe User, type: :model do
 
     context "ユーザーを作成した場合" do
       it "グループは作成されない" do
-        expect{user.save}.to change{Group.count}.by(0)
+        expect{user.save}.not_to change(Group, :count)
       end
     end
   end

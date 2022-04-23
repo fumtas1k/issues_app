@@ -39,11 +39,11 @@ RSpec.describe Comment, type: :model do
     let!(:user) { create(:user) }
     let!(:other) { create(:user, :seq) }
     let!(:issue) { create(:issue_rand, user: user) }
-    let!(:comment) { build(:comment, user: user, issue: issue ) }
+    let!(:comment) { build(:comment, user: user, issue: issue) }
     let!(:comment_other) { build(:comment, user: other, issue: issue) }
     context "自分のイシューにコメントした場合" do
       it "通知は作成されない" do
-        expect{comment.save}.not_to change{Notification.count}
+        expect{comment.save}.not_to change(Notification, :count)
       end
     end
 
