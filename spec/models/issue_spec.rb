@@ -52,4 +52,76 @@ RSpec.describe Issue, type: :model do
       # it_behaves_like "バリデーションに引っかかる"
     end
   end
+
+  describe "コールバックテスト" do
+    let!(:mentor) { create(:mentor) }
+    let!(:other_mentor) { create(:user, :seq, mentor: true) }
+    let!(:user) { create(:user) }
+    let!(:grouping) { create(:grouping, group: mentor.group, user: user)}
+    let!(:other) { create(:user, :seq) }
+    let!(:issue_release) { build(:issue_rand, :release, user: user) }
+    let!(:issue_limited) { build(:issue_rand, :limited, user: user) }
+    let!(:issue_draft) { build(:issue_rand, :draft, user: user) }
+    context "ユーザーが公開イシューを投稿した場合" do
+      it "担当メンターに通知が作成され、その他には通知されない" do
+        expect{
+          issue_release.save
+          expect(mentor.notifications.count).to eq 1
+          expect(other_mentor.notifications.count).to eq 0
+          expect(user.notifications.count).to eq 0
+          expect(other.notifications.count).to eq 0
+        }.to change{Notification.count}.by(1)
+      end
+    end
+
+    context "ユーザーが限定イシューを投稿した場合" do
+      it "担当メンターに通知が作成され、その他には通知されない" do
+        expect{
+          issue_limited.save
+          expect(mentor.notifications.count).to eq 1
+          expect(other_mentor.notifications.count).to eq 0
+          expect(user.notifications.count).to eq 0
+          expect(other.notifications.count).to eq 0
+        }.to change{Notification.count}.by(1)
+      end
+    end
+
+    context "ユーザーが下書きイシューを投稿した場合" do
+      it "通知されない" do
+        expect{
+          issue_draft.save
+          expect(mentor.notifications.count).to eq 0
+          expect(other_mentor.notifications.count).to eq 0
+          expect(user.notifications.count).to eq 0
+          expect(other.notifications.count).to eq 0
+        }.not_to change{Notification.count}
+      end
+    end
+
+    context "ユーザーが下書きイシューを公開に変更した場合" do
+      let!(:issue_draft_change) { create(:issue_rand, :draft, user: user) }
+      it "担当メンターに通知が作成され、その他には通知されない" do
+        expect{
+          issue_draft_change.update(scope: :release)
+          expect(mentor.notifications.count).to eq 1
+          expect(other_mentor.notifications.count).to eq 0
+          expect(user.notifications.count).to eq 0
+          expect(other.notifications.count).to eq 0
+        }.to change{Notification.count}.by(1)
+      end
+    end
+
+    context "ユーザーが公開の未解決イシューを解決に変更した場合" do
+      let!(:issue_pending_change) { create(:issue_rand, :release, status: :pending, user: user) }
+      it "担当メンターに通知が作成され、その他には通知されない" do
+        expect{
+          issue_pending_change.update(status: :solving)
+          expect(mentor.notifications.count).to eq 2
+          expect(other_mentor.notifications.count).to eq 0
+          expect(user.notifications.count).to eq 0
+          expect(other.notifications.count).to eq 0
+        }.to change{Notification.count}.by(1)
+      end
+    end
+  end
 end

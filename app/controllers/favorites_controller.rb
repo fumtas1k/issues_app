@@ -6,7 +6,6 @@ class FavoritesController < ApplicationController
     return if @issue.user == current_user
     respond_to do |format|
       favorite = current_user.favorites.create!(issue_id: @issue.id)
-      favorite.notify
       format.html { redirect_back fallback_location: issues_path}
       format.js { render "favorite_change" }
     end
