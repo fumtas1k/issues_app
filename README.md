@@ -20,8 +20,9 @@
 
 ## インフラ
 
-- Heroku
 - AWS S3
+- Heroku
+- SendGrid
 
 ## 就業Term技術
 
@@ -34,7 +35,7 @@
 ### ruby gem
 
 - action text
-- acts-astaggable-on
+- acts-as-taggable-on
 - active storage
 - ransack
 
@@ -44,6 +45,10 @@
   - vue-multiselect
 - jQuery
   - jscroll
+
+### 定期実行
+
+- heroku scheduler
 
 ## 主な機能
 
