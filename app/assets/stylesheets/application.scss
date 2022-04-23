@@ -28,11 +28,8 @@ footer.footer {
   position: fixed;
   bottom: 0;
   z-index: 100;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.95);
   border-top: 1px solid #ccc;
-}
-a:hover {
-  text-decoration: none;
 }
  .avatar200 {
   display: block;
@@ -172,6 +169,9 @@ a:hover {
 /* footer-menu */
 .menu-container {
   display: none;
+}
+footer .pc-view {
+  text-align: center;
 }
 @media (max-width: 767px) {
   .pc-view {
