@@ -30,7 +30,7 @@
     <div class="nav-item <%= activate_css(:users, :show)%>">
       <%= link_to user_path(current_user), class:"nav-link icon-container" do %>
         <%= image_tag prepare_avatar(current_user), class: "avatar25" %>
-        <span class="icon-explanation"><%= current_user.name %></span>
+        <span class="icon-explanation"><%= t("views.users.show.title") %></span>
       <% end %>
     </div>
   <% else %>
