@@ -35,7 +35,7 @@
           <td class="middle">
             <div id=<%= "members-#{user.id}"%>><%= render "groupings/members", user: user %></div>
           </td>
-          <td class="middle"><%= l(user.entered_at) %></td>
+          <td class="middle"><%= l(user.entered_at, format: :year) %></td>
         </tr>
       <% end %>
     </tbody>
