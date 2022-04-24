@@ -23,8 +23,12 @@
               <%= form.label :entered_at, class: "sr-only" %>
               <%= form.date_field :entered_at_eq, class: "form-control" %>
             </div>
-            <%= form.submit class: "btn btn-outline-primary btn-search" %>
-            <%= link_to t("views.btn.reset"), users_path, class: "btn btn-outline-danger" %>
+            <div class="form-group">
+              <%= form.submit class: "btn btn-outline-primary btn-search" %>
+            </div>
+            <div class="form-group">
+              <%= link_to t("views.btn.reset"), users_path, class: "btn btn-outline-danger" %>
+            </div>
           <% end %>
       </div>
     </div>
