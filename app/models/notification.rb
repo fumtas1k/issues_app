@@ -1,4 +1,6 @@
 class Notification < ApplicationRecord
+  include SqlHelper
+
   belongs_to :subject, polymorphic: true
   belongs_to :user
 
