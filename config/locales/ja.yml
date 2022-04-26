@@ -1,6 +1,6 @@
 ---
 ja:
-  app: 意集(issue)
+  app: 意習(issue)
   activerecord:
     errors:
       messages:
