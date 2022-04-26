@@ -202,6 +202,7 @@ ja:
         delete_all: 全削除
     users_csv:
       flash:
+        add_users_success: "%{count}人のユーザーを登録しました"
       errors:
         no_file: ファイルが添付されていません
         not_csv: CSVファイルではありません

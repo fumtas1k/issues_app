@@ -15,7 +15,7 @@ class UsersCsvController < ApplicationController
   def create
     @errors, count = import_csv(params.dig(:import, :file))
     if @errors.blank?
-      redirect_to(users_path, notice: "#{count}人のユーザーを登録しました")
+      redirect_to(users_path, notice: I18n.t("views.users_csv.flash.add_users_success", count: count))
     else
       render :index
     end
@@ -53,7 +53,7 @@ class UsersCsvController < ApplicationController
     users = []
     errors = []
 
-    CSV .foreach(file.path, headers: true, col_sep: ",", skip_blanks: true).with_index(2) do |row, index|
+    CSV.foreach(file.path, headers: true, col_sep: ",", skip_blanks: true).with_index(2) do |row, index|
       row_hash = row.to_h.slice(*header)
       user = User.new(row_hash.transform_keys(**columns.except(:id)))
       if user.valid?
