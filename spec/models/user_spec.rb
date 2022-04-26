@@ -175,8 +175,8 @@ RSpec.describe User, type: :model do
     let(:user) { build(:user, :seq, code: "pass")}
     context "codeが4文字の場合" do
       it "先頭が0で埋められバリデーションが通る" do
-         expect{user.valid?}.to change{user.code.size}.from(4).to(6)
-         expect(user.code).to eq "00pass"
+        expect{user.valid?}.to change{user.code.size}.from(4).to(6)
+        expect(user.code).to eq "00pass"
       end
     end
   end
@@ -184,8 +184,8 @@ RSpec.describe User, type: :model do
     let(:user) { build(:user, :seq, code: "passwo")}
     context "codeが6文字の場合" do
       it "元のままのcodeでバリデーションが通る" do
-         expect{user.valid?}.not_to change(user, :code)
-         expect(user.code).to eq "passwo"
+        expect{user.valid?}.not_to change(user, :code)
+        expect(user.code).to eq "passwo"
       end
     end
   end
