@@ -200,6 +200,20 @@ ja:
         title: 新着
         read_all: 全既読
         delete_all: 全削除
+    users_csv:
+      flash:
+        add_users_success: "%{count}人のユーザーを登録しました"
+      errors:
+        no_file: ファイルが添付されていません
+        not_csv: CSVファイルではありません
+        not_utf-8: 文字コードがUTF-8ではありません
+        no_user: データがありません
+        user_error: "%{row}行目: %{message}"
+      index:
+        title: 部員データ インポート/エクスポート
+        import_format: インポート用フォーマット
+        export: 全部員情報エクスポート
+        import: インポート
   date:
     abbr_day_names:
     - 日

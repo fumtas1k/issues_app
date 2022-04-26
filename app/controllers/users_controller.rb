@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   before_action :ensure_correct_user, only: %i[show stocked]
 
   def index
+    # 同じ変数をimportにも記載している。変更する場合は、importも変更すること
     @q = User.ransack(params[:q])
     @users = @q.result(distinct: true).includes(:groupings).with_attached_avatar.order(:code).page(params[:page])
   end

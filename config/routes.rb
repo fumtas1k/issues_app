@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users_csv, only: %i[create index]
+
   resources :issues do
     resources :favorites, only: %i[create destroy]
     resources :stocks, only: %i[create destroy]

@@ -35,6 +35,7 @@
 ### ruby gem
 
 - action text
+- activerecord-import
 - acts-as-taggable-on
 - active storage
 - ransack
@@ -54,6 +55,7 @@
 
 - ユーザー機能
   * ユーザー作成/編集
+  * ユーザーデータのcsvインポート
   * ユーザーログイン / ログアウト
   * 管理者
 
