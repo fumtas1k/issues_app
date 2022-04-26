@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @notifications = @user.notifications.order(created_at: :desc)
+    @notifications = @user.notifications.recent.page(params[:page])
   end
 
   def update

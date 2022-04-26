@@ -8,6 +8,11 @@
   <%= link_to t("views.notifications.index.read_all"), read_all_user_notifications_path, method: :patch, class: "btn btn-warning read-all" %>
   <%= link_to t("views.notifications.index.delete_all"), destroy_all_user_notifications_path, method: :delete, class: "btn btn-danger destroy-all", data: {confirm: t("views.notifications.confirm.delete_all")} %>
 </div>
+
 <%= render @notifications, user: @user %>
+<% if @notifications.blank? %>
+  <h4 class="blank-danger"><%= t("views.blank") %></h4>
+<% end %>
+<%= paginate @notifications %>
 
 <%= javascript_pack_tag 'notify' %>
