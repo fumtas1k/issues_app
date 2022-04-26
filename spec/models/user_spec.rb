@@ -23,10 +23,11 @@ RSpec.describe User, type: :model do
       it_behaves_like "バリデーションに引っかかる"
     end
 
-    context "codeが5文字の場合" do
-      before {user.code = "12345"}
-      it_behaves_like "バリデーションに引っかかる"
-    end
+    # バリデーション前のコールバック追加のため、現在はバリデーションが通る
+    # context "codeが5文字の場合" do
+    #   before {user.code = "12345"}
+    #   it_behaves_like "バリデーションに引っかかる"
+    # end
 
     context "codeが7文字の場合" do
       before {user.code = "1234567"}
@@ -166,6 +167,25 @@ RSpec.describe User, type: :model do
     context "ユーザーを作成した場合" do
       it "グループは作成されない" do
         expect{user.save}.not_to change(Group, :count)
+      end
+    end
+  end
+
+  describe "code修正のコールバック" do
+    let(:user) { build(:user, :seq, code: "pass")}
+    context "codeが4文字の場合" do
+      it "先頭が0で埋められバリデーションが通る" do
+        expect{user.valid?}.to change{user.code.size}.from(4).to(6)
+        expect(user.code).to eq "00pass"
+      end
+    end
+  end
+  describe "code修正のコールバック" do
+    let(:user) { build(:user, :seq, code: "passwo")}
+    context "codeが6文字の場合" do
+      it "元のままのcodeでバリデーションが通る" do
+        expect{user.valid?}.not_to change(user, :code)
+        expect(user.code).to eq "passwo"
       end
     end
   end
