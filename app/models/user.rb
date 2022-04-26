@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  before_validation :code_to_6
   before_create :make_the_first_user_admin
   before_update :prevent_change_admin!
   before_destroy :prevent_destroy_admin!
@@ -53,6 +54,16 @@ class User < ApplicationRecord
     end
   end
 
+  def self.csv_columns
+    { "No" => :id,
+      "職員コード(6桁)" => :code,
+      "名前" => :name,
+      "Eメール" => :email,
+      "パスワード(6文字以上)" => :password,
+      "入職日(例:2000-04-01)" => :entered_at,
+    }
+  end
+
   def group_member_issues
     return unless mentor?
     Issue.where(user_id: group.members&.pluck(:id))
@@ -100,5 +111,9 @@ class User < ApplicationRecord
         max_bytes: MAX_AVATAR_ATTACHMENT_BYTE_SIZE
       )
     end
+  end
+
+  def code_to_6
+    self.code = code.to_s.rjust(6, "0") if code.present?
   end
 end

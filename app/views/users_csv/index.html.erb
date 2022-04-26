@@ -1,0 +1,33 @@
+<% provide(:title, t("views.users_csv.index.title")) %>
+<h2><%= t("views.users_csv.index.title") %></h2>
+<div class="default-container">
+  <div class="btn2-container">
+    <%= link_to t("views.users_csv.index.import_format"), users_csv_index_path(format: :csv), class: "btn btn-secondary"%>
+    <%= link_to t("views.users_csv.index.export"), users_csv_index_path(format: :csv, user_all: true), class: "btn btn-dark" %>
+  </div>
+  <%= form_with(scope: :import, url: users_csv_index_path, local: true, class: "form") do |f| %>
+    <% if @errors.present? %>
+      <div class="alert alert-danger">
+        <h4><%= t("errors.messages.title", count: @errors.size) %></h4>
+        <ul>
+          <% @errors.each do |error| %>
+            <%= content_tag(:li, error) %>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group none-display" id="load-image-container">
+      <%= image_tag "load_image.gif" ,class: "load-image" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :file, class: "sr-only" %>
+      <%= f.file_field :file, class: "form-control", accept: ".csv, .CSV" %>
+    </div>
+    <div class="action btn2-container">
+      <%= f.submit t("views.users_csv.index.import"), class: "btn btn-primary btn-block", id: "import-btn" %>
+      <%= link_to t("views.btn.back"), users_path, class: "btn btn-info" %>
+    </div>
+  <% end %>
+</div>
+
+<%= javascript_pack_tag 'loading_csv', 'data-turbolinks-track': 'reload' %>

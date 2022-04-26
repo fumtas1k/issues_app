@@ -1,6 +1,7 @@
 <% provide(:title, t("views.users.index.title")) %>
 <h1><%= t "views.users.index.title" %></h1>
 
+<%= link_to t("views.users_csv.index.title"), users_csv_index_path, class: "btn btn-secondary btn-block" %>
 <%= render "search", q: @q, users: @users %>
 
 <div class="table-responsive-sm">
