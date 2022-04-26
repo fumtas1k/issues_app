@@ -60,8 +60,7 @@ class User < ApplicationRecord
       "名前" => :name,
       "Eメール" => :email,
       "パスワード(6文字以上)" => :password,
-      "入職日(例:2000-04-01)" => :entered_at,
-    }
+      "入職日(例:2000-04-01)" => :entered_at }
   end
 
   def group_member_issues
