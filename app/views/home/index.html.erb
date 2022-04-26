@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-3">意集 (issue) </h1>
+    <h1 class="display-3">意習 (issue) </h1>
     <p>仕事をする上で、問題解決能力は重要だがそれを日々の業務をこなすだけで身につけることは難しい。社会人1年目（薬剤師）の問題解決の習慣化と情報共有を補助する目的でこのアプリを作りました。 日頃の業務の中で遭遇するイシューをアウトプットし、新人同士で情報共有することで問題意識と解決能力を養います。日誌、日報とせず、イシューとすることで、問題意識を持たせることができると考えられます。 ユーザーは、薬剤師のメンターと新人薬剤師を想定しています。 イシューを投稿し、コメントすることができます。また、解決・未解決の分類があり、メンターは未解決のイシューをフォローしたり、解決の方法に問題ないかチェックできます。</p>
     <% unless user_signed_in? %>
       <p><%= link_to "#{t('views.btn.start')} &raquo;".html_safe, new_user_registration_path, class: "btn btn-primary btn-lg" %></p>
