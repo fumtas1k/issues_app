@@ -14,6 +14,7 @@ gem 'image_processing'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'actiontext'
+gem 'activerecord-import'
 gem 'acts-as-taggable-on'
 gem 'aws-sdk-s3', require: false
 gem 'cancancan'
