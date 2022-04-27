@@ -37,6 +37,7 @@ group :development, :test do
   gem 'capistrano'
   gem 'capistrano3-unicorn'
   gem 'capistrano-bundler'
+  gem 'capistrano-rails'
   gem 'capistrano-rbenv'
   gem 'ed25519'
   gem 'factory_bot_rails'
