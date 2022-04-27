@@ -29,16 +29,16 @@ gem 'rexml'
 gem 'unicorn'
 
 group :development, :test do
+  gem 'bcrypt_pbkdf'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'bullet'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capistrano'
+  gem 'capistrano3-unicorn'
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
-  gem 'capistrano3-unicorn'
   gem 'ed25519'
-  gem 'bcrypt_pbkdf'
   gem 'factory_bot_rails'
   gem 'launchy'
   gem 'pry-byebug'
