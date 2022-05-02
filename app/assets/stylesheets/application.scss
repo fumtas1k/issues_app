@@ -275,6 +275,7 @@ nav .hidden {
 
 /* users/profile用 */
 .profile-container {
+  margin-top: 5px;
   display: grid;
   gap: 10px;
   grid-template-rows: 1fr;
@@ -571,6 +572,10 @@ small.attention {
 .status-solving {
   background-color: lightseagreen;
   color: white;
+}
+.edited {
+  color: #a4a4a4;
+  font-size: 12px;
 }
 
 /* issues/show */
