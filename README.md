@@ -1,6 +1,8 @@
 # README
 【アプリケーション名】意習(issue)
 公開URL: https://warm-scrubland-25965.herokuapp.com/
+![アプリイメージ](RDD/app_image.JPG)
+
 
 ## 意習(issue)とは
 
