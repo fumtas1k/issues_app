@@ -6,7 +6,7 @@
       <%= content_tag(:span, comment.user.name, class:"right-p5 issue-item-user") %>
       <%= content_tag(:span, time_ago_in_words(comment.created_at)) %>
       <% if edited?(comment) %>
-        <%= content_tag(:span, t("views.edited")) %>
+        <%= content_tag(:span, t("views.edited"), class: "edited") %>
       <% end %>
     </div>
   </div>

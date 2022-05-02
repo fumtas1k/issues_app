@@ -10,7 +10,7 @@
         <%= content_tag(:span, issue.user.name, class:"right-p5 issue-item-user") %>
         <%= content_tag(:span, time_ago_in_words(issue.created_at)) %>
         <% if edited?(issue) %>
-          <%= content_tag(:span, t("views.edited"), class:"right-p5") %>
+          <%= content_tag(:span, t("views.edited"), class:"edited") %>
         <% end %>
       </div>
       <div class="issue-scope">
