@@ -16,6 +16,7 @@
 - jQuery 3.5.1
 - Bootstrap 4.5.0
 - popper.js 1.16.0
+- postgreSQL 14.2
 
 ## インフラ
 
