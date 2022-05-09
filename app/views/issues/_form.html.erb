@@ -21,9 +21,9 @@
       <%= form.select :scope, Issue.enum_options_for_select(:scope), {}, class: "custom-select mr-sm-2", require: true %>
       <small class="text-danger"><%= t("views.issues.show.draft_explanation") %></small>
     </div>
-    <%= content_tag(:div, id:"app", data:{tag_list: Issue.tag_counts_on(:tags).pluck(:name).to_json, my_tag_list: issue.tag_list.to_json}) do %>
-      <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag"  :options="options" :multiple="true" :taggable="true" @tag="addTag" id="vue-tag-input"></multiselect>
-      <pre class="language-json" hidden="hidden"><input type="text" name="issue[tag_list]" id="issue_tag_list" v-model="value"></pre>
+    <%= content_tag(:div, id:"app", data:{tag_list: Issue.tag_counts_on(:tags).pluck(:name), my_tag_list: issue.tag_list}) do %>
+      <multiselect v-model="myTagList" tag-placeholder="Add this as new tag" placeholder="Search or add a tag"  :options="tagList" :multiple="true" :taggable="true" @tag="addTag" id="vue-tag-input"></multiselect>
+      <pre class="language-json" hidden="hidden"><input type="text" name="issue[tag_list]" id="issue_tag_list" v-model="myTagList"></pre>
     <% end %>
     <div class="form-group">
       <%= form.label :description, class: "sr-only" %>

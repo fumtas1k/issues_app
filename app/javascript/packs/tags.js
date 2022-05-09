@@ -1,20 +1,20 @@
 $(document).on('turbolinks:load', function() {
-  Vue.component('multiselect', window.VueMultiselect.default)
   const tagList = $("#app").data("tag-list");
   const myTagList = $("#app").data("my-tag-list");
 
+  Vue.component('multiselect', window.VueMultiselect.default)
   new Vue({
     el: "#app",
     data() {
       return {
-        value: myTagList,
-        options: tagList,
+        tagList: tagList,
+        myTagList: myTagList,
       }
     },
     methods: {
-      addTag (newTag) {
-        this.options.push(newTag)
-        this.value.push(newTag)
+      addTag(newTag) {
+        this.tagList.push(newTag)
+        this.myTagList.push(newTag)
       },
     },
   })
