@@ -20,7 +20,7 @@
     <h4><%= link_to issue.title, issue %></h4>
     <div class="issue-abst-footer">
       <div class="issue-tag-container">
-        <% issue.tags.pluck(:name).each do |tag_name| %>
+        <% issue.tag_list.each do |tag_name| %>
           <%= link_to tag_name, redirect_to_current_path(q:{tags_name_eq: tag_name}), class: "tag lightgreen" %>
         <% end %>
       </div>
