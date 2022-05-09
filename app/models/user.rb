@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :comment_issues, through: :comments, source: :issue
   has_many :notifications, dependent: :destroy
+  acts_as_tagger
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
