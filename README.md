@@ -9,8 +9,6 @@
 
 仕事をする上で、問題解決能力は重要ですが、それを日々の業務だけで身につけることは難しい。社会人1年目（薬剤師）の問題<strong>意</strong>識・問題解決の<strong>習</strong>慣化と情報共有を補助するツールとしてこのアプリを作りました。 日頃の業務の中で遭遇するイシューをアウトプットし、新人同士で情報共有することで問題意識と解決能力を養います。日誌、日報とせず、イシューとすることで、問題意識を持たせることができると考えました。 ユーザーは、薬剤師のメンターと新人薬剤師を想定しています。 イシューを投稿し、コメントすることができます。また、解決・未解決の分類があり、メンターは未解決のイシューをフォローしたり、解決の方法に問題ないかチェックできます。
 
-<iframe src="https://www.youtube.com/embed/V4FPFpuqQRo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 ## 開発環境（言語）
 
 - ruby 3.0.1
