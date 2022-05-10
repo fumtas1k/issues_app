@@ -1,5 +1,6 @@
-# README
-【アプリケーション名】意習(issue)
+![rails v6.0.3](https://img.shields.io/badge/rails-v6.0.3-blue)
+
+# 意習(issue)
 
 公開URL: https://warm-scrubland-25965.herokuapp.com/
 
@@ -14,6 +15,7 @@
 - ruby 3.0.1
 - rails 6.0.3
 - jQuery 3.5.1
+- Vue.js 2.6.14
 - Bootstrap 4.5.0
 - popper.js 1.16.0
 - postgreSQL 14.2
@@ -42,8 +44,8 @@
 
 ### javascript
 
-- vue.js(タグの入力フォームのみ)
-  - vue-multiselect
+- Vue.js(タグの入力フォームのみ)
+  - Vue-multiselect
 - jQuery
   - jscroll
 
