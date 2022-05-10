@@ -1,7 +1,6 @@
 ![rails v6.0.3](https://img.shields.io/badge/rails-v6.0.3-blue)
 
-# README
-【アプリケーション名】意習(issue)
+# 意習(issue)
 
 公開URL: https://warm-scrubland-25965.herokuapp.com/
 
