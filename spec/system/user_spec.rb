@@ -180,6 +180,7 @@ RSpec.describe :user, type: :system do
       it "アクセス出来ず、ルートパスにリダイレクトする" do
         sign_in user
         visit user_path(other_user)
+        sleep 0.2
         expect(current_path).to eq root_path
         expect(page).not_to have_content user.code
       end
@@ -216,6 +217,7 @@ RSpec.describe :user, type: :system do
       before do
         sign_in user
         visit mentor_user_path(mentor)
+        sleep 0.2
       end
       it "ルートパスにリダイレクトされる" do
         expect(current_path).to eq root_path
