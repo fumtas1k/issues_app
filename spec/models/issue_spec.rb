@@ -74,6 +74,16 @@ RSpec.describe Issue, type: :model do
       end
     end
 
+    context "ユーザーが公開イシューを更新した場合" do
+      it "通知はされない" do
+        issue_release.save
+        sleep 0.1
+        expect{
+          issue_release.update(title: "update")
+        }.to change{Notification.count}.by(0)
+      end
+    end
+
     context "ユーザーが限定イシューを投稿した場合" do
       it "担当メンターに通知が作成され、その他には通知されない" do
         expect{
