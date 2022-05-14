@@ -3,7 +3,7 @@
   <div class="login-form-header">
     <h2 class="login-form-title"><%= t("app") %></h2>
   </div>
-  <%= form_with(model: resource, as: resource_name, url: session_path(resource_name), class: "login-form", local: true) do |f| %>
+  <%= form_with(scope: resource, as: resource_name, url: session_path(resource_name), class: "login-form", local: true) do |f| %>
     <div class="field">
       <%= f.label :code, class: "sr-only" %>
       <%= f.text_field :code, autofocus: true, autocomplete: "code", class: "form-control check-blank", inputmode: "numeric", placeholder: User.human_attribute_name(:code), required: true %>
