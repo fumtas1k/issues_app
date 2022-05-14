@@ -2,6 +2,8 @@ N = 20
 M = 5
 I = 5
 C = 1
+F = 3
+S = 3
 srand(0)
 
 # admin 作成
@@ -42,6 +44,8 @@ M.times do |i|
 end
 
 srand(0)
+# 新人 作成
+new_users = [User.guest_user]
 N.times do |n|
   code = format("%06d", rand(999_999))
   new_user = User.find_or_create_by!(code: code) do |user|
@@ -52,6 +56,12 @@ N.times do |n|
     user.password = "password"
   end
   Grouping.create(group: mentors[n % mentors.size].group, user: new_user)
+  new_users << new_user
+end
+
+Grouping.create(group: User.guest_admin_user.group, user: User.guest_user)
+
+new_users.each do |new_user|
   I.times do |i|
     issue = new_user.issues.create(
       title: Faker::Movie.title[0,20],
@@ -67,5 +77,16 @@ N.times do |n|
         comment = mentor_user.comments.create(content: Faker::Lorem.paragraph(sentence_count: 5), issue: issue)
       end
     end
+  end
+end
+
+issues = Issue.where(scope: :release)
+
+User.all.each do |user|
+  issues.where.not(user_id: user.id).sample(F).each do |issue|
+    user.favorites.create(issue: issue)
+  end
+  issues.where.not(user_id: user.id).sample(S).each do |issue|
+    user.stocks.create(issue: issue)
   end
 end
