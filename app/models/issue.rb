@@ -43,7 +43,7 @@ class Issue < ApplicationRecord
     groups = user.join_groups
     return if scope == "draft" || groups.blank?
     notify_message =
-      if (updated_at - created_at).round(1) == 0 || scope_change&.dig(0) == "draft"
+      if scope_change&.dig(0) == "draft" || notifications.blank?
         Issue.human_attribute_name(:notify_message, issue: title, user: user.name)
       elsif status_change == %w[pending solving]
         Issue.human_attribute_name(:solving_notify_message, issue: title, user: user.name)
