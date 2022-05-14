@@ -61,7 +61,6 @@ end
 
 Grouping.create(group: User.guest_admin_user.group, user: User.guest_user)
 
-
 new_users.each do |new_user|
   I.times do |i|
     issue = new_user.issues.create(
