@@ -32,6 +32,7 @@ ja:
       comment: コメント
       notification: 通知
       chat_room: チャットルーム
+      message: メッセージ
     attributes:
       user:
         name: 名前
@@ -118,6 +119,11 @@ ja:
         updated_at: 更新日
       chat_room:
         chat: チャット
+        created_at: 作成日
+        updated_at: 更新日
+      message:
+        content: 内容
+        read: 既読
         created_at: 作成日
         updated_at: 更新日
   views:

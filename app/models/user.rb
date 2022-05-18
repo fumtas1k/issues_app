@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :chat_room_users, dependent: :destroy
   has_many :chat_rooms, through: :chat_room_users, source: :chat_room
+  has_many :messages, dependent: :destroy
   acts_as_tagger
 
   devise :database_authenticatable, :registerable,
