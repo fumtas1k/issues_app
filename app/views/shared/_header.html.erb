@@ -38,6 +38,9 @@
             <%= content_tag(:span, current_user.name) %>
           <% end %>
         </li>
+        <li class="nav-item <%= activate_css(:chat_rooms, :index)%>">
+          <%= link_to ChatRoom.human_attribute_name(:chat), user_chat_rooms_path(current_user), class:"nav-link" %>
+        </li>
         <li class="nav-item <%= activate_css(:sessions, :destroy)%>">
           <%= link_to t("devise.sessions.new.sign_out"), destroy_user_session_path, method: :delete, class:"nav-link" %>
         </li>

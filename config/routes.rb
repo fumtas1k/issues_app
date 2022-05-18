@@ -22,6 +22,7 @@ Rails.application.routes.draw do
           delete :destroy_all
         end
       end
+      resources :chat_rooms, only: %i[index show create]
     end
   end
 

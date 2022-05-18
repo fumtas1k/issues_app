@@ -74,6 +74,9 @@ class User < ApplicationRecord
     [User.guest_user, User.guest_admin_user].include?(self)
   end
 
+  scope :order_by_code, -> { order(:code) }
+
+
   private
 
   def prevent_change_admin!
