@@ -77,7 +77,6 @@ class User < ApplicationRecord
 
   scope :order_by_code, -> { order(:code) }
 
-
   private
 
   def prevent_change_admin!
