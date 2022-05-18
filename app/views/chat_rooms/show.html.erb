@@ -11,4 +11,13 @@
       <%= image_tag prepare_avatar(@chat_room_user), class: "avatar25" %>
     </div>
   </nav>
+
+  <div id="messages">
+    <%= render @messages, chat_room_user: @chat_room_user %>
+  </div>
+
+  <form class="chat_room-message-form container">
+    <textarea data-behavior="chat_room_speaker" data-chat_room_id=<%= @chat_room.id %> placeholder=<%= t("views.chat_rooms.show.message_form") %>
+    class="chat_room-message-form-textarea"></textarea>
+  </form>
 </div>

@@ -679,10 +679,58 @@ small.attention {
         vertical-align: middle;
       }
     }
+    &-message-form {
+      position: fixed;
+      bottom: 70px;
+      z-index: 2;
+      border-top: 1px solid #e8e8e8;
+      padding: 24px 24px 0;
+      max-width: 538px;
+      width: 95%;
+      // background-color: #fff;
+      background-color: #000;
+      &-textarea {
+        width: 100%;
+        border: none;
+        white-space: normal;
+      }
+    }
   }
 }
+#messages {
+  margin-bottom: 90px;
+}
 
-@media screen and (min-width: 540px) {
+.message {
+  &-partner {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &-content {
+    margin: 4px 8px;
+    padding: 8px 12px;
+    max-width: 70%;
+    color: #555;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    overflow-wrap: break-word;
+  }
+  &-current-user {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+.main-color-bg {
+  background-color: #fd3378;
+  color: #fff;
+}
+textarea:focus {
+  outline: none;
+}
+
+@media screen and (min-width: 768px) {
   .chat_room-show-page {
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;

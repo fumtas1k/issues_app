@@ -1,0 +1,16 @@
+<div class="message">
+  <% if message.user.id != current_user.id %>
+    <div class="message-partner">
+      <%= image_tag prepare_avatar(message.user), class: "avatar25" %>
+      <div class="message-content">
+        <%= message.content %>
+      </div>
+    </div>
+  <% else %>
+    <div class="message-current_user">
+      <div class="message-content main-color-bg">
+        <%= message.content %>
+      </div>
+    </div>
+  <% end %>
+</div>

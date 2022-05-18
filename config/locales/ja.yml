@@ -225,6 +225,9 @@ ja:
         import_format: インポート用フォーマット
         export: 全部員情報エクスポート
         import: インポート
+    chat_rooms:
+      show:
+        message_form: メッセージを入力
   date:
     abbr_day_names:
     - 日
