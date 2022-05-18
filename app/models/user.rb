@@ -1,11 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  before_validation :code_to_6
-  before_create :make_the_first_user_admin
-  before_update :prevent_change_admin!
-  before_destroy :prevent_destroy_admin!
-  after_save_commit :group_create_or_destroy_depend_on_mentor
 
   has_one_attached :avatar
   has_one :group, dependent: :destroy
@@ -19,11 +12,19 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :comment_issues, through: :comments, source: :issue
   has_many :notifications, dependent: :destroy
+  has_many :chat_room_users, dependent: :destroy
+  has_many :chat_rooms, through: :chat_room_users, source: :chat_room
   acts_as_tagger
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable
+
+  before_validation :code_to_6
+  before_create :make_the_first_user_admin
+  before_update :prevent_change_admin!
+  before_destroy :prevent_destroy_admin!
+  after_save_commit :group_create_or_destroy_depend_on_mentor
 
   validates :name, presence: true, length: {maximum: 255}
   validates :code, presence: true, length: {is: 6}, uniqueness: true
