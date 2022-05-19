@@ -9,8 +9,7 @@
 ## 新着
 
 - action cableを用いたリアルタイムチャット機能（ドラフト版）追加しました: 2022/05/19
-
-![チャットイメージ](RDD/chat_image.gif)
+![チャットイメージ](app/assets/images/chat_image.gif)
 
 ## 意習(issue)とは
 
