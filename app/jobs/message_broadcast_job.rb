@@ -9,15 +9,7 @@ class MessageBroadcastJob < ApplicationJob
   private
 
   def render_message(message, user)
-    if Rails.env.production?
-      http_host = "warm-scrubland-25965.herokuapp.com"
-      https = "on"
-    else
-      http_host = "localhost:3000"
-      https = "off"
-    end
     renderer = ApplicationController.renderer.new
-    renderer.instance_variable_set(:@env, renderer.instance_variable_get(:@env).merge("HTTP_HOST" => http_host, "HTTPS" => https))
     renderer.render(
       partial: "messages/message",
       locals: {
