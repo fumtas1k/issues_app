@@ -690,12 +690,14 @@ small.attention {
     }
     &-message-form {
       position: fixed;
-      bottom: 70px;
+      bottom: 60px;
+      left: 50%;
+      transform: translate(-50%,0);
       z-index: 2;
       border-top: 1px solid #e8e8e8;
       padding: 24px 24px 0;
-      max-width: 538px;
-      width: 95%;
+      max-width: 540px;
+      width: 100%;
       background-color: #fff;
       &-textarea {
         width: 100%;
@@ -747,5 +749,10 @@ small.attention {
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
     margin: 8px auto;
+    .chat_room-message-form {
+      position: fixed;
+      bottom: 20px;
+      border: 1px solid #e8e8e8;
+    }
   }
 }
