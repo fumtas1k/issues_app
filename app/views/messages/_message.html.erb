@@ -8,6 +8,7 @@
     </div>
   <% else %>
     <div class="message-current_user">
+      <span class="message-created_at"><%= l message.created_at, format: :short %></span>
       <div class="message-content main-color-bg">
         <%= message.content %>
       </div>

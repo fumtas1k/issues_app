@@ -6,14 +6,14 @@
 
     <div class="chat_room-partner">
       <span class="chat_room-partner-name">
-        <%= @chat_room_user.name %>
+        <%= @partner.name %>
       </span>
-      <%= image_tag prepare_avatar(@chat_room_user), class: "avatar25" %>
+      <%= image_tag prepare_avatar(@partner), class: "avatar25" %>
     </div>
   </nav>
 
   <div id="messages">
-    <%= render @messages, chat_room_user: @chat_room_user %>
+    <%= render @messages %>
   </div>
 
   <form class="chat_room-message-form container">

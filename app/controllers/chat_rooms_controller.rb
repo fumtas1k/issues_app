@@ -7,7 +7,7 @@ class ChatRoomsController < ApplicationController
 
   def show
     @chat_room = ChatRoom.find(params[:id])
-    @chat_room_user = @chat_room.users.where.not(id: current_user.id).first
+    @partner = @chat_room.users.where.not(id: current_user.id).first
     @messages = @chat_room.messages
   end
 
