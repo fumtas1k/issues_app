@@ -4,11 +4,11 @@
 
 公開URL: https://warm-scrubland-25965.herokuapp.com/
 
+![アプリイメージ](RDD/app_image.JPG)
+
 ## 新着
 
 - action cableを用いたリアルタイムチャット機能（ドラフト版）追加しました: 2022/05/19
-
-![アプリイメージ](RDD/app_image.JPG)
 
 ## 意習(issue)とは
 
