@@ -5,6 +5,7 @@
       <div class="message-content">
         <%= message.content %>
       </div>
+      <span class="message-created_at"><%= l message.created_at, format: :short %></span>
     </div>
   <% else %>
     <div class="message-current_user">
