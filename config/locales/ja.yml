@@ -31,6 +31,8 @@ ja:
       stock: ストック
       comment: コメント
       notification: 通知
+      chat_room: チャットルーム
+      message: メッセージ
     attributes:
       user:
         name: 名前
@@ -113,6 +115,15 @@ ja:
         read: 既読
         unread: 未読
         link_path: リンク先
+        created_at: 作成日
+        updated_at: 更新日
+      chat_room:
+        chat: チャット[ドラフト版]
+        created_at: 作成日
+        updated_at: 更新日
+      message:
+        content: 内容
+        read: 既読
         created_at: 作成日
         updated_at: 更新日
   views:
@@ -214,6 +225,9 @@ ja:
         import_format: インポート用フォーマット
         export: 全部員情報エクスポート
         import: インポート
+    chat_rooms:
+      show:
+        message_form: メッセージを入力
   date:
     abbr_day_names:
     - 日

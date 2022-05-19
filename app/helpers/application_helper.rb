@@ -113,4 +113,12 @@ module ApplicationHelper
     title << "#{add_title} | " if add_title.present?
     title << default_title
   end
+
+  def current_message(user)
+    current_user_chat_room_ids = current_user.chat_rooms.pluck(:chat_room_id)
+    chat_room = ChatRoomUser.find_by(chat_room_id: current_user_chat_room_ids, user_id: user.id)&.chat_room
+    if chat_room.present?
+      chat_room.messages&.recent&.first
+    end
+  end
 end

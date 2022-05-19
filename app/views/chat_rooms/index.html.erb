@@ -1,0 +1,25 @@
+<div class="chat_room-index-page">
+  <div class="chat_users-container">
+    <h3 class="chat_users-title ml-3">
+      <%= ChatRoom.human_attribute_name(:chat) %>&#x1f605
+    </h3>
+    <div class="chat_users-list">
+      <% if @users.present? %>
+        <% @users.each do |user| %>
+          <%= link_to user_chat_rooms_path(user_id: user.id), method: :post do %>
+          <div class="chat_users-person">
+            <%= image_tag prepare_avatar(user), class: "avatar50" %>
+            <div class="chat_users-person-profile">
+              <div class="chat_users-person-profile-name">
+                <span><%= user.code %></span>
+                <span><%= user.name %></span>
+              </div>
+              <span class="current-message"><%= current_message(user)&.content %></span>
+            </div>
+          </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

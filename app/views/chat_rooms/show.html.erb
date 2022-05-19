@@ -1,0 +1,23 @@
+<div class="chat_room-show-page">
+  <nav class="navbar navbar-light chat_room-header">
+    <%= link_to user_chat_rooms_path(current_user), class: "nav-item nav-link" do %>
+      <span class="material-icons chat_room-header-icon">arrow_back_ios_new</span>
+    <% end %>
+
+    <div class="chat_room-partner">
+      <span class="chat_room-partner-name">
+        <%= @partner.name %>
+      </span>
+      <%= image_tag prepare_avatar(@partner), class: "avatar25" %>
+    </div>
+  </nav>
+
+  <div id="messages">
+    <%= render @messages %>
+  </div>
+
+  <form class="chat_room-message-form container">
+    <textarea data-behavior="chat_room_speaker" data-chat_room_id=<%= @chat_room.id %> placeholder=<%= t("views.chat_rooms.show.message_form") %>
+    class="chat_room-message-form-textarea"></textarea>
+  </form>
+</div>

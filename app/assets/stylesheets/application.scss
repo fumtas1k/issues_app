@@ -621,3 +621,131 @@ small.attention {
     font-size: 28px;
   }
 }
+
+/* chat_rooms index */
+.chat_room-index-page {
+  max-width: 540px;
+  margin: 0 auto;
+  .chat_users {
+    &-title {
+      color: #616161;
+      margin: 8px 0 8px 16px;
+    }
+    &-list {
+      min-height: 500px;
+    }
+    &-person {
+      display: flex;
+      align-items: center;
+      margin: 16px;
+      &-profile {
+        margin-left: 12px;
+        font-weight: bold;
+        color: #616161;
+        .current-message {
+          font-size: 12px;
+          color: #ccc;
+          display:inline-block;
+          width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .chat_room-index-page {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    margin: 8px auto;
+  }
+}
+
+/* chat_room */
+.chat_room-show-page {
+  max-width: 540px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 85vh;
+  .chat_room {
+    &-header {
+      border-bottom: 1px solid #fafafa;
+      &-icon {
+        font-size: 16px;
+      }
+    }
+    &-partner {
+      display: flex;
+      align-items: center;
+      &-name {
+        margin-right: 10px;
+        font-weight: bold;
+        color: #616161;
+        vertical-align: middle;
+      }
+    }
+    &-message-form {
+      position: fixed;
+      bottom: 70px;
+      z-index: 2;
+      border-top: 1px solid #e8e8e8;
+      padding: 24px 24px 0;
+      max-width: 538px;
+      width: 95%;
+      background-color: #fff;
+      &-textarea {
+        width: 100%;
+        border: none;
+        white-space: normal;
+      }
+      textarea:focus {
+        outline: none;
+      }
+    }
+  }
+}
+#messages {
+  margin-bottom: 90px;
+}
+
+.message {
+  &-partner {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &-current_user {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  &-content {
+    margin: 4px 8px;
+    padding: 8px 12px;
+    max-width: 70%;
+    color: #555;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    overflow-wrap: break-word;
+  }
+  .message-created_at {
+    font-size: 12px;
+  }
+}
+.main-color-bg {
+  background-color: #fd3378;
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .chat_room-show-page {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    margin: 8px auto;
+  }
+}

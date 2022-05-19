@@ -1,0 +1,18 @@
+<div class="message">
+  <% if message.user.id != current_user.id %>
+    <div class="message-partner">
+      <%= image_tag prepare_avatar(message.user), class: "avatar25" %>
+      <div class="message-content">
+        <%= message.content %>
+      </div>
+      <span class="message-created_at"><%= l message.created_at, format: :short %></span>
+    </div>
+  <% else %>
+    <div class="message-current_user">
+      <span class="message-created_at"><%= l message.created_at, format: :short %></span>
+      <div class="message-content main-color-bg">
+        <%= message.content %>
+      </div>
+    </div>
+  <% end %>
+</div>
