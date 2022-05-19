@@ -1,5 +1,6 @@
 class ChatRoomsController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_correct_user, only: %i[show]
 
   def index
     @users = User.where.not(id: current_user.id).order_by_code
@@ -21,4 +22,9 @@ class ChatRoomsController < ApplicationController
     end
     redirect_to user_chat_room_path(current_user, chat_room)
   end
+end
+
+def ensure_correct_user
+  user = User.find(params[:user_id])
+  redirect_back fallback_location: root_path unless current_user == user
 end
