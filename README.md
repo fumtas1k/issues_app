@@ -30,6 +30,7 @@
 
 ### ruby gem
 
+- actioncable
 - actiontext
 - activerecord-import
 - acts-as-taggable-on
@@ -81,6 +82,8 @@
 - いいね、ストック機能
   * 作成/削除
 
+- <span style="color: red;">チャット機能（ドラフト版）</span>
+  * リアルタイムチャット機能
 
 ## 実行手順
 以下は全てターミナルでの操作になります。
