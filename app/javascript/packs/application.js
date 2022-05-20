@@ -61,7 +61,7 @@ $(document).on('turbolinks:load', function() {
 
 $(document).on('turbolinks:load', function() {
   $("#import-btn").on("click", function(){
-    $("#load-image-container").removeClass("none-display");
-    $(".alert").addClass("none-display");
+    $("#load-image-container").removeClass("d-none");
+    $(".alert").addClass("d-none");
   });
 });

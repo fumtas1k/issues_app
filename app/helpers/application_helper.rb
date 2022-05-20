@@ -121,4 +121,8 @@ module ApplicationHelper
       chat_room.messages&.recent&.first
     end
   end
+
+  def translate_of(read)
+    read ? Message.human_attribute_name(:read) : Message.human_attribute_name(:unread)
+  end
 end

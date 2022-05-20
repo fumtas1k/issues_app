@@ -10,6 +10,8 @@ class ChatRoomsController < ApplicationController
     @chat_room = ChatRoom.find(params[:id])
     @partner = @chat_room.users.where.not(id: current_user.id).first
     @messages = @chat_room.messages.past
+    @unread_id = @messages.where(user_id: @partner.id, read: false).past[0]&.id
+    MessageReadUpdateJob.perform_later(@partner, @chat_room)
   end
 
   def create
@@ -22,9 +24,11 @@ class ChatRoomsController < ApplicationController
     end
     redirect_to user_chat_room_path(current_user, chat_room)
   end
-end
 
-def ensure_correct_user
-  user = User.find(params[:user_id])
-  redirect_back fallback_location: root_path unless current_user == user
+  private
+
+  def ensure_correct_user
+    user = User.find(params[:user_id])
+    redirect_back fallback_location: root_path unless current_user == user
+  end
 end
