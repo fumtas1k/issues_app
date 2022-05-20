@@ -143,5 +143,5 @@ module ApplicationHelper
       end
     messages_count = nil if messages_count == 0
     messages_count
-   end
+  end
 end
