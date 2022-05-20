@@ -25,6 +25,14 @@ module ApplicationHelper
     "hidden" if display_pagination.exclude?([controller, action])
   end
 
+  def unread_messages_css(unread_counts)
+    "unread-messages" if unread_counts
+  end
+
+  def unread_counts_css(unread_counts)
+    "unread-counts" if unread_counts
+  end
+
   # ページネーションを使いたい場合は、そのページに関連するcontroller_name, action_nameの配列を追加して下さい。
   def display_pagination
     [
@@ -125,4 +133,15 @@ module ApplicationHelper
   def translate_of(read)
     read ? Message.human_attribute_name(:read) : Message.human_attribute_name(:unread)
   end
+
+  def unread_messages_count(user)
+    chat_room_ids = user.chat_rooms.pluck(:id)
+    chat_room = ChatRoomUser.find_by(chat_room_id: chat_room_ids, user_id: current_user.id)&.chat_room
+    messages_count =
+      if chat_room
+        chat_room.messages.where(user_id: user.id, read: false).size
+      end
+    messages_count = nil if messages_count == 0
+    messages_count
+   end
 end

@@ -638,6 +638,20 @@ small.attention {
           overflow: hidden;
           text-overflow: ellipsis;
         }
+        .unread-messages {
+          color: #000;
+        }
+        .unread-counts {
+          display: inline-block;
+          color: #fff;
+          font-size: 10px;
+          background-color: #fd3378;;
+          border-radius: 50%;
+          width: 16px;
+          height: 16px;
+          text-align: center;
+          line-height: 16px;
+        }
       }
     }
   }
@@ -703,7 +717,6 @@ small.attention {
     color:rgba(0, 0, 0, 0.125);
   }
 }
-
 .message {
   &-partner {
     display: flex;
