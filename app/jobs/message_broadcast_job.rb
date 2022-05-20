@@ -22,7 +22,7 @@ class MessageBroadcastJob < ApplicationJob
   def broadcast(message, chat_room)
     users = chat_room.users
     2.times do |i|
-      check_read = (message.user.id == users[i].id ? false : true)
+      check_read = (message.user.id != users[i].id)
       ChatRoomChannel.broadcast_to(
         [users[i], chat_room],
         {message: render_message(message, users[i]), check_read: check_read, message_id: message.id}

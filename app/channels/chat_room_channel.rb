@@ -21,7 +21,7 @@ class ChatRoomChannel < ApplicationCable::Channel
 
   def read(data)
     returen if data["message_id"].blank?
-    message = Message.find(data["message_id"]);
+    message = Message.find(data["message_id"])
     chat_room = message.chat_room
     current_user = message.user
 
