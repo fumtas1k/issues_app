@@ -13,12 +13,24 @@ if (/chat_rooms/.test(location.pathname)) {
     },
 
     received(data) {
-      $("#messages").append(data["message"]);
-      $("html, body").animate({scrollTop:$("body").get(0).scrollHeight})
+      console.log(data["read_message_ids"]);
+      if (data["check_read"]) {
+        this.read(data["message_id"]);
+      }
+      if (data["message"]) {
+        $("#messages").append(data["message"]);
+        $("html, body").animate({scrollTop:$("body").get(0).scrollHeight});
+      } else if (data["read_message_ids"]) {
+        data["read_message_ids"].forEach(id => $(`#message-read-${id}`).text(data["change_read"]));
+      }
     },
 
     speak: function(message, chat_room_id) {
       return this.perform('speak', {message: message, chat_room_id: chat_room_id});
+    },
+
+    read: function(message_id) {
+      return this.perform('read', {message_id: message_id});
     }
   });
 

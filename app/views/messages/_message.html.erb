@@ -12,7 +12,7 @@
   <% else %>
     <div class="message-current_user">
       <div class="d-flex flex-column fs-12 text-right">
-        <span><%= translate_of(message.read) %></span>
+        <%= content_tag(:span,translate_of(message.read), id: "message-read-#{message.id}") %>
         <span class="fs-12"><%= l message.created_at, format: :short %></span>
       </div>
       <div class="message-content main-color-bg">

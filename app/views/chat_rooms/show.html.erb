@@ -13,8 +13,8 @@
   </nav>
 
   <div id="messages">
-    <% @messages.each_with_index do |message, index| %>
-      <% if @unread_index == index %>
+    <% @messages.each do |message| %>
+      <% if @unread_id == message.id %>
         <%= content_tag(:p, t("views.chat_rooms.show.unread_messages"), class: "text-center fs-12 messages-unread" )%>
       <% end %>
       <%= render message %>
