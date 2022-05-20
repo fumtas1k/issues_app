@@ -24,14 +24,14 @@
           <%= link_to tag_name, redirect_to_current_path(q:{tags_name_eq: tag_name}), class: "tag lightgreen" %>
         <% end %>
       </div>
-      <div class="issue-btn-container flex">
-        <%= content_tag(:div, class: "center", id: "favorite-issue-#{issue.id}") do %>
+      <div class="issue-btn-container d-flex">
+        <%= content_tag(:div, id: "favorite-issue-#{issue.id}") do %>
           <%= render "favorites/favorite_btn", issue: issue %>
         <% end %>
-        <%= content_tag(:div, class:"center", id: "stock-issue-#{issue.id}") do %>
+        <%= content_tag(:div, id: "stock-issue-#{issue.id}") do %>
           <%= render "stocks/stock_btn", issue: issue %>
         <% end %>
-        <%= content_tag(:div, class: "center") do %>
+        <div>
           <div class="comment-count">
             <% if issue.comments.size.zero? %>
               <span class="material-icons">chat_bubble_outline</span>
@@ -40,7 +40,7 @@
             <% end %>
             <span><%= issue.comments.size %></span>
           </div>
-        <% end %>
+        </div>
       </div>
     </div>
   </div>
