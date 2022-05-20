@@ -73,6 +73,11 @@ footer.footer {
   }
 }
 
+/* フォントサイズ */
+.fs-12 {
+  font-size: 12px;
+}
+
 /* ボタンコンテナ */
 .btn2-container {
   width: 100%;
@@ -694,6 +699,9 @@ small.attention {
 }
 #messages {
   margin-bottom: 90px;
+  &-unread {
+    color:rgba(0, 0, 0, 0.125);
+  }
 }
 
 .message {
@@ -716,9 +724,6 @@ small.attention {
     border-radius: 8px;
     background-color: #f1f1f1;
     overflow-wrap: break-word;
-  }
-  .message-created_at {
-    font-size: 12px;
   }
 }
 .main-color-bg {

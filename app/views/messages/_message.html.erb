@@ -5,11 +5,16 @@
       <div class="message-content">
         <%= message.content %>
       </div>
-      <span class="message-created_at"><%= l message.created_at, format: :short %></span>
+      <div class="fs-12">
+        <span><%= l message.created_at, format: :short %></span>
+      </div>
     </div>
   <% else %>
     <div class="message-current_user">
-      <span class="message-created_at"><%= l message.created_at, format: :short %></span>
+      <div class="d-flex flex-column fs-12 text-right">
+        <span><%= translate_of(message.read) %></span>
+        <span class="fs-12"><%= l message.created_at, format: :short %></span>
+      </div>
       <div class="message-content main-color-bg">
         <%= message.content %>
       </div>

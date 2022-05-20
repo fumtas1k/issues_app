@@ -10,6 +10,13 @@ class ChatRoomsController < ApplicationController
     @chat_room = ChatRoom.find(params[:id])
     @partner = @chat_room.users.where.not(id: current_user.id).first
     @messages = @chat_room.messages.past
+    @unread_index = nil
+    @messages.each_with_index do |message, index|
+      if message.user == @partner && !message.read
+        @unread_index ||= index
+        message.toggle!(:read)
+      end
+    end
   end
 
   def create
