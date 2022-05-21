@@ -139,9 +139,14 @@ module ApplicationHelper
     chat_room = ChatRoomUser.find_by(chat_room_id: chat_room_ids, user_id: current_user.id)&.chat_room
     messages_count =
       if chat_room
-        chat_room.messages.where(user_id: user.id, read: false).size
+        chat_room.messages.where(user_id: user.id, read: false).count
       end
     messages_count = nil if messages_count == 0
     messages_count
+  end
+
+  def all_unread_messages_count
+    current_user_chat_room_ids = current_user.chat_rooms.pluck(:id)
+    Message.where.not(user_id: current_user).where(chat_room_id: current_user_chat_room_ids, read: false).count
   end
 end
