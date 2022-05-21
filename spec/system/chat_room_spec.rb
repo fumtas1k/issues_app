@@ -32,4 +32,69 @@ RSpec.describe :chat_room, type: :system do
       end
     end
   end
+
+  describe "show機能(action_cable)" do
+    let!(:user) { create(:user) }
+    let!(:partner) { create(:user, :seq) }
+    let!(:other) { create(:user, :seq) }
+    let!(:chat_room) { create(:chat_room) }
+    let!(:other_chat_room) { create(:chat_room) }
+    let!(:chat_room_user) { create(:chat_room_user, user: user, chat_room: chat_room) }
+    let!(:chat_room_partner) { create(:chat_room_user, user: partner, chat_room: chat_room) }
+    let!(:chat_room_other) { create(:chat_room_user, user: other, chat_room: other_chat_room) }
+    let!(:chat_room_other_user) { create(:chat_room_user, user: user, chat_room: other_chat_room) }
+    let(:message) { attributes_for(:message) }
+
+    context "関係ないチャットルームにアクセスした場合" do
+      it "root_pathにリダイレクトされる" do
+        sign_in other
+        visit user_chat_rooms_path(other)
+        expect {
+          visit user_chat_room_path(other, chat_room)
+        }.to change {current_path}.from(user_chat_rooms_path(other)).to(root_path)
+      end
+    end
+
+    context "メッセージを送信した場合" do
+      before do
+        sign_in user
+        visit user_chat_room_path(user, chat_room)
+      end
+      it "メッセージが未読で表示される" do
+        expect {
+          fill_in "message_content", with: message[:content]
+          find("#message_content").send_keys :return
+          sleep 0.5
+          expect(page).to have_content message[:content]
+          expect(page).to have_content Message.human_attribute_name(:unread)
+        }.to change(Message, :count).by(1)
+      end
+    end
+
+    context "送信されたメッセージを相手が表示した場合" do
+      before do
+        sign_in user
+        visit user_chat_room_path(user, chat_room)
+        fill_in "message_content", with: message[:content]
+        find("#message_content").send_keys :return
+        sign_out user
+      end
+
+      it "相手のチャットルームにメッセージが表示され、自分のチャットルームのメッセージは既読になる" do
+        sign_in partner
+        visit user_chat_room_path(partner, chat_room)
+        expect(page).to have_content message[:content]
+        sign_out partner
+        sign_in user
+        visit user_chat_room_path(user, chat_room)
+        expect(page).to have_content Message.human_attribute_name(:read)
+      end
+
+      it "別のユーザーのチャットルームにはメッセージは表示されない" do
+        sign_in other
+        visit user_chat_room_path(other, other_chat_room)
+        expect(page).not_to have_content message[:content]
+      end
+    end
+  end
 end
