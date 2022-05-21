@@ -22,7 +22,7 @@
   </div>
 
   <form class="chat_room-message-form container">
-    <textarea data-behavior="chat_room_speaker" data-chat_room_id=<%= @chat_room.id %> placeholder=<%= t("views.chat_rooms.show.message_form") %>
-    class="chat_room-message-form-textarea"></textarea>
+    <textarea data-behavior="chat_room_speaker" data-chat_room_id=<%= @chat_room.id %> data-user_id=<%= current_user.id %> placeholder=<%= t("views.chat_rooms.show.message_form") %>
+    class="chat_room-message-form-textarea" id="message_content"></textarea>
   </form>
 </div>

@@ -14,7 +14,7 @@ class ChatRoomChannel < ApplicationCable::Channel
     Message.create!(
       content: data["message"],
       read: false,
-      user_id: current_user.id,
+      user_id: data["user_id"],
       chat_room_id: data["chat_room_id"]
     )
   end
