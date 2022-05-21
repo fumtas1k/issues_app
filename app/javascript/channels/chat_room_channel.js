@@ -25,8 +25,8 @@ if (/chat_rooms/.test(location.pathname)) {
       }
     },
 
-    speak: function(message, chat_room_id) {
-      return this.perform('speak', {message: message, chat_room_id: chat_room_id});
+    speak: function(message, user_id, chat_room_id) {
+      return this.perform('speak', {message: message, user_id: user_id, chat_room_id: chat_room_id});
     },
 
     read: function(message_id) {
@@ -38,7 +38,8 @@ if (/chat_rooms/.test(location.pathname)) {
     const value = e.target.value;
     if (e.key == "Enter" && value.match(/\S/g)) {
       const chat_room_id = $("textarea").data("chat_room_id");
-      appChatRoom.speak(value, chat_room_id);
+      const user_id = $("textarea").data("user_id");
+      appChatRoom.speak(value, user_id, chat_room_id);
       e.target.value = "";
       e.preventDefault();
     }
