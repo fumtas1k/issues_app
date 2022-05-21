@@ -227,6 +227,8 @@ ja:
         export: 全部員情報エクスポート
         import: インポート
     chat_rooms:
+      index:
+        draft: ドラフト版
       show:
         message_form: メッセージを入力
         unread_messages: ここから未読メッセージ

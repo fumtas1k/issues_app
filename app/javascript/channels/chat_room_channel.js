@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-if (/chat_rooms/.test(location.pathname)) {
+if (/chat_rooms\/\d+/.test(location.pathname)) {
   const user_id = location.pathname.match(/\d+/g)[0];
   const chat_room_id = location.pathname.match(/\d+/g)[1];
   const appChatRoom = consumer.subscriptions.create({channel: "ChatRoomChannel", user_id: user_id, chat_room_id: chat_room_id}, {

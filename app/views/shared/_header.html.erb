@@ -32,14 +32,21 @@
             <% end %>
           <% end %>
         </li>
+        <li class="nav-item <%= activate_css(:chat_rooms, :index)%>">
+          <%= link_to user_chat_rooms_path(current_user), class:"nav-link" do %>
+            <% if all_unread_messages_count == 0 %>
+              <span class="material-icons">chat</span>
+            <% else %>
+              <span class="material-icons text-warning">mark_unread_chat_alt</span>
+            <% end %>
+              <small><%= t("views.chat_rooms.index.draft") %></small>
+          <% end %>
+        </li>
         <li class="nav-item pc-view <%= activate_css(:users, :show)%>">
           <%= link_to user_path(current_user), class:"nav-link" do %>
             <%= image_tag prepare_avatar(current_user), class: "avatar25" %>
             <%= content_tag(:span, current_user.name) %>
           <% end %>
-        </li>
-        <li class="nav-item <%= activate_css(:chat_rooms, :index)%>">
-          <%= link_to ChatRoom.human_attribute_name(:chat), user_chat_rooms_path(current_user), class:"nav-link" %>
         </li>
         <li class="nav-item <%= activate_css(:sessions, :destroy)%>">
           <%= link_to t("devise.sessions.new.sign_out"), destroy_user_session_path, method: :delete, class:"nav-link" %>

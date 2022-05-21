@@ -37,7 +37,7 @@ RSpec.describe ChatRoomChannel, type: :channel do
     end
 
     context "送信失敗(chat_roomとuserが不明の場合)" do
-      it "メッセージを送信すると保存できない" do
+      it "メッセージを送信するとエラーが返る" do
         expect do
           perform :speak, message: message[:content], user_id: user.id, chat_room_id: chat_room.id
         end.to raise_error RuntimeError
