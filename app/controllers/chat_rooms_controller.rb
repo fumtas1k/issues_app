@@ -28,7 +28,7 @@ class ChatRoomsController < ApplicationController
   private
 
   def ensure_correct_user
-    user = User.find(params[:user_id])
-    redirect_back fallback_location: root_path unless current_user == user
+    chat_room = ChatRoom.find(params[:id])
+    redirect_back fallback_location: root_path unless chat_room.users.include?(current_user)
   end
 end
