@@ -3,8 +3,8 @@
 ActiveSupport::Reloader.to_prepare do
   if Rails.env.production?
     ApplicationController.renderer.defaults.merge!(
-      http_host: "warm-scrubland-25965.herokuapp.com",
-      https: true
+      http_host: ENV['HTTP_HOST'],
+      https: ENV['HTTPS']
     )
   else
     ApplicationController.renderer.defaults.merge!(
