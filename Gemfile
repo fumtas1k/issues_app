@@ -34,11 +34,11 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'bullet'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'capistrano'
-  gem 'capistrano3-unicorn'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
-  gem 'capistrano-rbenv'
+  gem 'capistrano', require: false
+  gem 'capistrano3-unicorn', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rbenv', require: false
   gem 'ed25519'
   gem 'factory_bot_rails'
   gem 'launchy'
