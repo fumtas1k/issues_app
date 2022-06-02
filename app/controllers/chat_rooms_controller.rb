@@ -3,7 +3,7 @@ class ChatRoomsController < ApplicationController
   before_action :ensure_correct_user, only: %i[show]
 
   def index
-    @users = User.where.not(id: current_user.id).order_by_code
+    @users = User.where.not(id: current_user.id).with_attached_avatar.order_by_code
   end
 
   def show

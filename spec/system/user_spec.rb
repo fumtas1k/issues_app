@@ -63,6 +63,7 @@ RSpec.describe :user, type: :system do
       let!(:user_params){attributes_for(:user).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "rootページにリダイレクトしフラッシュが表示される" do
         visit new_user_registration_path
+        sleep 0.2
         expect(current_path).to eq root_path
         expect(page).to have_content I18n.t("devise.failure.already_authenticated")
       end
