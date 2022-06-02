@@ -13,7 +13,6 @@ if (/chat_rooms\/\d+/.test(location.pathname)) {
     },
 
     received(data) {
-      console.log(data["read_message_ids"]);
       if (data["check_read"]) {
         this.read(data["message_id"]);
       }
