@@ -8,6 +8,6 @@ class Message < ApplicationRecord
 
   def self.read_all(ids)
     return if ids.blank?
-    self.where(id: ids).each { _1.toggle!(:read) }
+    self.where(id: ids).each { _1.toggle!(:read) unless _1.read }
   end
 end
