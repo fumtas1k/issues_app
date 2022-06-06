@@ -25,7 +25,8 @@
       <%= f.date_field :entered_at, autocomplete: "date", class: "form-control", required: true %>
     </div>
     <div class="avatar-container">
-      <%= image_tag prepare_avatar(@user), class: "avatar50" %>
+      <img src="#" alt="prev avatar" id="avatar-prev" class="d-none avatar50">
+      <%= image_tag prepare_avatar(@user), class: "avatar50", id: "avatar-img" %>
     </div>
     <div class="field in-small">
       <%= f.label :avatar, class: "sr-only" %>

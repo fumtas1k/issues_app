@@ -6,7 +6,8 @@
     <%= form_with(model: @user, url: registration_path(@user, avatar: true, user_id: @user.id), class: "login-form", local: true) do |f| %>
       <%= render "devise/shared/error_messages", resource: @user %>
       <div class="avatar-container">
-        <%= image_tag prepare_avatar(@user), class: "avatar200" %>
+        <img src="#" alt="" id="avatar-prev" class="d-none avatar200">
+        <%= image_tag prepare_avatar(@user), class: "avatar200", id: "avatar-img" %>
       </div>
       <%= content_tag(:small, t("views.users.edit_avatar.delete-avatar-caution"), class: "delete-avatar-caution attention") %>
       <div class="field">
