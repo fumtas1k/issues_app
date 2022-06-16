@@ -1,0 +1,4 @@
+<nav class="nav nav-pills btn2-container">
+    <%= link_to "チャット", user_chat_rooms_path(current_user), class: "flex-fill text-center nav-link #{activate_css(:chat_rooms, :index)}" %>
+    <%= link_to "部員一覧", user_index_user_chat_rooms_path(current_user), class: "flex-fill text-center nav-link #{activate_css(:chat_rooms, :user_index)}" %>
+</nav>

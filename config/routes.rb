@@ -22,7 +22,11 @@ Rails.application.routes.draw do
           delete :destroy_all
         end
       end
-      resources :chat_rooms, only: %i[index show create]
+      resources :chat_rooms, only: %i[index show create] do
+        collection do
+          get :user_index
+        end
+      end
     end
   end
 

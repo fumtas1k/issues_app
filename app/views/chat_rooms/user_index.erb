@@ -1,0 +1,31 @@
+<div class="chat_room-index-page">
+  <div class="chat_users-container">
+    <h3 class="chat_users-title ml-3">
+      <%= render "chat_room_nav" %>
+    </h3>
+    <div class="chat_users-list">
+      <% if @users.present? %>
+        <% @users.each do |user| %>
+          <%= link_to user_chat_rooms_path(user_id: user.id), method: :post do %>
+          <div class="chat_users-person">
+            <%= image_tag prepare_avatar(user), class: "avatar50" %>
+            <div class="chat_users-person-profile">
+              <div class="chat_users-person-profile-name">
+                <span><%= user.code %></span>
+                <span><%= user.name %></span>
+              </div>
+              <div class="d-flex">
+                <% unread_counts = unread_messages_count(user) %>
+                <span class=<%= unread_counts_css(unread_counts) %>><%= unread_counts %></span>
+                <span class="current-message <%= unread_messages_css(unread_counts)%>"><%= current_message(user)&.content %></span>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'notify' %>

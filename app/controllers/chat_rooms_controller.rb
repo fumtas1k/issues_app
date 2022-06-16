@@ -3,6 +3,11 @@ class ChatRoomsController < ApplicationController
   before_action :ensure_correct_user, only: %i[show]
 
   def index
+    chat_room_ids = ChatRoomUser.where(user_id: current_user.id).pluck(:chat_room_id)
+    @chat_rooms = ChatRoom.where(id: chat_room_ids).joins(:messages).includes(:messages).distinct(true).order("messages.created_at desc")
+  end
+
+  def user_index
     @users = User.where.not(id: current_user.id).with_attached_avatar.order_by_code
   end
 
