@@ -26,15 +26,20 @@ header {
   top: 0;
   z-index: 100;
   width: 100%;
-  .nav-item::after {
-    content: "";
-    display: block;
-    width: 0;
-    transition: width 0.3s;
-    border-bottom: 1px solid #ccc;
+  .nav-item {
+    &::after {
+      content: "";
+      display: block;
+      width: 0;
+      transition: width 0.3s;
+      border-bottom: 1px solid #ccc;
+    }
+    &:hover::after {
+      width: 100%;
+    }
   }
-  .nav-item:hover::after {
-    width: 100%;
+  .navbar-toggler:focus {
+    outline: none;
   }
 }
 main {
@@ -616,7 +621,7 @@ small.attention {
   .chat_users {
     &-title {
       color: #616161;
-      margin: 8px 0 8px 16px;
+      margin: 8px;
     }
     &-list {
       min-height: 500px;
@@ -757,5 +762,12 @@ small.attention {
   }
   #messages {
     margin-bottom: 40px;
+  }
+}
+
+/* search */
+#accordionExample {
+  .btn:focus, .btn.focus {
+    box-shadow: none;
   }
 }
