@@ -219,6 +219,17 @@ footer .pc-view {
   }
 }
 
+/* flash alert */
+.alert-close {
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
+.display-none {
+  display: none !important;
+}
+
 /*---notifications---*/
 /* notification index */
 .notification-link {

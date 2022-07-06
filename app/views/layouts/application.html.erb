@@ -27,7 +27,14 @@
       </header>
       <main>
         <% flash.each do |key, message| %>
-          <%= content_tag :div, message, class: "alert alert-#{translate_css(key)}" %>
+          <div class="alert-container">
+            <div class="alert alert-<%= translate_css(key) %> d-flex justify-content-between">
+              <%= content_tag :span, message, class: "alert-message" %>
+              <span class="material-icons alert-close">
+                close
+              </span>
+            </div>
+          </div>
         <% end %>
         <div class="container">
           <%= yield %>
