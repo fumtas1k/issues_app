@@ -40,8 +40,11 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
+  if ENV['DISABLE_REQUEST_FORGERY_PROTECTION'] == "true"
+    config.action_cable.disable_request_forgery_protection = true
+  end
   config.action_cable.url = "wss://#{ENV['HTTP_HOST']}/cable"
-  config.action_cable.allowed_request_origins = ["https://#{ENV['HTTP_HOST']}", "http://#{ENV['HTTP_HOST']}/"]
+  config.action_cable.allowed_request_origins = ["https://#{ENV['HTTP_HOST']}", "http://#{ENV['HTTP_HOST']}"]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
