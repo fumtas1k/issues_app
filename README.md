@@ -2,7 +2,7 @@
 
 # 意習(issue)
 
-公開URL: https://warm-scrubland-25965.herokuapp.com/
+公開URL:
 
 ![アプリイメージ](RDD/app_image.JPG)
 
@@ -30,6 +30,7 @@
 - AWS S3
 - Heroku
 - SendGrid
+- docker
 
 ## 技術
 
@@ -47,6 +48,7 @@
 - rails_admin
 - ransack
 - rspec-rails
+- whenever
 
 ### javascript
 
@@ -57,10 +59,9 @@
 
 ### その他
 
-- heroku scheduler
-  + attachされていないファイルの削除
-  + 7日以上経過した通知の削除を定期実行 -> 一旦停止
-- sider (コードレビュー自動化)
+- wheneverを用いて以下を毎日定期実行
+  + attachされていないファイルの削除(作成日が1日前)
+  + 28日以上経過した通知の削除
 
 ## 主な機能
 
@@ -97,25 +98,19 @@
 ```
 $ git clone https://github.com/fumtas1k/issues_app.git
 $ cd issues_app
-$ bundle install
-$ yarn install
-$ rails db:create && rails db:migrate
-$ rails s
+$ docker-compose up
 ```
 
-本アプリには、ImageMagickが必要です。
-インストールされていない場合は、以下を実行して下さい。
-
-**Macの場合**
+issues_db, issues_web, issues_webpackerが起動した後、新たなターミナルで以下を実行
 
 ```
-$ brew install imagemagick
+$ docker-compose run web rails db:create db:migrate
 ```
 
-**Windowsの場合(WSL2)**
+ダミーデータが欲しい場合は、以下を実行
 
 ```
-$ sudo apt install imagemagick
+$ docker-compose run web rails db:seed
 ```
 
 ## カタログ設計
