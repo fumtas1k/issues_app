@@ -17,7 +17,6 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: db
   username: issues_app
   password: <%= ENV['ISSUES_APP_DATABASE_PASSWORD'] %>
   # For details on connection pooling, see Rails configuration guide
@@ -26,6 +25,7 @@ default: &default
 
 development:
   <<: *default
+  host: db
   database: issues_app_development
 
   # The specified database role being used to connect to postgres.
@@ -60,6 +60,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  host: db
   database: issues_app_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
