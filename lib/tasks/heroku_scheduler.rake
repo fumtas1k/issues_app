@@ -11,6 +11,6 @@ namespace :heroku_scheduler do
   end
 
   task delete_notification: :environment do
-    Notification.where("created_at <= ?", 7.days.ago).destroy_all
+    Notification.where("created_at <= ?", 28.days.ago).destroy_all
   end
 end
