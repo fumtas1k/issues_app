@@ -1,0 +1,17 @@
+.env*
+.git
+.gitignore
+.cache
+.dockerignore
+.README.md
+docker-compose.yml
+Dockerfile
+log/*
+node_modules/*
+public/assets/*
+storage/*
+public/packs/*
+public/packs-test/*
+tmp/*
+db_volume/*
+crontab/*

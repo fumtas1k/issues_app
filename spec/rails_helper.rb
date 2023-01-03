@@ -6,6 +6,7 @@ require 'rspec/rails'
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 require 'devise'
+require 'database_cleaner/active_record'
 
 begin
   ActiveRecord::Migration.maintain_test_schema!

@@ -1,0 +1,46 @@
+version: '3'
+services:
+  db:
+    container_name: issues_db
+    image: postgres:14.6
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_USER: issues_app
+      POSTGRES_PASSWORD: issues_app
+    volumes:
+      - ./db_volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always
+  web: &web
+    container_name: issues_web
+    build: .
+    command: bash -c "service cron start && bundle exec whenever --update-crontab && rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      RAILS_ENV: development
+      NODE_ENV: development
+      ISSUES_APP_DATABASE_PASSWORD: issues_app
+      WEBPACKER_DEV_SERVER_HOST: webpacker
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    restart: always
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+  webpacker:
+    <<: *web
+    container_name: issues_webpacker
+    depends_on:
+      - web
+    command: ./bin/webpack-dev-server
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - 3035:3035
+volumes:
+  db_volume:

@@ -27,6 +27,7 @@ gem 'rails_admin'
 gem 'ransack'
 gem 'rexml'
 gem 'unicorn'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'bcrypt_pbkdf'
