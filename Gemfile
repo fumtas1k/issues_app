@@ -26,6 +26,7 @@ gem 'kaminari'
 gem 'rails_admin'
 gem 'ransack'
 gem 'rexml'
+gem 'sendgrid-ruby'
 gem 'unicorn'
 gem 'whenever', require: false
 
