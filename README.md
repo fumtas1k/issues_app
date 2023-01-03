@@ -28,7 +28,6 @@
 ## インフラ
 
 - AWS S3
-- Heroku
 - SendGrid
 - docker
 
@@ -48,6 +47,7 @@
 - rails_admin
 - ransack
 - rspec-rails
+- sendgrid-ruby
 - whenever
 
 ### javascript
@@ -95,7 +95,7 @@
 以下は全てターミナルでの操作になります。
 最初にアカウント登録したユーザーに管理者権限が付与されます。
 
-```
+```plain text
 $ git clone https://github.com/fumtas1k/issues_app.git
 $ cd issues_app
 $ docker-compose up
@@ -103,14 +103,28 @@ $ docker-compose up
 
 issues_db, issues_web, issues_webpackerが起動した後、新たなターミナルで以下を実行
 
-```
+```plain text
 $ docker-compose run web rails db:create db:migrate
 ```
 
-ダミーデータが欲しい場合は、以下を実行
+環境変数は`issues_app`ディレク直下に`.env`ファイルを作成し、以下を埋めて下さい。`SENDGRID_API_KEY`はSEND GRIDに登録し、API KEYを入手して下さい（メール登録しなくても使用可能です）。EMAILはご自分のメールアドレスを入力して下さい。
 
+```plain text
+SENDGRID_API_KEY =
+SENDGRID_API_HOST = https://api.sendgrid.com
+EMAIL =
 ```
+
+ダミーデータが欲しい場合は、ターミナルで以下を実行
+
+```plain text
 $ docker-compose run web rails db:seed
+```
+
+dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行
+
+```plain text
+$ docker-compose exec -it web bush
 ```
 
 ## カタログ設計
