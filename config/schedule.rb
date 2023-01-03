@@ -4,11 +4,10 @@ set :environment, rails_env
 
 ENV.each {|k, v| env(k, v)} if rails_env == "development"
 
-# テスト用に時間を変更revertする
 every "0 0 * * *" do
   rake "heroku_scheduler:delete_notification"
 end
 
-every "20 16 * * *" do
+every "0 1 * * *" do
   rake "heroku_scheduler:purge_unattached"
 end
