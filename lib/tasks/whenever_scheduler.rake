@@ -2,8 +2,8 @@ require "logger"
 
 LOG_FILE = "log/crontab.log"
 
-namespace :heroku_scheduler do
-  desc "This task is called by the Heroku scheduler add-on"
+namespace :whenever_scheduler do
+  desc "This task is called by the whenever scheduler"
 
   task test_scheduler: :environment do
     puts "scheduler test"
@@ -18,7 +18,7 @@ namespace :heroku_scheduler do
   end
 
   task delete_notification: :environment do
-    old_notifications = Notification.where("created_at <= ?", 28.days.ago)
+    old_notifications = Notification.where("created_at <= ?", 29.days.ago)
     count = old_notifications.size
     old_notifications.destroy_all
     Logger.new(LOG_FILE).error "[rake task] #{count}件の古い通知を削除しました!"
