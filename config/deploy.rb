@@ -15,6 +15,8 @@ set :rbenv_ruby, '3.0.1'
 set :rbenv_type, :system
 set :log_level, :info
 
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
+
 namespace :deploy do
   desc 'Restart application'
   task :restart do

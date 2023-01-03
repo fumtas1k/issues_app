@@ -9,3 +9,6 @@ RUN gem install bundler:2.3.8 && bundle config set force_ruby_platform true
 RUN bundle install
 COPY . /app
 RUN cd app && yarn install
+ENV TZ Asia/Tokyo
+ENV LANG ja_JP.UTF-8
+ENV LANGUAGE ja_JP:ja
