@@ -1,5 +1,6 @@
 require "logger"
 
+# TODO これは本来設定ファイルか環境変数にすべき
 LOG_FILE = "log/crontab.log"
 
 namespace :whenever_scheduler do
@@ -21,6 +22,6 @@ namespace :whenever_scheduler do
     old_notifications = Notification.where("created_at <= ?", 29.days.ago)
     count = old_notifications.size
     old_notifications.destroy_all
-    Logger.new(LOG_FILE).error "[rake task] #{count}件の古い通知を削除しました!"
+    Logger.new(LOG_FILE).info "[rake task] #{count}件の古い通知を削除しました!"
   end
 end
