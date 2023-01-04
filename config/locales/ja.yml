@@ -212,6 +212,7 @@ ja:
         title: 新着
         read_all: 全既読
         delete_all: 全削除
+        remark01: 新着通知は29日後に自動的に削除されます。
     users_csv:
       flash:
         add_users_success: "%{count}人のユーザーを登録しました"
