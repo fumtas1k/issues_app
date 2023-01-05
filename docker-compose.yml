@@ -15,7 +15,7 @@ services:
   web: &web
     container_name: issues_web
     build: .
-    command: bash -c "service cron start && bundle exec whenever --update-crontab && rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    entrypoint: bash scripts/wait-for-it-web.sh db:5432
     environment:
       RAILS_ENV: development
       NODE_ENV: development
@@ -35,7 +35,7 @@ services:
     container_name: issues_webpacker
     depends_on:
       - web
-    command: ./bin/webpack-dev-server
+    entrypoint: bash scripts/wait-for-it-webpacker.sh web:3000
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     volumes:
