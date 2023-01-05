@@ -101,12 +101,6 @@ $ cd issues_app
 $ docker-compose up
 ```
 
-issues_db, issues_web, issues_webpackerが起動した後、新たなターミナルで以下を実行
-
-```plain text
-$ docker-compose run web rails db:create db:migrate
-```
-
 環境変数は`issues_app`ディレク直下に`.env`ファイルを作成し、以下を埋めて下さい。`SENDGRID_API_KEY`はSEND GRIDに登録し、API KEYを入手して下さい（メール登録しなくても使用可能です）。EMAILはご自分のメールアドレスを入力して下さい。
 
 ```plain text
@@ -124,7 +118,7 @@ $ docker-compose run web rails db:seed
 dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行
 
 ```plain text
-$ docker-compose exec -it web bush
+$ docker-compose exec web bush
 ```
 
 ## カタログ設計
