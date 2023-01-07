@@ -139,6 +139,8 @@
     EMAIL =
     ```
 
+    `.env` ファイルの設定が終わったら以下を実行。
+
     ```plain text
     $ docker-compose up
     ```
