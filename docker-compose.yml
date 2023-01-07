@@ -68,10 +68,8 @@ services:
       /bin/sh -c "
         /usr/bin/mc config host rm local;
         /usr/bin/mc config host add --quiet --api s3v4 local http://minio:9000 issues_app issues_app;
-        /usr/bin/mc rb --force local/issues-app-development;
         /usr/bin/mc mb --quiet local/issues-app-development;
         /usr/bin/mc policy set public local/issues-app-development;
-        /usr/bin/mc rb --force local/issues-app-test;
         /usr/bin/mc mb --quiet local/issues-app-test;
         /usr/bin/mc policy set public local/issues-app-test;
       "
