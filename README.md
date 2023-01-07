@@ -165,6 +165,34 @@
 
 なお、このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
 
+## 削除手順
+
+1. 停止(一部削除含む)
+
+    ターミナルにて以下を実行
+    ```plain text
+    $ docker-compose down
+    ```
+2. コンテナーの削除
+
+    ターミナルにて以下を実行
+
+    ```plain text
+    $ docker ps -a -f name="^issues_app" -q | xargs docker rm
+    ```
+3. イメージの削除(web, webpackerのみ)
+
+    ```plain text
+    $ docker images -f reference="issues_app*" -q | xargs docker rmi
+    ```
+
+4. ボリュームの削除
+
+    ```plain text
+    $ docker volume ls -f name="^issues_app" -q | xargs docker volume rm
+    ```
+
+
 ## カタログ設計
 
 https://docs.google.com/spreadsheets/d/1TkFKai1BwqkoukUsm8eNM-FI5RmXw8tFM69eKMoSiRY/edit#gid=782464957
