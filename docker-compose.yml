@@ -45,5 +45,37 @@ services:
       - .:/app
     ports:
       - 3035:3035
+  minio:
+    container_name: issues_minio
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: issues_app
+      MINIO_ROOT_PASSWORD: issues_app
+    entrypoint: bash
+    command: -c "/opt/bin/minio server /data --console-address :9001"
+    volumes:
+      - minio_volume:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+  mc:
+    container_name: mc
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+        /usr/bin/mc config host rm local;
+        /usr/bin/mc config host add --quiet --api s3v4 local http://minio:9000 issues_app issues_app;
+        /usr/bin/mc rb --force local/issues-app-development;
+        /usr/bin/mc mb --quiet local/issues-app-development;
+        /usr/bin/mc policy set public local/issues-app-development;
+        /usr/bin/mc rb --force local/issues-app-test;
+        /usr/bin/mc mb --quiet local/issues-app-test;
+        /usr/bin/mc policy set public local/issues-app-test;
+      "
 volumes:
   db_volume:
+    driver: local
+  minio_volume:
+    driver: local
