@@ -30,6 +30,7 @@ services:
     restart: always
     depends_on:
       - db
+      - minio
     tty: true
     stdin_open: true
   webpacker:
