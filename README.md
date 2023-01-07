@@ -91,35 +91,77 @@
 - チャット機能（ドラフト版）
   * リアルタイムチャット機能
 
+## docker構成
+
+| サーバー名 | 用途 |
+|---|---|
+| db | データベース用 |
+| web | アプリケーション用 |
+| webpacker | webpackのコンパイル用 |
+| minio | ストレージ（S3互換）用 |
+| mc | minioの初期設定用 |
+
 ## 実行手順
-以下は全てターミナルでの操作になります。
-最初にアカウント登録したユーザーに管理者権限が付与されます。
 
-```plain text
-$ git clone https://github.com/fumtas1k/issues_app.git
-$ cd issues_app
-$ docker-compose up
-```
+以下は全てターミナルでの操作になります(macでの操作)。
 
-環境変数は`issues_app`ディレク直下に`.env`ファイルを作成し、以下を埋めて下さい。`SENDGRID_API_KEY`はSEND GRIDに登録し、API KEYを入手して下さい（メール登録しなくても使用可能です）。EMAILはご自分のメールアドレスを入力して下さい。
+1. hostsの追加
 
-```plain text
-SENDGRID_API_KEY =
-SENDGRID_API_HOST = https://api.sendgrid.com
-EMAIL =
-```
+    まず、S3の代わりにdockerでminioを使用するため、minioのIPアドレスを読み替える必要があります。
+    webサーバーからは `http://minio:9000` でminioサーバーにアクセスしますが、ブラウザからは `http://localhost:9000` でアクセスするため、そのままでは保存した画像が表示できなかったり直接のアップロードができなかったりします。
 
-ダミーデータが欲しい場合は、ターミナルで以下を実行
+    ```plain text
+    $ sudo vi /etc/hosts
+    ```
+    パスワード入力が必要になります。
+    パソコンログイン時のパスワードを入力して下さい。
 
-```plain text
-$ docker-compose run web rails db:seed
-```
+    ファイルの中身が表示されたら、`i` キーを押して、編集できるようにします。
+    最終行の下に以下を追加。
 
-dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行
+    ```plain text
+    127.0.0.1 minio
+    ```
+    `esc` キーを押して編集を終了し、`:wq`と入力し、エンターキーを押すと保存されます。これで、下準備完了です。
 
-```plain text
-$ docker-compose exec web bush
-```
+2. 環境構築
+
+    ```plain text
+    $ git clone https://github.com/fumtas1k/issues_app.git
+    $ cd issues_app
+    ```
+
+    環境変数は`issues_app`ディレク直下に`.env`ファイルを作成し、以下を埋めて下さい。`SENDGRID_API_KEY`はSEND GRIDに登録し、API KEYを入手して下さい（メール登録しなくても使用可能です）。EMAILはご自分のメールアドレスを入力して下さい。
+
+    ```plain text
+    SENDGRID_API_KEY =
+    SENDGRID_API_HOST = https://api.sendgrid.com
+    EMAIL =
+    ```
+
+    ```plain text
+    $ docker-compose up
+    ```
+
+    全てが立ち上がったら使用可能となります。
+
+3. ダミーデータ
+
+    ダミーデータが欲しい場合は、ターミナルで以下を実行
+
+    ```plain text
+    $ docker-compose run web rails db:seed
+    ```
+
+4. サーバー内での作業
+
+    dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行(他のサーバーに入りたい場合はwebの部分をdb, minio等に変更)。
+
+    ```plain text
+    $ docker-compose exec web bush
+    ```
+
+なお、このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
 
 ## カタログ設計
 
