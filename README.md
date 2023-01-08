@@ -61,7 +61,7 @@
 ### その他
 
 - wheneverを用いて以下を毎日定期実行
-  + attachされていないファイルの削除(作成日が1日前)
+  + attachされておらず作成びが1日以上前のファイルの削除
   + 28日以上経過した通知の削除
 
 ## 主な機能
@@ -101,77 +101,80 @@
 | **webpacker** | webpackのコンパイル用 |
 | **minio** | ストレージ（S3互換）用 |
 | **mc** | minioの初期設定用 |
-| **redis** | アクションケーブル(チャット)で使用するインメモリDB |
+| **redis** | アクションケーブル(チャット)のサブスクリプションアダプタ用 |
 
 ## 実行手順
+
+このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
 
 以下は全てターミナルでの操作になります(macでの操作)。
 
 **1. hostsの追加**
 
-    まず、S3の代わりにdockerでminioを使用するため、minioのIPアドレスを読み替える必要があります。
-    webサーバーからは `http://minio:9000` でminioサーバーにアクセスしますが、ブラウザからは `http://localhost:9000` でアクセスするため、そのままでは保存した画像が表示できなかったり直接のアップロードができなかったりします。
+まず、S3の代わりにdockerでminioを使用するため、minioのIPアドレスを読み替える必要があります。
+webサーバーからは `http://minio:9000` でminioサーバーにアクセスしますが、ブラウザからは `http://localhost:9000` でアクセスするため、そのままでは保存した画像が表示できなかったり直接のアップロードができなかったりします。
 
-    ```plain text
-    $ sudo vi /etc/hosts
-    ```
-    パスワード入力が必要になります。
-    パソコンログイン時のパスワードを入力して下さい。
+```plain text
+$ sudo vi /etc/hosts
+```
+パスワード入力が必要になります。
+パソコンログイン時のパスワードを入力して下さい。
 
-    ファイルの中身が表示されたら、`i` キーを押して、編集できるようにします。
-    最終行の下に以下を追加。
+ファイルの中身が表示されたら、`i` キーを押して、編集できるようにします。
+最終行の下に以下を追加。
 
-    ```plain text
-    127.0.0.1 minio
-    ```
-    `esc` キーを押して編集を終了し、`:wq`と入力し、エンターキーを押すと保存されます。これで、下準備完了です。
+```plain text
+127.0.0.1 minio
+```
+`esc` キーを押して編集を終了し、`:wq`と入力し、エンターキーを押すと保存されます。これで、下準備完了です。
 
 **2. 環境構築**
 
-    ```plain text
-    $ git clone https://github.com/fumtas1k/issues_app.git
-    $ cd issues_app
-    ```
+まず、githubからデータをクローンし、ディレクトリを移動し`.env`ファイルを作成します。
 
-    環境変数は`issues_app`ディレク直下に`.env`ファイルを作成し、以下を埋めて下さい。`SENDGRID_API_KEY`はSEND GRIDに登録し、API KEYを入手して下さい（メール登録しなくても使用可能です）。EMAILはご自分のメールアドレスを入力して下さい。
+```plain text
+$ git clone https://github.com/fumtas1k/issues_app.git
+$ cd issues_app
+$ touch .env
+```
 
-    ```plain text
-    SENDGRID_API_KEY =
-    SENDGRID_API_HOST = https://api.sendgrid.com
-    EMAIL =
-    ```
+`.env`ファイルに、以下をコピーしイコールの右側を埋めて環境変数を設定します。`SENDGRID_API_KEY`はSEND GRIDに登録し、API KEYを入手して下さい。EMAILはご自分のメールアドレスを入力して下さい。パスワード再設定のみに必要なため設定しなくても問題はありません。
 
-    `.env` ファイルの設定が終わったら以下を実行。
+```plain text
+SENDGRID_API_KEY =
+SENDGRID_API_HOST = https://api.sendgrid.com
+EMAIL =
+```
 
-    ```plain text
-    $ docker-compose up -d
-    ```
+`.env` ファイルの設定が終わったらコンテナを作成、起動するため以下を実行。
 
-    全てが立ち上がったら使用可能となります。
-    `http:127.0.0.1:3000` にアクセスして下さい(最初に立ち上げた時は、データベースの初期化等で時間がかかります)。
+```plain text
+$ docker-compose up -d
+```
+
+全てが立ち上がったら使用可能となります。
+`http:127.0.0.1:3000` にアクセスして下さい(最初に立ち上げた時は、データベースの初期化等で時間がかかります)。
 
 **3. ダミーデータ**
 
-    ダミーデータが欲しい場合は、ターミナルで以下を実行
+ダミーデータが欲しい場合は、ターミナルで以下を実行
 
-    ```plain text
-    $ docker-compose run web rails db:seed
-    ```
+```plain text
+$ docker-compose run web rails db:seed
+```
 
 **4. サーバー内での作業**
 
-    dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行(他のサーバーに入りたい場合はwebの部分をdb, minio等に変更)。
+dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行(他のサーバーに入りたい場合はwebの部分をdb, minio等に変更)。
 
-    ```plain text
-    $ docker-compose exec web bush
-    ```
+```plain text
+$ docker-compose exec web bush
+```
 **5. 停止したい場合**
 
-   ```plain text
-   $ docker-compose stop
-   ```
-
-なお、このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
+```plain text
+$ docker-compose stop
+```
 
 ## 削除手順
 
