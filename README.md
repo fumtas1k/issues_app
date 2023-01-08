@@ -46,6 +46,7 @@
 - kaminari
 - rails_admin
 - ransack
+- redis (>= 3, 5 <)
 - rspec-rails
 - sendgrid-ruby
 - whenever
@@ -100,6 +101,7 @@
 | **webpacker** | webpackのコンパイル用 |
 | **minio** | ストレージ（S3互換）用 |
 | **mc** | minioの初期設定用 |
+| **redis** | アクションケーブル(チャット)で使用するインメモリDB |
 
 ## 実行手順
 
