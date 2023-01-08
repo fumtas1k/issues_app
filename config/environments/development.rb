@@ -47,4 +47,9 @@ Rails.application.configure do
   config.assets.quiet = true
 
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+
+  # action cable設定
+  config.action_cable.disable_request_forgery_protection = true
+  config.action_cable.url = "wss://web/cable"
 end

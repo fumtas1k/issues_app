@@ -1,5 +1,7 @@
 development:
-  adapter: async
+  adapter: redis
+  url: redis://redis:6379
+  channel_prefix: issues_app_development
 
 test:
   adapter: test
