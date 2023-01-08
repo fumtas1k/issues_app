@@ -95,17 +95,17 @@
 
 | サーバー名 | 用途 |
 |---|---|
-| db | データベース用 |
-| web | アプリケーション用 |
-| webpacker | webpackのコンパイル用 |
-| minio | ストレージ（S3互換）用 |
-| mc | minioの初期設定用 |
+| **db** | データベース用 |
+| **web** | アプリケーション用 |
+| **webpacker** | webpackのコンパイル用 |
+| **minio** | ストレージ（S3互換）用 |
+| **mc** | minioの初期設定用 |
 
 ## 実行手順
 
 以下は全てターミナルでの操作になります(macでの操作)。
 
-1. hostsの追加
+**1. hostsの追加**
 
     まず、S3の代わりにdockerでminioを使用するため、minioのIPアドレスを読み替える必要があります。
     webサーバーからは `http://minio:9000` でminioサーバーにアクセスしますが、ブラウザからは `http://localhost:9000` でアクセスするため、そのままでは保存した画像が表示できなかったり直接のアップロードができなかったりします。
@@ -124,7 +124,7 @@
     ```
     `esc` キーを押して編集を終了し、`:wq`と入力し、エンターキーを押すと保存されます。これで、下準備完了です。
 
-2. 環境構築
+**2. 環境構築**
 
     ```plain text
     $ git clone https://github.com/fumtas1k/issues_app.git
@@ -148,7 +148,7 @@
     全てが立ち上がったら使用可能となります。
     `http:127.0.0.1:3000` にアクセスして下さい(最初に立ち上げた時は、データベースの初期化等で時間がかかります)。
 
-3. ダミーデータ
+**3. ダミーデータ**
 
     ダミーデータが欲しい場合は、ターミナルで以下を実行
 
@@ -156,42 +156,29 @@
     $ docker-compose run web rails db:seed
     ```
 
-4. サーバー内での作業
+**4. サーバー内での作業**
 
     dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行(他のサーバーに入りたい場合はwebの部分をdb, minio等に変更)。
 
     ```plain text
     $ docker-compose exec web bush
     ```
+**5. 停止したい場合**
+
+   ```plain text
+   $ docker-compose stop
+   ```
 
 なお、このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
 
 ## 削除手順
 
-1. 停止(一部削除含む)
+一括削除するには、以下のコマンドをターミナルで実行。
+コンテナ、イメージ、ボリューム、ネットワークが削除されます。
 
-    ターミナルにて以下を実行
-    ```plain text
-    $ docker-compose down
-    ```
-2. コンテナーの削除
-
-    ターミナルにて以下を実行
-
-    ```plain text
-    $ docker ps -a -f name="^issues_app" -q | xargs docker rm
-    ```
-3. イメージの削除(web, webpackerのみ)
-
-    ```plain text
-    $ docker images -f reference="issues_app*" -q | xargs docker rmi
-    ```
-
-4. ボリュームの削除
-
-    ```plain text
-    $ docker volume ls -f name="^issues_app" -q | xargs docker volume rm
-    ```
+```plain text
+$ docker-compose down --rmi all --volumes --remove-orphans
+```
 
 
 ## カタログ設計

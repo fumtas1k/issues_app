@@ -1,4 +1,12 @@
 test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+test_s3:
   service: S3
   access_key_id: <%= ENV['MINIO_ROOT_USER'] %>
   secret_access_key: <%= ENV['MINIO_ROOT_PASSWORD'] %>
@@ -6,7 +14,8 @@ test:
   force_path_style: true
   region: ap-northeast-1
   bucket: issues-app-test
-local:
+
+local_s3:
   service: S3
   access_key_id: <%= ENV['MINIO_ROOT_USER'] %>
   secret_access_key: <%= ENV['MINIO_ROOT_PASSWORD'] %>
