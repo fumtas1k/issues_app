@@ -31,6 +31,7 @@ services:
     depends_on:
       - db
       - minio
+      - redis
     tty: true
     stdin_open: true
   webpacker:
@@ -73,8 +74,18 @@ services:
         /usr/bin/mc mb --quiet local/issues-app-test;
         /usr/bin/mc policy set public local/issues-app-test;
       "
+  redis:
+    container_name: issues_redis
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_volume:/data
+
 volumes:
   db_volume:
     driver: local
   minio_volume:
+    driver: local
+  redis_volume:
     driver: local
