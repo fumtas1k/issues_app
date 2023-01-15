@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  # VPC
+  issuesLiveVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.2.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: issues-live-vpc
+
+  # InternetGateway
+  issuesLiveIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: issues-live-igw
+
+  issuesLiveAttachGW:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref issuesLiveIGW
+      VpcId: !Ref issuesLiveVPC
+
+  # Subnet
+  issuesLivePublic1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: 10.2.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: issues-live-public1a
+      VpcId: !Ref issuesLiveVPC
+  issuesLivePrivate1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: 10.2.2.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: issues-live-private1a
+      VpcId: !Ref issuesLiveVPC
+
+  # Route Table
+  issuesLivePublic1aRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: issues-live-vpc-rt
+      VpcId: !Ref issuesLiveVPC
+
+  issuesLiveRTAssociation1a:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref issuesLivePublic1aRouteTable
+      SubnetId: !Ref issuesLivePublic1a
+
+  issuesLiveRouteIGW:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref issuesLiveIGW
+      RouteTableId: !Ref issuesLivePublic1aRouteTable
