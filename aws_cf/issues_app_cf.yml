@@ -1,5 +1,13 @@
 AWSTemplateFormatVersion: 2010-09-09
 
+Parameters:
+  SSHKey:
+    Description: The EC2 Key Pair to allow SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+  allowedIP:
+    Description: IP address allowed to access EC2
+    Type: String
+
 Resources:
   # VPC
   issuesLiveVPC:
@@ -69,3 +77,48 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref issuesLiveIGW
       RouteTableId: !Ref issuesLivePublic1aRouteTable
+
+  # EC2
+  issuesLiveEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      ImageId: ami-0bba69335379e17f8
+      InstanceType: t2.micro
+      KeyName: !Ref SSHKey
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !Ref issuesLivePublic1a
+          GroupSet:
+            - !Ref issuesLiveEC2SG
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          yum update -y
+          yum install -y git
+          git clone https://github.com/rbenv/rbenv.git /usr/local/rbenv
+          export RBENV_ROOT=/usr/local/rbenv
+          export PATH="$RBENV_ROOT/bin:$PATH"
+          eval "$(rbenv init-)"
+          mkdir /app
+      Tags:
+        - Key: Name
+          Value: issues-live-ec2
+
+  # EC2 Security Group
+  issuesLiveEC2SG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: issues-live-ec2-sg
+      GroupDescription: HTTP and SSH
+      VpcId: !Ref issuesLiveVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: !Ref allowedIP
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref allowedIP
