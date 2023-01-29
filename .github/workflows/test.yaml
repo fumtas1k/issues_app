@@ -1,0 +1,62 @@
+name: Test
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    name: Rspec
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:14
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: issues_app
+          POSTGRES_PASSWORD: issues_app
+          POSTGRES_DB: issues_app_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      # web:
+      #   image: ruby:3.0.1
+      #   env:
+      #     RAILS_ENV: test
+      #     POSTGRES_HOST: db
+      #     RAILS_DATABASE_USER: issues_app
+      #     RAILS_DATABASE_PASSWORD: issues_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        with:
+          bundler: "Gemfile.lock"
+          bundler-cache: true
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          path: vendor/bundle
+          key: bundle-v1-${{ hashFiles('Gemfile.lock') }}
+      - name: Run bundle install
+        run: |
+          bundle config --local path vendor/bundle
+          bundle config --local without production
+          bundle
+      - name: Cache yarn
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: yarn-v1-${{ hashFiles('yarn.lock') }}
+      - name: Set env
+        run: |
+          echo '::set-env name=RAILS_ENV::test'
+          echo '::set-env name=DATABASE_URL::postgres://db:issues_app:issues_app@localhost:5432/issues_app_test'
+      - name: Setup DB
+        run: bundle exec rails db:schema:load
+      - name: Rspec
+        run: bundle exec rspec spec/models # rspec --exclude-pattern "system"
