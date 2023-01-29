@@ -2,7 +2,7 @@ name: Test
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [ opened, labeled, synchronize, reopened ]
 
 env:
   RAILS_ENV: test
@@ -56,7 +56,7 @@ jobs:
           path: node_modules
           key: yarn-v1-${{ hashFiles('yarn.lock') }}
       - name: Yarn install
-          bundle yarn
+        run: bundle yarn
       - name: Setup DB
         run: |
           bundle exec rails create:db
