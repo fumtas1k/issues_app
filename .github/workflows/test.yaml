@@ -2,10 +2,15 @@ name: Test
 
 on:
   pull_request:
+    types: [ opened, synchronize, reopened ]
 
 env:
   RAILS_ENV: test
   ISSUES_APP_DATABASE_PASSWORD: issues_app
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
