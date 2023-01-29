@@ -3,6 +3,10 @@ name: Test
 on:
   pull_request:
 
+env:
+  RAILS_ENV: test
+  ISSUES_APP_DATABASE_PASSWORD: issues_app
+
 jobs:
   test:
     name: Rspec
@@ -21,13 +25,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      # web:
-      #   image: ruby:3.0.1
-      #   env:
-      #     RAILS_ENV: test
-      #     POSTGRES_HOST: db
-      #     RAILS_DATABASE_USER: issues_app
-      #     RAILS_DATABASE_PASSWORD: issues_app
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -47,16 +45,16 @@ jobs:
           bundle config --local path vendor/bundle
           bundle config --local without production
           bundle
-      - name: Cache yarn
+      - name: Cache Yarn
         uses: actions/cache@v2
         with:
           path: node_modules
           key: yarn-v1-${{ hashFiles('yarn.lock') }}
-      - name: Set env
-        run: |
-          echo '::set-env name=RAILS_ENV::test'
-          echo '::set-env name=DATABASE_URL::postgres://db:issues_app:issues_app@localhost:5432/issues_app_test'
+      - name: Yarn install
+          bundle yarn
       - name: Setup DB
-        run: bundle exec rails db:schema:load
+        run: |
+          bundle exec rails create:db
+          bundle exec rails db:schema:load
       - name: Rspec
         run: bundle exec rspec spec/models # rspec --exclude-pattern "system"
