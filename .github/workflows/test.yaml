@@ -7,7 +7,6 @@ on:
 env:
   RAILS_ENV: test
   ISSUES_APP_DATABASE_PASSWORD: issues_app
-  DATABASE_URL: postgresql://issues_app:issues_app@localhost:5432/issues_app_test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -58,4 +57,4 @@ jobs:
       - name: Setup DB
         run: bundle exec rails db:schema:load
       - name: Rspec
-        run: bundle exec rspec spec/models # rspec --exclude-pattern "system"
+        run: bundle exec rspec #--exclude-pattern "spec/system"
