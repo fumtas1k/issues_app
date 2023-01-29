@@ -61,4 +61,4 @@ jobs:
       - name: Setup DB
         run: bundle exec rails db:schema:load
       - name: Rspec
-        run: bundle exec rspec --exclude-pattern "spec/system/issue_spec.rb, spec/system/comment_spec.rb, spec/system/user_spec.rb"
+        run: bundle exec rspec spec/system/comment_spec.rb #--exclude-pattern "spec/system/issue_spec.rb, spec/system/comment_spec.rb, spec/system/user_spec.rb"
