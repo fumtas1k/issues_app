@@ -7,6 +7,7 @@ on:
 env:
   RAILS_ENV: test
   ISSUES_APP_DATABASE_PASSWORD: issues_app
+  DATABASE_URL: db://issues_app:issues_app@localhost:5432/issues_app
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -46,10 +47,7 @@ jobs:
           path: vendor/bundle
           key: bundle-v1-${{ hashFiles('Gemfile.lock') }}
       - name: Run bundle install
-        run: |
-          bundle config --local path vendor/bundle
-          bundle config --local without production
-          bundle
+        run: bundle --path vendor/bundle --without production
       - name: Cache Yarn
         uses: actions/cache@v2
         with:
@@ -58,8 +56,6 @@ jobs:
       - name: Yarn install
         run: yarn
       - name: Setup DB
-        run: |
-          bundle exec rails db:create
-          bundle exec rails db:schema:load
+        run: bundle exec rails db:schema:load
       - name: Rspec
         run: bundle exec rspec spec/models # rspec --exclude-pattern "system"
