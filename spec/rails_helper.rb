@@ -32,6 +32,7 @@ RSpec.configure do |config|
   # action_textのヘルパー
   config.include ActionTextHelper, type: :system
 
+  # github actionsでsystem specを動かすための設定
   config.before(:each, type: :system) do |example|
     driven_by :selenium, screen_size: [1920, 1080], using: :headless_chrome do |options|
       options.add_argument('--disable-dev-sim-usage')
