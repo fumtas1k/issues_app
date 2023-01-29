@@ -8,6 +8,7 @@ env:
   RAILS_ENV: test
   ISSUES_APP_DATABASE_PASSWORD: issues_app
   DATABASE_URL: postgresql://issues_app:issues_app@localhost:5432/issues_app_test
+  LANG: ja-JP
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -40,6 +41,8 @@ jobs:
         with:
           bundler: "Gemfile.lock"
           bundler-cache: true
+      - name: Install Fonts
+        run: sudo apt-get install fonts-ipafont-gothic fonts-ipafont-mincho
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
