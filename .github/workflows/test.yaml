@@ -59,7 +59,7 @@ jobs:
         run: yarn
       - name: Setup DB
         run: |
-          bundle exec rails create:db
+          bundle exec rails db:create
           bundle exec rails db:schema:load
       - name: Rspec
         run: bundle exec rspec spec/models # rspec --exclude-pattern "system"
