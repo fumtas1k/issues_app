@@ -56,7 +56,7 @@ jobs:
           path: node_modules
           key: yarn-v1-${{ hashFiles('yarn.lock') }}
       - name: Yarn install
-        run: bundle yarn
+        run: yarn
       - name: Setup DB
         run: |
           bundle exec rails create:db
