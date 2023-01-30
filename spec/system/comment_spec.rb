@@ -23,7 +23,7 @@ RSpec.describe :comment, type: :system do
         end
       }
       it "保存されて、コメントが表示される" do
-        expect(Comment.last.content.to_plain_text).to eq "[sample.jpg]#{comment_params[:content]}"
+        expect(Comment.last.content.to_plain_text).to eq comment_params[:content]
         expect(page).to have_content comment_params[:content]
       end
     end
