@@ -8,7 +8,9 @@ env:
   RAILS_ENV: test
   ISSUES_APP_DATABASE_PASSWORD: issues_app
   DATABASE_URL: postgresql://issues_app:issues_app@localhost:5432/issues_app_test
-  LANG: ja-JP
+  LANG: ja-JP.UTF-8
+  LANGUAGE: ja-JP.UTF-8
+  LC_ALL: ja-JP.UTF-8
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
