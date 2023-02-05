@@ -49,11 +49,6 @@ jobs:
           cache: yarn
       - name: Run bundle install
         run: bundle --path vendor/bundle --without production
-      - name: Cache Yarn
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: yarn-v1-${{ hashFiles('yarn.lock') }}
       - name: Yarn install
         run: yarn
       - name: Setup DB
