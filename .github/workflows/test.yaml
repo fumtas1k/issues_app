@@ -44,7 +44,7 @@ jobs:
           bundler: "Gemfile.lock"
           bundler-cache: true
       - name: Install Fonts
-        run: sudo apt-get install fonts-ipafont-gothic fonts-ipafont-mincho
+        run: sudo apt-get install fonts-ipafont-gothic fonts-ipafont-mincho locales
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
