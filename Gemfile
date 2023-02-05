@@ -28,6 +28,7 @@ gem 'ransack'
 gem 'redis', '~> 4'
 gem 'rexml'
 gem 'sendgrid-ruby'
+gem 'ulid'
 gem 'unicorn'
 gem 'whenever', require: false
 
