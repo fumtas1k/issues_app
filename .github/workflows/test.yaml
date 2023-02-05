@@ -50,7 +50,7 @@ jobs:
       - name: Run bundle install
         run: bundle --path vendor/bundle --without production
       - name: Cache Yarn
-        uses: actions/cache@3
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: yarn-v1-${{ hashFiles('yarn.lock') }}
