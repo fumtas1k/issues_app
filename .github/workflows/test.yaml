@@ -46,12 +46,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          path: vendor/bundle
-          key: bundle-v1-${{ hashFiles('Gemfile.lock') }}
+          cache: yarn
       - name: Run bundle install
         run: bundle --path vendor/bundle --without production
       - name: Cache Yarn
-        uses: actions/cache@v2
+        uses: actions/cache@3
         with:
           path: node_modules
           key: yarn-v1-${{ hashFiles('yarn.lock') }}
