@@ -5,7 +5,7 @@ Parameters:
     Description: The EC2 Key Pair to allow SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
   allowedIP:
-    Description: IP address allowed to access EC2
+    Description: "IP address allowed to access EC2(ex 0.0.0.0/0)"
     Type: String
 
 Resources:
@@ -83,7 +83,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: ap-northeast-1a
-      ImageId: ami-0bba69335379e17f8
+      ImageId: ami-06ee4e2261a4dc5c3
       InstanceType: t2.micro
       KeyName: !Ref SSHKey
       NetworkInterfaces:
