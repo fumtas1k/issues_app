@@ -15,7 +15,7 @@ RSpec.describe :user, type: :system do
       fill_in "user_password", with: user_params[:password]
       fill_in "user_password_confirmation", with: user_params[:password_confirmation]
       click_on "commit"
-      sleep 0.2
+      sleep 0.5
     end
 
     context "必須項目を全て入力してアカウント登録した場合" do
@@ -37,6 +37,7 @@ RSpec.describe :user, type: :system do
     context "パスワードと確認用パスワードを異なる入力をしてアカウント登録した場合" do
       let!(:user_params){attributes_for(:user, password: "password", password_confirmation: "password".reverse).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "アカウント登録ページにリダイレクトしエラーメッセージが表示される" do
+        sleep 0.5
         expect(current_path).to eq users_path
         expect(page).to have_content I18n.t("devise.registrations.new.subtitle")
         within "#error_explanation" do
@@ -63,7 +64,7 @@ RSpec.describe :user, type: :system do
       let!(:user_params){attributes_for(:user).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "rootページにリダイレクトしフラッシュが表示される" do
         visit new_user_registration_path
-        sleep 0.2
+        sleep 1
         expect(current_path).to eq root_path
         expect(page).to have_content I18n.t("devise.failure.already_authenticated")
       end
