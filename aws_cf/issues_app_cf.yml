@@ -95,27 +95,18 @@ Resources:
       UserData:
         Fn::Base64: |
           #!/bin/bash
-          sudo yum update -y
-          sudo timedatectl set-timezone Asia/Tokyo
-          sudo localectl set-locale LANG=ja_JP.utf8
+          yum update -y
+          timedatectl set-timezone Asia/Tokyo
+          localectl set-locale LANG=ja_JP.utf8
           source /etc/locale.conf
-          sudo systemctl restart crond.service
-          sudo amazon-linux-extras install -y nginx1
-          sudo systemctl start nginx
-          sudo yum install -y git
-          sudo yum install -y gcc-c++ openssl-devel readline-devel zlib-devel
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-          . ~/.nvm/nvm.sh
-          nvm install v16.16.0
-          npm install --global yarn
-          git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-          echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-          echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-          source ~/.bashrc
-          git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-          sudo ~/.rbenv/plugins/ruby-build/install.sh
-          rbenv install 3.0.1
-          rbenv global 3.0.1
+          amazon-linux-extras install -y nginx1 postgresql12
+          yum install -y gcc-c++ make patch git openssl-devel readline-devel zlib-devel ImageMagick-devel curl libffi-devel libicu-devel libxml2-devel libxslt-devel postgresql-server postgresql-devel poppler-utils poppler-data
+          systemctl restart crond.service
+          systemctl start nginx
+          systemctl enable nginx
+          /usr/bin/postgresql-setup --initdb --unit postgresql
+          systemctl start postgresql
+          systemctl enable postgresql
       Tags:
         - Key: Name
           Value: issues-live-ec2
