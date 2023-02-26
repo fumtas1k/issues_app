@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  SSHKey:
+    Description: The EC2 Key Pair to allow SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+  allowedIP:
+    Description: "IP address allowed to access EC2(ex 0.0.0.0/0)"
+    Type: String
+
+Resources:
+  # VPC
+  issuesLiveVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.2.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: issues-live-vpc
+
+  # InternetGateway
+  issuesLiveIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: issues-live-igw
+
+  issuesLiveAttachGW:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref issuesLiveIGW
+      VpcId: !Ref issuesLiveVPC
+
+  # Subnet
+  issuesLivePublic1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: 10.2.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: issues-live-public1a
+      VpcId: !Ref issuesLiveVPC
+  issuesLivePrivate1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: 10.2.2.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: issues-live-private1a
+      VpcId: !Ref issuesLiveVPC
+
+  # Route Table
+  issuesLivePublic1aRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: issues-live-vpc-rt
+      VpcId: !Ref issuesLiveVPC
+
+  issuesLiveRTAssociation1a:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref issuesLivePublic1aRouteTable
+      SubnetId: !Ref issuesLivePublic1a
+
+  issuesLiveRouteIGW:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref issuesLiveIGW
+      RouteTableId: !Ref issuesLivePublic1aRouteTable
+
+  # EC2
+  issuesLiveEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      ImageId: ami-06ee4e2261a4dc5c3
+      InstanceType: t2.micro
+      KeyName: !Ref SSHKey
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !Ref issuesLivePublic1a
+          GroupSet:
+            - !Ref issuesLiveEC2SG
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          yum update -y
+          timedatectl set-timezone Asia/Tokyo
+          localectl set-locale LANG=ja_JP.utf8
+          source /etc/locale.conf
+          amazon-linux-extras install -y nginx1 postgresql12
+          yum install -y gcc-c++ make patch git openssl-devel readline-devel zlib-devel ImageMagick-devel curl libffi-devel libicu-devel libxml2-devel libxslt-devel postgresql-server postgresql-devel poppler-utils poppler-data
+          systemctl restart crond.service
+          systemctl start nginx
+          systemctl enable nginx
+          /usr/bin/postgresql-setup --initdb --unit postgresql
+          systemctl start postgresql
+          systemctl enable postgresql
+      Tags:
+        - Key: Name
+          Value: issues-live-ec2
+
+  # EC2 Security Group
+  issuesLiveEC2SG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: issues-live-ec2-sg
+      GroupDescription: HTTP and SSH
+      VpcId: !Ref issuesLiveVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: !Ref allowedIP
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref allowedIP
