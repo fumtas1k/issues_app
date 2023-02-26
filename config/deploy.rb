@@ -6,7 +6,7 @@ set :repo_url, "https://github.com/fumtas1k/issues_app.git"
 
 set :branch, ENV['BRANCH'] || 'master'
 set :deploy_to, '/var/www/issues_app'
-set :linked_files, %w{.env config/secrets.yml}
+set :linked_files, %w{.env}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads}
 
 set :keep_releases, 5
