@@ -3,7 +3,7 @@ sudo yum update -y
 sudo timedatectl set-timezone Asia/Tokyo
 sudo localectl set-locale LANG=ja_JP.utf8
 sudo source /etc/locale.conf
-sudo amazon-linux-extras install -y nginx1 postgresql12
+sudo amazon-linux-extras install -y nginx1 postgresql14
 sudo yum install -y gcc-c++ make patch git openssl-devel sudo readline-devel zlib-devel ImageMagick-devel curl libffi-devel libicu-devel libxml2-devel libxslt-devel postgresql-server postgresql-devel poppler-utils poppler-data
 sudo systemctl restart crond.service
 sudo systemctl start nginx
