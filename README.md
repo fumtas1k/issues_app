@@ -106,6 +106,10 @@
 | **mc** | minioの初期設定用 |
 | **redis** | アクションケーブル(チャット)のサブスクリプションアダプタ用 |
 
+## AWS CDK
+
+CDKのGitHubリンク: https://github.com/fumtas1k/issues_app_cdk
+
 ## 実行手順
 
 このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
