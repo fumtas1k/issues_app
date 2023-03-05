@@ -24,7 +24,7 @@ rbenv global 3.0.1
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 . ~/.nvm/nvm.sh
 nvm install v16.16.0
-npm install -g npm@9.5.1
+npm install -g npm@9.6.0
 npm install --location=global yarn
 sudo mkdir /var/www
 sudo chown $USER /var/www
