@@ -1,8 +1,6 @@
 name: Test
 
-on:
-  pull_request:
-    types: [ opened, labeled, synchronize, reopened ]
+on: [pull_request]
 
 env:
   RAILS_ENV: test
