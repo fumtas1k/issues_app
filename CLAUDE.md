@@ -37,7 +37,7 @@ Bundler は `Gemfile.lock` 上 2.3.8、Dockerfile では 2.4.7 をインスト�
 - `app/controllers/users/`: devise のカスタムコントローラ。`sessions#guest_sign_in` でゲストログイン
 - `lib/mail/send_grid.rb` + `config/initializers/sendgrid.rb`: ActionMailer の SendGrid 配信方法
 - `lib/tasks/whenever_scheduler.rake` + `config/schedule.rb`: 未添付 blob と古い通知の定期削除
-- `config/deploy.rb`, `config/deploy/*.rb`, `Capfile`, `config/unicorn/`: capistrano による EC2 デプロイ設定
+- `config/deploy.rb`, `config/deploy/*.rb`, `Capfile`, `config/unicorn/`: capistrano による EC2 デプロイ設定。接続先は `DEPLOY_HOST` / `DEPLOY_USER` / `DEPLOY_SSH_KEY_PATH` を ENV かローカルの `.env` で渡す
 - `scripts/userdata.sh`: EC2 初期構築スクリプト
 - `RDD/`: ER 図・画面遷移図・ワイヤーフレーム
 

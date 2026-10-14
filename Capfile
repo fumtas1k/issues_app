@@ -1,3 +1,6 @@
+# config/deploy/*.rb で使う DEPLOY_* をローカルの .env から読み込む
+require "dotenv/load"
+
 require "capistrano/setup"
 require "capistrano/deploy"
 require "whenever/capistrano"
