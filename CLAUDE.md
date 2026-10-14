@@ -106,3 +106,16 @@ Rails 6.0 系には 2024 年以降の CVE の修正版がないため、gem 単�
 - Ruby / Rails のバージョンを変えるときは、上表に挙げた記載箇所（`.ruby-version`, `Gemfile`, `Dockerfile`, `config/deploy.rb`, `scripts/userdata.sh`, `README.md` のバッジと開発環境欄）をまとめて更新する
 - 秘密情報は `.env` か `rails credentials` に置く。`config/master.key` は絶対にコミットしない
 - コード・コメント・ドキュメントは日本語で書かれている。既存のスタイルに合わせる
+
+## 実装とレビューの流れ
+
+1. 実装（コード・設定の変更）は、Claude Code のサブエージェント（model: `sonnet`）に任せる
+2. 実装が終わったら、PR を作成・更新する前に Codex でレビューする
+3. レビューの指摘などで修正した場合も、修正後にもう一度 Codex でレビューする。指摘がなくなってから PR を作成・更新する
+
+Codex のレビューは `codex review` ではなく `codex exec` で実行する（`codex review` は `--base` とレビュー指示を同時に指定できないため）。レビュー対象の差分は指示文の中で指定する。
+
+```sh
+codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only -o <出力ファイル> \
+  "コードレビューをしてください。ファイルは変更しないでください。対象は git diff master...HEAD です。…"
+```
