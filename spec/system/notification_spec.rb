@@ -245,10 +245,12 @@ RSpec.describe :notification, type: :system do
     context "未読の通知をクリックした場合" do
       before do
         all(".default-container").first.click
+        # 既読化とリダイレクトが終わるまで待つ
+        expect(page).to have_current_path(issue_path(issue))
       end
 
       it "通知のリンク先にリダイレクトする" do
-        expect(current_path).to eq issue_path(issue)
+        expect(page).to have_current_path(issue_path(issue))
       end
 
       it "その通知のみ既読になる" do
@@ -261,12 +263,16 @@ RSpec.describe :notification, type: :system do
     context "既読の通知をクリックした場合" do
       before do
         all(".default-container")[1].click
+        # 最初の既読化が終わってから一覧に戻る
+        expect(page).to have_current_path(issue_path(issue))
         visit user_notifications_path(user)
+        expect(page).to have_current_path(user_notifications_path(user))
         all(".default-container")[1].click
+        expect(page).to have_current_path(issue_path(issue))
       end
 
       it "通知のリンク先にリダイレクトする" do
-        expect(current_path).to eq issue_path(issue)
+        expect(page).to have_current_path(issue_path(issue))
       end
       it "既読数は変化しない" do
         expect(Notification.unreads.count).to eq 4
@@ -276,6 +282,8 @@ RSpec.describe :notification, type: :system do
     context "全既読ボタンをクリックした場合" do
       before do
         find(".read-all").click
+        # リダイレクト後に未読数が0件の表示になるまで待つ
+        expect(page).to have_css "#unread-count", text: "#{Notification.human_attribute_name(:unread)}: 0"
       end
       it "自分の通知が全て既読になる" do
         expect(user.notifications.unreads.count).to eq 0
