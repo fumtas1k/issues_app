@@ -3,9 +3,22 @@ module WaitHelper
   # 検索・ソート・ページ送りは遷移前の画面にも同じ文言があるため、URLのクエリで遷移完了を判定する
   # params以外のクエリが付いていてもよい
   def have_query_params(path, params)
-    pairs = Rack::Utils.build_nested_query(params).split("&")
-    lookaheads = pairs.map { |pair| "(?=(?:.*&)?#{Regexp.escape(pair)}(?:&|\\z))" }.join
-    have_current_path(Regexp.new("\\A#{Regexp.escape(path)}\\?#{lookaheads}"), ignore_query: false)
+    expected = params.deep_stringify_keys
+    have_current_path(path, ignore_query: true) do |uri|
+      actual = Rack::Utils.parse_nested_query(uri.query.to_s)
+      query_includes?(actual, expected)
+    end
+  end
+
+  # actualがexpectedのキーと値をすべて含むか（値は文字列に変換して比較する）
+  def query_includes?(actual, expected)
+    expected.all? do |key, value|
+      if value.is_a?(Hash)
+        actual[key].is_a?(Hash) && query_includes?(actual[key], value)
+      else
+        actual[key] == value.to_s
+      end
+    end
   end
 
   # selectorに一致する要素のテキストが、expected_textsの順に並ぶまで待つ
