@@ -1,6 +1,7 @@
 class StocksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_issue, only: %i[create destroy]
+  before_action :ensure_accessible_issue, only: %i[create destroy]
 
   def create
     respond_to do |format|
@@ -22,5 +23,11 @@ class StocksController < ApplicationController
 
   def set_issue
     @issue = Issue.find(params[:issue_id])
+  end
+
+  def ensure_accessible_issue
+    return if @issue.accessible?(current_user)
+    flash[:danger] = I18n.t("views.issues.flash.inaccessible")
+    redirect_to issues_path
   end
 end

@@ -16,6 +16,16 @@ class Comment < ApplicationRecord
   MAX_MEGA_BYTES = 5
   create_validate_attachment :content, MAX_MEGA_BYTES
 
+  # 検索フォームで使う条件だけを許可する
+  def self.ransackable_attributes(auth_object = nil)
+    []
+  end
+
+  # 検索フォームで使う条件だけを許可する
+  def self.ransackable_associations(auth_object = nil)
+    %w[_content]
+  end
+
   # 通知を生成するメソッド(メソッド名共通)
   def notify
     return if user == issue.user
