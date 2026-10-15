@@ -8,6 +8,11 @@ Rails.application.config.to_prepare do
       %w[name]
     end
 
+    # 検索専用でソートには使わない(既定では ransackable_attributes と同じになるため空にする)
+    def self.ransortable_attributes(auth_object = nil)
+      []
+    end
+
     def self.ransackable_associations(auth_object = nil)
       []
     end
@@ -17,6 +22,11 @@ Rails.application.config.to_prepare do
   ActionText::RichText.class_eval do
     def self.ransackable_attributes(auth_object = nil)
       %w[body]
+    end
+
+    # 検索専用でソートには使わない(既定では ransackable_attributes と同じになるため空にする)
+    def self.ransortable_attributes(auth_object = nil)
+      []
     end
 
     def self.ransackable_associations(auth_object = nil)

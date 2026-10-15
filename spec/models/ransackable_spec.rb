@@ -22,7 +22,7 @@ RSpec.describe "ransackの許可リスト", type: :model do
     context "Userの属性の場合" do
       it "条件が無視され全件のままになる" do
         [
-          {encrypted_password_start: "$2a"},
+          {encrypted_password_start: "nomatch"},
           {email_cont: "nomatch"},
           {admin_eq: false}
         ].each do |query|
@@ -45,8 +45,8 @@ RSpec.describe "ransackの許可リスト", type: :model do
 
     context "許可されていない属性でソートする場合" do
       it "ソートが無視される" do
-        expect(Issue.ransack(s: "user_email asc").sorts).to be_empty
-        expect(User.ransack(s: "email asc").sorts).to be_empty
+        expect(Issue.ransack(s: "user_email asc").result.order_values).to be_empty
+        expect(User.ransack(s: "email asc").result.order_values).to be_empty
       end
     end
   end
@@ -69,7 +69,8 @@ RSpec.describe "ransackの許可リスト", type: :model do
       end
 
       it "name でソートできる" do
-        expect(User.ransack(s: "name asc").sorts).not_to be_empty
+        expect(User.ransack(s: "name asc").result.to_a).to eq [first_user, alice, bob]
+        expect(User.ransack(s: "name desc").result.to_a).to eq [bob, alice, first_user]
       end
     end
 
@@ -104,9 +105,14 @@ RSpec.describe "ransackの許可リスト", type: :model do
         expect(issues_by(tags_name_eq: "tag_a")).to match_array [issue_alice]
       end
 
-      it "著者名・タイトルでソートできる" do
-        expect(Issue.ransack(s: "user_name asc").sorts).not_to be_empty
-        expect(Issue.ransack(s: "title asc").sorts).not_to be_empty
+      it "著者名でソートできる" do
+        expect(Issue.ransack(s: "user_name asc").result.to_a).to eq [issue_alice, issue_bob]
+        expect(Issue.ransack(s: "user_name desc").result.to_a).to eq [issue_bob, issue_alice]
+      end
+
+      it "タイトルでソートできる" do
+        expect(Issue.ransack(s: "title asc").result.to_a).to eq [issue_alice, issue_bob]
+        expect(Issue.ransack(s: "title desc").result.to_a).to eq [issue_bob, issue_alice]
       end
     end
   end
