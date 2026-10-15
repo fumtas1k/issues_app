@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-# モデルにて、最初に登録したユーザーを管理者兼メンター権限とする設定にしています。
-# ご注意ください。
+# 管理者(admin)はアカウント登録では作成されません(rails admin:create で作成します)。
 RSpec.describe :user, type: :system do
 
   describe "アカウント登録機能" do
@@ -228,7 +227,7 @@ RSpec.describe :user, type: :system do
   end
 
   describe "マイページ/ストックページ機能" do
-    let!(:mentor) {create(:mentor)} # 最初の登録ユーザーがメンターになってしまうために用意
+    let!(:mentor) {create(:mentor)}
     let!(:user) {create(:user)}
     let!(:other_user) {create(:user, :seq)}
     let!(:stock_issue1) {create(:issue_rand, :release, user: user)}

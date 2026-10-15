@@ -6,13 +6,19 @@ F = 3
 S = 3
 srand(0)
 
+# パスワードは環境変数で受け取る（固定値をリポジトリに持たない）
+admin_password = ENV["SEED_ADMIN_PASSWORD"].presence
+abort "環境変数 SEED_ADMIN_PASSWORD に admin1 のパスワード(6文字以上)を指定してください。" if admin_password.nil?
+# 管理者以外のダミーユーザーのパスワード。未指定ならユーザーごとにランダム値を設定する
+dummy_password = -> { ENV["SEED_USER_PASSWORD"].presence || Devise.friendly_token }
+
 # admin 作成
 admin_user = User.find_or_create_by!(code: "admin1") do |user|
   user.name = "admin1"
   user.code = "admin1"
   user.email = "admin1@diver.com"
   user.entered_at = Date.new(2000,4,1)
-  user.password = "password"
+  user.password = admin_password
   user.mentor = true
   user.admin = true
 end
@@ -37,7 +43,7 @@ M.times do |i|
     user.code = code
     user.email = Faker::Internet.unique.email
     user.entered_at = Date.new(2005 + rand(7), 4, 1)
-    user.password = "password"
+    user.password = dummy_password.call
     user.mentor = true
   end
   mentors << mentor
@@ -53,7 +59,7 @@ N.times do |n|
     user.code = code
     user.email = Faker::Internet.unique.email
     user.entered_at = Date.new(2015 + rand(7), 4, 1)
-    user.password = "password"
+    user.password = dummy_password.call
   end
   Grouping.create(group: mentors[n % mentors.size].group, user: new_user)
   new_users << new_user

@@ -112,7 +112,7 @@ CDKのGitHubリンク: https://github.com/fumtas1k/issues_app_cdk
 
 ## 実行手順
 
-このアプリは、最初にアカウント登録したユーザーに管理者権限が付与されます。
+管理者(admin)は、アカウント登録では作成されません。初回の管理者は `rails admin:create` で作成します(下記「3. 管理者の作成」)。ゲスト管理者でログインした場合は、サイト管理(`/admin`)を閲覧のみ行えます(作成・更新・削除・エクスポート・メンター切り替えは不可)。
 
 以下は全てターミナルでの操作になります(macでの操作)。
 
@@ -162,22 +162,38 @@ $ docker-compose up -d
 全てが立ち上がったら使用可能となります。
 `http:127.0.0.1:3000` にアクセスして下さい(最初に立ち上げた時は、データベースの初期化等で時間がかかります)。
 
-**3. ダミーデータ**
+**3. 管理者の作成**
 
-ダミーデータが欲しい場合は、ターミナルで以下を実行
+初回の管理者(admin + メンター)は、環境変数で値を渡して作成します(値はダミーです。必ずご自身の値に置き換えて下さい)。パスワードは標準出力には表示されません。
 
 ```plain text
-$ docker-compose run web rails db:seed
+$ docker-compose run \
+    -e ADMIN_CODE=100001 \
+    -e ADMIN_NAME=管理者 \
+    -e ADMIN_EMAIL=admin@example.com \
+    -e ADMIN_PASSWORD=change_me_password \
+    -e ADMIN_ENTERED_AT=2000-04-01 \
+    web rails admin:create
 ```
 
-**4. サーバー内での作業**
+`ADMIN_ENTERED_AT` は省略可能です(省略時は当日)。同じ職員コードまたはメールアドレスのユーザーが既にいる場合は作成されません。
+
+**4. ダミーデータ**
+
+ダミーデータが欲しい場合は、ターミナルで以下を実行。管理者(admin1)のパスワードは `SEED_ADMIN_PASSWORD` で必ず指定して下さい。他のダミーユーザーのパスワードは、`SEED_USER_PASSWORD` を指定した場合はその値、未指定の場合はユーザーごとのランダム値になります。
+
+```plain text
+$ docker-compose run -e SEED_ADMIN_PASSWORD=change_me_password web rails db:seed
+```
+
+**5. サーバー内での作業**
 
 dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行(他のサーバーに入りたい場合はwebの部分をdb, minio等に変更)。
 
 ```plain text
 $ docker-compose exec web bush
 ```
-**5. 停止したい場合**
+**6. 停止したい場合**
 
 ```plain text
 $ docker-compose stop
