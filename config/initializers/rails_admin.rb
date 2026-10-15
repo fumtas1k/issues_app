@@ -24,6 +24,19 @@ RailsAdmin.config do |config|
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
 
+  # 認証情報・アクセス元 IP は管理画面の一覧・詳細・エクスポートに出さない
+  config.model "User" do
+    list do
+      exclude_fields :encrypted_password, :reset_password_token, :current_sign_in_ip, :last_sign_in_ip
+    end
+    show do
+      exclude_fields :encrypted_password, :reset_password_token, :current_sign_in_ip, :last_sign_in_ip
+    end
+    export do
+      exclude_fields :encrypted_password, :reset_password_token, :current_sign_in_ip, :last_sign_in_ip
+    end
+  end
+
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory

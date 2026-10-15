@@ -16,6 +16,7 @@ Rails.application.routes.draw do
         get :mentor
         get :edit_avatar
       end
+      resource :mentor_role, only: %i[update], module: :users
       resources :notifications, only: %i[index update] do
         collection do
           patch :read_all
