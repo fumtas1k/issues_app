@@ -228,6 +228,8 @@ ja:
         export: 全部員情報エクスポート
         import: インポート
     chat_rooms:
+      flash:
+        partner_not_found: 相手のユーザーが見つかりません。
       index:
         draft: ドラフト版
       show:

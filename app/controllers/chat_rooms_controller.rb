@@ -20,12 +20,19 @@ class ChatRoomsController < ApplicationController
   end
 
   def create
+    partner = User.where.not(id: current_user.id).find_by(id: params[:user_id])
+    if partner.blank?
+      redirect_to user_index_user_chat_rooms_path(current_user), alert: I18n.t("views.chat_rooms.flash.partner_not_found")
+      return
+    end
     current_user_chat_room_ids = current_user.chat_rooms.pluck(:id)
-    chat_room = ChatRoomUser.find_by(chat_room_id: current_user_chat_room_ids, user_id: params[:user_id])&.chat_room
+    chat_room = ChatRoomUser.find_by(chat_room_id: current_user_chat_room_ids, user_id: partner.id)&.chat_room
     if chat_room.blank?
-      chat_room = ChatRoom.create
-      chat_room.chat_room_users.create(user_id: current_user.id)
-      chat_room.chat_room_users.create(user_id: params[:user_id])
+      ActiveRecord::Base.transaction do
+        chat_room = ChatRoom.create!
+        chat_room.chat_room_users.create!(user_id: current_user.id)
+        chat_room.chat_room_users.create!(user_id: partner.id)
+      end
     end
     redirect_to user_chat_room_path(current_user, chat_room)
   end
