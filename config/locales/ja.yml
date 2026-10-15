@@ -157,6 +157,9 @@ ja:
     users:
       confirm:
         mentor: 担当メンバーの設定も削除されます。本当によろしいですか?
+      flash:
+        access_denied: この操作を行う権限がありません。
+        guest_restricted: ゲストユーザーはこの操作を行えません。
       index:
         title: 部員一覧
       profile:

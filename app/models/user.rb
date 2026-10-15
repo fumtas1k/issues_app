@@ -22,7 +22,6 @@ class User < ApplicationRecord
          :trackable
 
   before_validation :code_to_6
-  before_create :make_the_first_user_admin
   before_update :prevent_change_admin!
   before_destroy :prevent_destroy_admin!
   after_save_commit :group_create_or_destroy_depend_on_mentor
@@ -34,6 +33,7 @@ class User < ApplicationRecord
   attribute :admin, :boolean, default: false
   validate :validate_avatar_attachment_byte_size
 
+  GUEST_CODES = %w[_guest _admin].freeze
   MAX_MEGA_BYTES = 2
   MAX_AVATAR_ATTACHMENT_BYTE_SIZE = MAX_MEGA_BYTES * (1_024 ** 2)
 
@@ -42,7 +42,7 @@ class User < ApplicationRecord
       user.name = "ゲスト管理者"
       user.email = "guest_admin@diver.com"
       user.entered_at = Date.new(2014, 4, 1)
-      user.password = "password"
+      user.password = Devise.friendly_token
       user.mentor = true
       user.admin = true
     end
@@ -53,7 +53,7 @@ class User < ApplicationRecord
       user.name = "ゲスト"
       user.email = "guest@diver.com"
       user.entered_at = Date.new(Date.current.year, 4, 1)
-      user.password = "password"
+      user.password = Devise.friendly_token
     end
   end
 
@@ -72,7 +72,7 @@ class User < ApplicationRecord
   end
 
   def guest?
-    [User.guest_user, User.guest_admin_user].include?(self)
+    GUEST_CODES.include?(code)
   end
 
   scope :order_by_code, -> { order(:code) }
@@ -99,15 +99,6 @@ class User < ApplicationRecord
     return unless admin? && User.where(admin: true).size == 1
     errors.add(:base, I18n.t("activerecord.errors.messages.prevent_loss_of_admin"))
     raise ActiveRecord::Rollback
-  end
-
-  def non_guest_user_is_empty?
-    User.where("(code != ?) AND (code != ?)", "_admin", "_guest").blank? && %w[_admin _guest].exclude?(code)
-  end
-
-  def make_the_first_user_admin
-    self.attributes = {mentor: true, admin: true} if non_guest_user_is_empty?
-    self
   end
 
   def group_create_or_destroy_depend_on_mentor

@@ -1,7 +1,13 @@
-<%= button_to(user_registration_path(user_id: user.id, mentor: true), method: :put, class: "btn btn-outline-success", id: "btn-role-#{user.id}", remote: true, data: role_confirm(user)) do %>
-  <% if user.mentor %>
-    <%= t("views.users/role.mentor") %>
-  <% else %>
-    <%= t("views.users/role.non-mentor") %>
+<% if can?(:toggle_mentor, user) %>
+  <%= button_to(user_mentor_role_path(user), method: :patch, class: "btn btn-outline-success", id: "btn-role-#{user.id}", remote: true, data: role_confirm(user)) do %>
+    <% if user.mentor %>
+      <%= t("views.users/role.mentor") %>
+    <% else %>
+      <%= t("views.users/role.non-mentor") %>
+    <% end %>
   <% end %>
+<% elsif user.mentor %>
+  <%= t("views.users/role.mentor") %>
+<% else %>
+  <%= t("views.users/role.non-mentor") %>
 <% end %>

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-# モデルにて、最初に登録したユーザーを管理者兼メンター権限とする設定にしています。
-# ご注意ください。
+# 管理者(admin)はアカウント登録では作成されません(rails admin:create で作成します)。
 RSpec.describe :user, type: :system do
 
   describe "アカウント登録機能" do
@@ -140,7 +139,7 @@ RSpec.describe :user, type: :system do
       it "編集ページにリダイレクトしavatarが変更される" do
         expect {
           page.accept_confirm { click_on "commit" }
-          expect(page).to have_current_path(edit_user_registration_path(user))
+          expect(page).to have_current_path(edit_user_registration_path)
         }.to change {User.last.avatar.blob.filename.to_s}.from("avatar.jpg").to("dummy_user.jpg")
       end
     end
@@ -149,7 +148,7 @@ RSpec.describe :user, type: :system do
       it "編集ページにリダイレクトしavatarが削除される" do
         expect {
           page.accept_confirm { click_on "commit" }
-          expect(page).to have_current_path(edit_user_registration_path(user))
+          expect(page).to have_current_path(edit_user_registration_path)
         }.to change {User.last.avatar.attached?}.from(true).to(false)
       end
     end
@@ -228,7 +227,7 @@ RSpec.describe :user, type: :system do
   end
 
   describe "マイページ/ストックページ機能" do
-    let!(:mentor) {create(:mentor)} # 最初の登録ユーザーがメンターになってしまうために用意
+    let!(:mentor) {create(:mentor)}
     let!(:user) {create(:user)}
     let!(:other_user) {create(:user, :seq)}
     let!(:stock_issue1) {create(:issue_rand, :release, user: user)}
@@ -321,7 +320,8 @@ RSpec.describe :user, type: :system do
       it "管理者としてログインできる" do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
-        expect(page).to have_content User.where(admin: true).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_admin_signed_in")
+        expect(page).to have_current_path(user_path(User.find_by(code: "_admin")))
       end
     end
 
@@ -331,7 +331,8 @@ RSpec.describe :user, type: :system do
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
         click_sign_out
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
-        expect(page).to have_content User.where(admin: true).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_admin_signed_in")
+        expect(page).to have_current_path(user_path(User.find_by(code: "_admin")))
       end
     end
 
@@ -339,7 +340,8 @@ RSpec.describe :user, type: :system do
       it "ゲストとしてログインできる" do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_sign_in")
-        expect(page).to have_content User.where(admin: false).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_signed_in")
+        expect(page).to have_current_path(user_path(User.find_by(code: "_guest")))
       end
     end
 
@@ -349,7 +351,8 @@ RSpec.describe :user, type: :system do
         click_on I18n.t("devise.sessions.new.guest_sign_in")
         click_sign_out
         click_on I18n.t("devise.sessions.new.guest_sign_in")
-        expect(page).to have_content User.where(admin: false).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_signed_in")
+        expect(page).to have_current_path(user_path(User.find_by(code: "_guest")))
       end
     end
   end
