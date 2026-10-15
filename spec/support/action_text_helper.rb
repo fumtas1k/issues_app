@@ -20,3 +20,11 @@ Capybara.add_selector :rich_text_area do
     end
   end
 end
+
+module ActionTextHelper
+  # 添付ファイルのアップロードが完了するまで待つ
+  def wait_for_attachment_upload
+    expect(page).to have_css "trix-editor figure[data-trix-attachment]"
+    expect(page).to have_no_css "trix-editor progress"
+  end
+end

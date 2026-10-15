@@ -35,6 +35,9 @@ RSpec.configure do |config|
   # ログアウト完了を待つヘルパー
   config.include SignOutHelper, type: :system
 
+  # 画面の変化を待つヘルパー
+  config.include WaitHelper, type: :system
+
   # github actionsでsystem specを動かすための設定
   config.before(:each, type: :system) do |example|
     driven_by :selenium, screen_size: [1920, 1080], using: :headless_chrome do |options|
