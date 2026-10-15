@@ -71,9 +71,9 @@ RSpec.describe :issue, type: :system do
       let(:file_attach) { "" }
       it "投稿画面に戻りエラーメッセージが表示される" do
         click_on I18n.t("helpers.submit.create")
-        expect(Issue.count).to eq 0
         expect(page).to have_content I18n.t("errors.messages.empty")
         expect(page).to have_content I18n.t("views.issues.new.title")
+        expect(Issue.count).to eq 0
       end
     end
     context "詳細の添付がいるが5MBを超えた場合" do
@@ -84,12 +84,13 @@ RSpec.describe :issue, type: :system do
         end
       }
       it "投稿画面に戻りエラーメッセージが表示される" do
-        sleep 0.4
+        # 投稿する前にアップロードが終わるまで待つ
+        wait_for_attachment_upload
         click_on I18n.t("helpers.submit.create")
-        expect(Issue.count).to eq 0
         expect(page).to have_css ".alert-danger"
         expect(page).to have_content "6513431"
         expect(page).to have_content I18n.t("views.issues.new.title")
+        expect(Issue.count).to eq 0
       end
     end
   end
@@ -150,36 +151,50 @@ RSpec.describe :issue, type: :system do
     context "3つの投稿ユーザーがイシュー詳細にアクセスした場合" do
       before { sign_in user }
       it "3つの詳細ページともアクセス出来る" do
-        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issue_path(limited_issue))
-        expect{visit issue_path(draft_issue)}.to change {current_path}.to(issue_path(draft_issue))
+        visit issue_path(release_issue)
+        expect(page).to have_current_path(issue_path(release_issue))
+        visit issue_path(limited_issue)
+        expect(page).to have_current_path(issue_path(limited_issue))
+        visit issue_path(draft_issue)
+        expect(page).to have_current_path(issue_path(draft_issue))
       end
     end
 
     context "3つの投稿とは別のたユーザーがイシュー詳細にアクセスした場合" do
       before { sign_in other_user }
       it "releaseのみ詳細ページにアクセスでき、他はイシュー一覧に飛ぶ" do
-        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issues_path)
-        expect{visit issue_path(draft_issue)}.not_to change {current_path}
+        visit issue_path(release_issue)
+        expect(page).to have_current_path(issue_path(release_issue))
+        visit issue_path(limited_issue)
+        expect(page).to have_current_path(issues_path)
+        visit issue_path(draft_issue)
+        # 一覧に飛ばされた状態から変わらない
+        expect(page).to have_current_path(issues_path)
       end
     end
 
     context "投稿したユーザーの担当メンターがイシュー詳細にアクセスした場合" do
       before { sign_in mentor }
       it "release, limitedはアクセスでき、draftはイシュー一覧に飛ぶ" do
-        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issue_path(limited_issue))
-        expect{visit issue_path(draft_issue)}.to change {current_path}.to(issues_path)
+        visit issue_path(release_issue)
+        expect(page).to have_current_path(issue_path(release_issue))
+        visit issue_path(limited_issue)
+        expect(page).to have_current_path(issue_path(limited_issue))
+        visit issue_path(draft_issue)
+        expect(page).to have_current_path(issues_path)
       end
     end
 
     context "投稿したユーザーの担当ではないメンターがイシュー詳細にアクセスした場合" do
       before { sign_in other_mentor }
       it "releaseのみ詳細ページにアクセスでき、他はイシュー一覧に飛ぶ" do
-        expect{visit issue_path(release_issue)}.to change {current_path}.to(issue_path(release_issue))
-        expect{visit issue_path(limited_issue)}.to change {current_path}.to(issues_path)
-        expect{visit issue_path(draft_issue)}.not_to change {current_path}
+        visit issue_path(release_issue)
+        expect(page).to have_current_path(issue_path(release_issue))
+        visit issue_path(limited_issue)
+        expect(page).to have_current_path(issues_path)
+        visit issue_path(draft_issue)
+        # 一覧に飛ばされた状態から変わらない
+        expect(page).to have_current_path(issues_path)
       end
     end
   end
@@ -215,7 +230,7 @@ RSpec.describe :issue, type: :system do
       it "イシュー一覧にリダイレクトしフラッシュが表示される" do
         sign_in other_user
         visit edit_issue_path(release_issue)
-        expect(current_path).to eq issues_path
+        expect(page).to have_current_path(issues_path)
         expect(page).to have_content I18n.t("views.issues.flash.author_required")
       end
     end

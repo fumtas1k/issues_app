@@ -12,8 +12,9 @@ RSpec.describe :chat_room, type: :system do
       it "chat_roomとchat_room_usersが作成される" do
         expect {
           click_on chat_room_user.name
-          sleep 0.1
-          expect(current_path).to eq user_chat_room_path(user, user.chat_rooms.first)
+          # チャットルームの画面（相手の名前が出るヘッダー）に移るまで待つ
+          expect(page).to have_css ".chat_room-partner-name", text: chat_room_user.name
+          expect(page).to have_current_path(user_chat_room_path(user, user.chat_rooms.first))
           expect(ChatRoom.count).to eq 1
         }.to change(ChatRoomUser, :count).by(2)
       end
@@ -26,8 +27,8 @@ RSpec.describe :chat_room, type: :system do
       it "チャットルームに移動する" do
         expect {
           click_on chat_room_user.name
-          sleep 0.1
-          expect(current_path).to eq user_chat_room_path(user, user.chat_rooms.first)
+          expect(page).to have_css ".chat_room-partner-name", text: chat_room_user.name
+          expect(page).to have_current_path(user_chat_room_path(user, user.chat_rooms.first))
         }.to change(ChatRoomUser, :count).by(0)
       end
     end
@@ -49,9 +50,9 @@ RSpec.describe :chat_room, type: :system do
       it "root_pathにリダイレクトされる" do
         sign_in other
         visit user_chat_rooms_path(other)
-        expect {
-          visit user_chat_room_path(other, chat_room)
-        }.to change {current_path}.from(user_chat_rooms_path(other)).to(root_path)
+        expect(page).to have_current_path(user_chat_rooms_path(other))
+        visit user_chat_room_path(other, chat_room)
+        expect(page).to have_current_path(root_path)
       end
     end
 
@@ -64,7 +65,7 @@ RSpec.describe :chat_room, type: :system do
         expect {
           fill_in "message_content", with: message[:content]
           find("#message_content").send_keys :return
-          sleep 0.5
+          # ActionCable経由でメッセージが表示されるまで待つ
           expect(page).to have_content message[:content]
           expect(page).to have_content Message.human_attribute_name(:unread)
         }.to change(Message, :count).by(1)
@@ -77,6 +78,8 @@ RSpec.describe :chat_room, type: :system do
         visit user_chat_room_path(user, chat_room)
         fill_in "message_content", with: message[:content]
         find("#message_content").send_keys :return
+        # メッセージが保存されて表示されるまで待つ
+        expect(page).to have_content message[:content]
         sign_out user
       end
 
@@ -132,8 +135,8 @@ RSpec.describe :chat_room, type: :system do
         visit user_chat_rooms_path(:user)
         expect {
           click_on partner.name
-          sleep 0.1
-          expect(current_path).to eq user_chat_room_path(user, user.chat_rooms.first)
+          expect(page).to have_css ".chat_room-partner-name", text: partner.name
+          expect(page).to have_current_path(user_chat_room_path(user, user.chat_rooms.first))
         }.to change(ChatRoomUser, :count).by(0)
       end
     end

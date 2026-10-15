@@ -13,7 +13,8 @@ RSpec.describe :favorite, type: :system do
           visit issues_path
           expect{
             find("#favorite-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite"
           }.to change {issue.favorites.count}.by(1)
         end
       end
@@ -25,7 +26,8 @@ RSpec.describe :favorite, type: :system do
           visit issues_path
           expect{
             find("#favorite-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite_border"
           }.to change {issue.favorites.count}.by(-1)
         end
       end
@@ -36,8 +38,7 @@ RSpec.describe :favorite, type: :system do
           sign_in author
           visit issues_path
           expect{
-            find("#favorite-btn-#{issue.id}").click
-            sleep 0.1
+            click_and_wait_for_ajax find("#favorite-btn-#{issue.id}")
           }.not_to change {issue.favorites.count}
         end
       end
@@ -50,7 +51,8 @@ RSpec.describe :favorite, type: :system do
           visit issue_path(issue)
           expect{
             find("#favorite-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite"
           }.to change {issue.favorites.count}.by(1)
         end
       end
@@ -62,7 +64,8 @@ RSpec.describe :favorite, type: :system do
           visit issues_path
           expect{
             find("#favorite-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite_border"
           }.to change {issue.favorites.count}.by(-1)
         end
       end
@@ -73,8 +76,7 @@ RSpec.describe :favorite, type: :system do
           sign_in author
           visit issue_path(issue)
           expect{
-            find("#favorite-btn-#{issue.id}").click
-            sleep 0.1
+            click_and_wait_for_ajax find("#favorite-btn-#{issue.id}")
           }.not_to change {issue.favorites.count}
         end
       end

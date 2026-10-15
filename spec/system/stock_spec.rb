@@ -13,7 +13,8 @@ RSpec.describe :stock, type: :system do
           visit issues_path
           expect{
             find("#stock-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
           }.to change {issue.stocks.count}.by(1)
         end
       end
@@ -25,7 +26,8 @@ RSpec.describe :stock, type: :system do
           visit issues_path
           expect{
             find("#stock-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark_border"
           }.to change {issue.stocks.count}.by(-1)
         end
       end
@@ -36,7 +38,8 @@ RSpec.describe :stock, type: :system do
           visit issues_path
           expect{
             find("#stock-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
           }.to change {issue.stocks.count}.by(1)
         end
       end
@@ -49,7 +52,8 @@ RSpec.describe :stock, type: :system do
           visit issue_path(issue)
           expect{
             find("#stock-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
           }.to change {issue.stocks.count}.by(1)
         end
       end
@@ -61,7 +65,8 @@ RSpec.describe :stock, type: :system do
           visit issue_path(issue)
           expect{
             find("#stock-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark_border"
           }.to change {issue.stocks.count}.by(-1)
         end
       end
@@ -72,7 +77,8 @@ RSpec.describe :stock, type: :system do
           visit issue_path(issue)
           expect{
             find("#stock-btn-#{issue.id}").click
-            sleep 0.1
+            # 押した後の表示に変わるまで待つ
+            expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
           }.to change {issue.stocks.count}.by(1)
         end
       end

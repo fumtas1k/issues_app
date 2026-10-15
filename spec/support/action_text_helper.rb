@@ -20,3 +20,12 @@ Capybara.add_selector :rich_text_area do
     end
   end
 end
+
+module ActionTextHelper
+  # 添付ファイルのアップロードが完了するまで待つ
+  def wait_for_attachment_upload
+    expect(page).to have_css "trix-editor figure[data-trix-attachment]"
+    # 進捗バーは完了すると透明になるだけなので、DOMから消えるまで（非表示も含めて）待つ
+    expect(page).to have_no_css "trix-editor progress", visible: :all
+  end
+end

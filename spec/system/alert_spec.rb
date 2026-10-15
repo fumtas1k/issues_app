@@ -8,8 +8,9 @@ RSpec.describe :alert, type: :system do
 
     context "ゲストログインした後、何もしない場合" do
       it "0.5s後もフラッシュ(alert)は消えない" do
-        sleep 0.5
         expect(page).to have_css ".alert"
+        # 0.5秒待っても消えないことを確かめる（消えなければ false が返る）
+        expect(page.has_no_css?(".alert", wait: 0.5)).to be false
       end
     end
 
@@ -17,7 +18,7 @@ RSpec.describe :alert, type: :system do
       it "フラッシュ(alert)が0.5s後に消える" do
         expect(page).to have_css ".alert"
         find(".alert-close").click
-        sleep 0.5
+        # フェードアウトが終わって非表示になるまで待つ
         expect(page).not_to have_css ".alert"
       end
     end

@@ -15,21 +15,22 @@ RSpec.describe :user, type: :system do
       fill_in "user_password", with: user_params[:password]
       fill_in "user_password_confirmation", with: user_params[:password_confirmation]
       click_on "commit"
-      sleep 0.5
     end
 
     context "必須項目を全て入力してアカウント登録した場合" do
       let!(:user_params){attributes_for(:user).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "サインアップできる" do
-        expect(current_path).to eq user_path(User.last)
+        # マイページが表示されるまで待つ
         expect(page).to have_content user_params[:code]
+        expect(page).to have_current_path(user_path(User.last))
       end
     end
 
     context "パスワード関連を空白にしてアカウント登録した場合" do
       let!(:user_params){attributes_for(:user, password: "").merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "アカウント登録ページでエラーメッセージが表示される" do
-        expect(current_path).to eq new_user_registration_path
+        # パスワード未入力はブラウザの入力チェックで止まり、遷移しない
+        expect(page).to have_current_path(new_user_registration_path)
         expect(page).to have_content I18n.t("devise.registrations.new.subtitle")
       end
     end
@@ -37,8 +38,8 @@ RSpec.describe :user, type: :system do
     context "パスワードと確認用パスワードを異なる入力をしてアカウント登録した場合" do
       let!(:user_params){attributes_for(:user, password: "password", password_confirmation: "password".reverse).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "アカウント登録ページにリダイレクトしエラーメッセージが表示される" do
-        sleep 0.5
-        expect(current_path).to eq users_path
+        # 登録に失敗してエラー付きの登録ページが表示されるまで待つ
+        expect(page).to have_current_path(users_path)
         expect(page).to have_content I18n.t("devise.registrations.new.subtitle")
         within "#error_explanation" do
           expect(page).to have_content I18n.t("errors.messages.confirmation", attribute: User.human_attribute_name(:password)), count: 1
@@ -49,13 +50,16 @@ RSpec.describe :user, type: :system do
     context "バリデーションに引っかかった後、ファイルを添付せず修正し、正常に投稿した場合" do
       let!(:user_params){attributes_for(:user, password: "password", password_confirmation: "password".reverse).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       before do
+        # 1回目の登録に失敗して、エラー付きの登録ページが表示されるまで待つ
+        expect(page).to have_css "#error_explanation"
         fill_in "user_password", with: user_params[:password]
         fill_in "user_password_confirmation", with: user_params[:password]
         click_on "commit"
-        sleep 0.1
+        # マイページが表示されるまで待つ
+        expect(page).to have_content user_params[:code]
       end
       it "avatarは正常に登録されている" do
-        expect(current_path).to eq user_path(User.last)
+        expect(page).to have_current_path(user_path(User.last))
         expect(User.last.avatar.blob.filename.to_s).to eq "avatar.jpg"
       end
     end
@@ -63,9 +67,10 @@ RSpec.describe :user, type: :system do
     context "サインアップした状態でアカウント登録ページにアクセスしようとした場合" do
       let!(:user_params){attributes_for(:user).merge({avatar: "#{Rails.root}/spec/fixtures/images/avatar.jpg"})}
       it "rootページにリダイレクトしフラッシュが表示される" do
+        # サインアップが完了してマイページが表示されるまで待つ
+        expect(page).to have_content user_params[:code]
         visit new_user_registration_path
-        sleep 1
-        expect(current_path).to eq root_path
+        expect(page).to have_current_path(root_path)
         expect(page).to have_content I18n.t("devise.failure.already_authenticated")
       end
     end
@@ -82,7 +87,7 @@ RSpec.describe :user, type: :system do
       let!(:user_params){attributes_for(:user)}
       it "ログインできる" do
         click_on "commit"
-        expect(current_path).to eq user_path(User.last)
+        expect(page).to have_current_path(user_path(User.last))
         expect(page).to have_content user_params[:code]
       end
     end
@@ -106,14 +111,13 @@ RSpec.describe :user, type: :system do
       fill_in "user_entered_at", with: user_params[:entered_at]
       fill_in "user_current_password", with: user_params[:password]
       click_on "commit"
-      sleep 0.1
     end
 
     context "パスワード変更以外入力し更新ボタンを押した場合" do
       let!(:user_params) { attributes_for(:user, name: "update_name", code: "upcode", email: "update@diver.com", entered_at: Date.new(2023,4,1), password: user.password) }
 
       it "マイページにリダイレクトし、入力したデータに更新される" do
-        expect(current_path).to eq user_path(user)
+        expect(page).to have_current_path(user_path(user))
         expect(page).to have_content user_params[:name], count: 2
         expect(page).to have_content user_params[:code]
         expect(page).to have_content user_params[:entered_at].year
@@ -136,8 +140,7 @@ RSpec.describe :user, type: :system do
       it "編集ページにリダイレクトしavatarが変更される" do
         expect {
           page.accept_confirm { click_on "commit" }
-          sleep 0.1
-          expect(current_path).to eq edit_user_registration_path(user)
+          expect(page).to have_current_path(edit_user_registration_path(user))
         }.to change {User.last.avatar.blob.filename.to_s}.from("avatar.jpg").to("dummy_user.jpg")
       end
     end
@@ -146,8 +149,7 @@ RSpec.describe :user, type: :system do
       it "編集ページにリダイレクトしavatarが削除される" do
         expect {
           page.accept_confirm { click_on "commit" }
-          sleep 0.1
-          expect(current_path).to eq edit_user_registration_path(user)
+          expect(page).to have_current_path(edit_user_registration_path(user))
         }.to change {User.last.avatar.attached?}.from(true).to(false)
       end
     end
@@ -168,7 +170,7 @@ RSpec.describe :user, type: :system do
         visit user_path(user)
       end
       it "アクセス出来る" do
-        expect(current_path).to eq user_path(user)
+        expect(page).to have_current_path(user_path(user))
         expect(page).to have_content user.code
       end
 
@@ -182,8 +184,7 @@ RSpec.describe :user, type: :system do
       it "アクセス出来ず、ルートパスにリダイレクトする" do
         sign_in user
         visit user_path(other_user)
-        sleep 0.2
-        expect(current_path).to eq root_path
+        expect(page).to have_current_path(root_path)
         expect(page).not_to have_content user.code
       end
     end
@@ -205,7 +206,7 @@ RSpec.describe :user, type: :system do
         visit mentor_user_path(mentor)
       end
       it "アクセス出来る" do
-        expect(current_path).to eq mentor_user_path(mentor)
+        expect(page).to have_current_path(mentor_user_path(mentor))
         expect(page).to have_content mentor.code
       end
 
@@ -219,10 +220,9 @@ RSpec.describe :user, type: :system do
       before do
         sign_in user
         visit mentor_user_path(mentor)
-        sleep 0.2
       end
       it "ルートパスにリダイレクトされる" do
-        expect(current_path).to eq root_path
+        expect(page).to have_current_path(root_path)
       end
     end
   end
@@ -241,7 +241,7 @@ RSpec.describe :user, type: :system do
     context "自分のマイページ/ストックページにアクセスした場合" do
       before { visit stocked_user_path(user) }
       it "アクセス出来る" do
-        expect(current_path).to eq stocked_user_path(user)
+        expect(page).to have_current_path(stocked_user_path(user))
         expect(page).to have_content user.code
       end
 
@@ -255,7 +255,7 @@ RSpec.describe :user, type: :system do
     context "他人のマイページ/ストックページにアクセスした場合" do
       it "アクセス出来ず、ルートパスにリダイレクトする" do
         visit stocked_user_path(other_user)
-        expect(current_path).to eq root_path
+        expect(page).to have_current_path(root_path)
         expect(page).not_to have_content user.code
       end
     end
@@ -271,7 +271,8 @@ RSpec.describe :user, type: :system do
         visit users_path
         expect{
           find("#btn-role-#{user.id}").click
-          sleep 0.1
+          # メンターの表示に変わるまで待つ
+          expect(page).to have_css "#btn-role-#{user.id}", exact_text: I18n.t("views.users/role.mentor")
           user.reload
         }.to change{user.mentor}.to(true)
       end
@@ -286,7 +287,8 @@ RSpec.describe :user, type: :system do
           page.accept_confirm {
             find("#btn-role-#{user.id}").click
           }
-          sleep 0.1
+          # 部員の表示に変わるまで待つ
+          expect(page).to have_css "#btn-role-#{user.id}", exact_text: I18n.t("views.users/role.non-mentor")
           user.reload
         }.to change{user.mentor}.to(false)
       end
@@ -327,7 +329,7 @@ RSpec.describe :user, type: :system do
       it "管理者としてログインできる" do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
         expect(page).to have_content User.where(admin: true).last.name
       end
@@ -345,7 +347,7 @@ RSpec.describe :user, type: :system do
       it "ゲストとしてログインできる" do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_sign_in")
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         click_on I18n.t("devise.sessions.new.guest_sign_in")
         expect(page).to have_content User.where(admin: false).last.name
       end
