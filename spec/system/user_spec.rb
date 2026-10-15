@@ -320,7 +320,8 @@ RSpec.describe :user, type: :system do
       it "管理者としてログインできる" do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
-        expect(page).to have_content User.where(admin: true).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_admin_signed_in")
+        expect(page).to have_content User.find_by(code: "_admin").name
       end
     end
 
@@ -330,7 +331,8 @@ RSpec.describe :user, type: :system do
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
         click_sign_out
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
-        expect(page).to have_content User.where(admin: true).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_admin_signed_in")
+        expect(page).to have_content User.find_by(code: "_admin").name
       end
     end
 
@@ -338,7 +340,8 @@ RSpec.describe :user, type: :system do
       it "ゲストとしてログインできる" do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_sign_in")
-        expect(page).to have_content User.where(admin: false).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_signed_in")
+        expect(page).to have_content User.find_by(code: "_guest").name
       end
     end
 
@@ -348,7 +351,8 @@ RSpec.describe :user, type: :system do
         click_on I18n.t("devise.sessions.new.guest_sign_in")
         click_sign_out
         click_on I18n.t("devise.sessions.new.guest_sign_in")
-        expect(page).to have_content User.where(admin: false).last.name
+        expect(page).to have_content I18n.t("devise.sessions.guest_signed_in")
+        expect(page).to have_content User.find_by(code: "_guest").name
       end
     end
   end
