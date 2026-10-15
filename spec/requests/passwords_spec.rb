@@ -17,7 +17,8 @@ RSpec.describe "Users::Passwords", type: :request do
   describe "PUT /users/password" do
     it "ゲストのパスワードは再設定トークンがあっても変更できない" do
       guest = User.guest_user
-      raw_token = guest.send_reset_password_instructions
+      # メール送信を伴わずにトークンだけ用意する
+      raw_token = guest.send(:set_reset_password_token)
       encrypted_before = guest.reload.encrypted_password
       put user_password_path, params: {
         user: { reset_password_token: raw_token, password: "newpassword", password_confirmation: "newpassword" }
