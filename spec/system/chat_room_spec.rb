@@ -62,6 +62,7 @@ RSpec.describe :chat_room, type: :system do
         visit user_chat_room_path(user, chat_room)
       end
       it "メッセージが未読で表示される" do
+        wait_for_cable_connected
         expect {
           fill_in "message_content", with: message[:content]
           find("#message_content").send_keys :return
@@ -76,6 +77,7 @@ RSpec.describe :chat_room, type: :system do
       before do
         sign_in user
         visit user_chat_room_path(user, chat_room)
+        wait_for_cable_connected
         fill_in "message_content", with: message[:content]
         find("#message_content").send_keys :return
         # メッセージが保存されて表示されるまで待つ
