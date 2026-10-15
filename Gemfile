@@ -61,8 +61,7 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'database_cleaner'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
+  gem 'selenium-webdriver', '>= 4.11' # Selenium Manager で chromedriver を自動取得する
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
