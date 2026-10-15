@@ -10,7 +10,8 @@ RSpec.describe :grouping, type: :system do
         visit users_path
         expect{
           find("#member-btn-#{user.id}").click
-          sleep 0.1
+          # メンバー済みの表示に変わるまで待つ
+          expect(page).to have_css "#member-btn-#{user.id} .material-icons", exact_text: "check_box"
         }.to change{mentor.group.member?(user)}.to(true)
       end
     end
@@ -20,10 +21,11 @@ RSpec.describe :grouping, type: :system do
         user.groupings.create(group: mentor.group)
         sign_in mentor
         visit users_path
-        sleep 0.1
+        expect(page).to have_css "#member-btn-#{user.id} .material-icons", exact_text: "check_box"
         expect{
           find("#member-btn-#{user.id}").click
-          sleep 0.1
+          # 非メンバーの表示に変わるまで待つ
+          expect(page).to have_css "#member-btn-#{user.id} .material-icons", exact_text: "check_box_outline_blank"
         }.to change{mentor.group.member?(user)}.to(false)
       end
     end
