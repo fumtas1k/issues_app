@@ -16,7 +16,8 @@ RSpec.describe :pagination, type: :system do
 
       it "次ページに10人表示される" do
         click_on I18n.t("views.pagination.next")
-        sleep 0.2
+        # 2ページ目に移るまで待つ
+        expect(page).to have_current_path(users_path(page: 2), ignore_query: false)
         expect(page).to have_content "990", count: 10
       end
     end
@@ -36,7 +37,7 @@ RSpec.describe :pagination, type: :system do
 
       it "スクロールすると30件表示される" do
         execute_script("window.scrollBy(0, 10000)")
-        sleep 0.3
+        # 無限スクロールで追加分が読み込まれるまで待つ
         expect(page).to have_content Issue.last.title, count: 30
       end
     end

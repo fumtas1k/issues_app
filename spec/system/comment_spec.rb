@@ -12,7 +12,6 @@ RSpec.describe :comment, type: :system do
       fill_in_rich_text_area "comment_content", with: comment_params[:content]
       file_attach
       click_on I18n.t("helpers.submit.create")
-      sleep 0.1
     end
 
     context "必要事項を入力した場合" do
@@ -23,8 +22,9 @@ RSpec.describe :comment, type: :system do
         end
       }
       it "保存されて、コメントが表示される" do
+        # コメントが保存されて表示されるまで待つ
+        expect(page).to have_css "#comments-area", text: comment_params[:content]
         expect(Comment.last.content.to_plain_text).to end_with comment_params[:content]
-        expect(page).to have_content comment_params[:content]
       end
     end
 
@@ -32,8 +32,8 @@ RSpec.describe :comment, type: :system do
       let(:comment_params) { attributes_for(:comment, content: "") }
       let(:file_attach) {""}
       it "エラーメッセージが表示され投稿されない" do
-        expect(Comment.count).to eq 0
         expect(page).to have_content I18n.t("errors.messages.blank")
+        expect(Comment.count).to eq 0
       end
     end
     context "詳細の添付がいるが5MBを超えた場合" do
@@ -42,12 +42,13 @@ RSpec.describe :comment, type: :system do
         page.attach_file("#{Rails.root}/spec/fixtures/images/nature6.5MB.jpg") do
           page.find(".trix-button--icon-attach").click
         end
+        # 投稿する前にアップロードが終わるまで待つ
+        wait_for_attachment_upload
       }
       it "エラーメッセージが表示され投稿されない" do
-        sleep 0.3
-        expect(Comment.count).to eq 0
         expect(page).to have_css ".alert-danger"
         expect(page).to have_content "6513431"
+        expect(Comment.count).to eq 0
       end
     end
   end
@@ -67,9 +68,9 @@ RSpec.describe :comment, type: :system do
           fill_in_rich_text_area "comment_content", with: content
           click_on I18n.t("helpers.submit.update")
         end
-        sleep 0.1
+        # 編集フォームが閉じて、更新後のコメントが表示されるまで待つ
+        expect(page).to have_css "#this-comment-#{comment.id}", text: content
         expect(Comment.last.content.to_plain_text).to eq content
-        expect(page).to have_content content
       end
     end
 
