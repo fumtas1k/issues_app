@@ -1,0 +1,8 @@
+# bundler / npm は Rails のアップグレード（#181）後に追加する。
+# 現状のまま有効にすると、Rails 6.0 では適用できない更新 PR が大量に作られるため。
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
