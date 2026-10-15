@@ -71,9 +71,9 @@ RSpec.describe "Groupings", type: :request do
     it "メンターでも他のグループのメンバーは削除できない" do
       sign_in mentor
       expect {
-        expect {
+        expect_not_found {
           delete grouping_path(other_grouping)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        }
       }.not_to change(Grouping, :count)
     end
   end

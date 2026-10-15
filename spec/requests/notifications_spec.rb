@@ -42,9 +42,9 @@ RSpec.describe "Notifications", type: :request do
 
     it "他人の通知IDを自分のURLで指定しても既読にならない" do
       sign_in user
-      expect {
+      expect_not_found {
         patch user_notification_path(user, other_notification)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      }
       expect(other_notification.reload.read).to be false
     end
 

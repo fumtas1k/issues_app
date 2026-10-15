@@ -146,17 +146,17 @@ RSpec.describe "Comments", type: :request do
       before { sign_in other_user }
 
       it "更新できない" do
-        expect {
+        expect_not_found {
           patch issue_comment_path(other_issue, comment), params: update_params, xhr: true
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        }
         expect(comment.reload.content.to_plain_text).to eq "元のコメント"
       end
 
       it "削除できない" do
         expect {
-          expect {
+          expect_not_found {
             delete issue_comment_path(other_issue, comment), xhr: true
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          }
         }.not_to change(Comment, :count)
       end
     end

@@ -33,6 +33,9 @@ RSpec.configure do |config|
   # request specでメンターのグループを用意するヘルパー
   config.include GroupHelper, type: :request
 
+  # 見つからない結果（RecordNotFoundまたは404）を確認するヘルパー
+  config.include NotFoundHelper, type: :request
+
   # action_textのヘルパー
   config.include ActionTextHelper, type: :system
 
