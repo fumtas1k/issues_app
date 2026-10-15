@@ -27,8 +27,8 @@ RSpec.describe :issue, type: :system do
       }
       it "保存されて、詳細ページが表示される" do
         click_on I18n.t("helpers.submit.create")
-        expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content issue_params[:title]
+        expect(Issue.last.title).to eq issue_params[:title]
       end
     end
 
@@ -37,8 +37,8 @@ RSpec.describe :issue, type: :system do
       let(:file_attach) { "" }
       it "詳細ページに飛び、選択したstatusが表示される" do
         click_on I18n.t("helpers.submit.create")
-        expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content issue_params[:title]
+        expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content Issue.human_enum_status(issue_params[:status])
       end
     end
@@ -48,8 +48,8 @@ RSpec.describe :issue, type: :system do
       let(:file_attach) { "" }
       it "詳細ページに飛び、選択したscopeが表示される" do
         click_on I18n.t("helpers.submit.create")
-        expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content issue_params[:title]
+        expect(Issue.last.title).to eq issue_params[:title]
         expect(page).to have_content Issue.human_enum_scope(issue_params[:scope])
       end
     end
