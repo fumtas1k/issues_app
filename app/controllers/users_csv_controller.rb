@@ -1,8 +1,13 @@
 require 'nkf'
 
 class UsersCsvController < ApplicationController
-  before_action :authenticate_user!, only: %i[index show]
-  before_action :ensure_correct_mentor, only: %i[index mentor]
+  # インポートの上限。本番のdeviseのstretchesは12で、User.newでのパスワードのハッシュ化に
+  # 1行あたり数百msかかる。unicornのtimeout(30秒)に収まる行数とファイルサイズにする
+  MAX_FILE_BYTE_SIZE = 50.kilobytes
+  MAX_ROWS = 50 # データ行数（ヘッダ行は含めない）
+
+  before_action :authenticate_user!
+  before_action :ensure_correct_mentor, only: %i[index create]
 
   def index
     users = User.all.order(:code) if params[:user_all].present?
@@ -45,9 +50,17 @@ class UsersCsvController < ApplicationController
   end
 
   def import_csv(file)
-    return [[I18n.t("views.users_csv.errors.no_file")], 0] if file&.path.nil?
+    return [[I18n.t("views.users_csv.errors.no_file")], 0] unless file.is_a?(ActionDispatch::Http::UploadedFile) && file.path
+    # サイズと行数は、全体の読み込みやパスワードのハッシュ化より前に確認する
+    if file.size > MAX_FILE_BYTE_SIZE
+      max = ActiveSupport::NumberHelper.number_to_human_size(MAX_FILE_BYTE_SIZE)
+      return [[I18n.t("views.users_csv.errors.file_too_large", max: max)], 0]
+    end
     return [[I18n.t("views.users_csv.errors.not_csv")], 0] unless file.content_type == "text/csv"
     return [[I18n.t("views.users_csv.errors.not_utf-8")],0] unless NKF.guess(File.read(file.path)).to_s == "UTF-8"
+    if CSV.foreach(file.path, headers: true, col_sep: ",", skip_blanks: true).count > MAX_ROWS
+      return [[I18n.t("views.users_csv.errors.too_many_rows", max: MAX_ROWS)], 0]
+    end
     header = User.csv_columns.keys
     columns = User.csv_columns
     users = []
@@ -65,5 +78,8 @@ class UsersCsvController < ApplicationController
     errors << I18n.t("views.users_csv.errors.no_user") if users.blank? && errors.blank?
     User.import(users) if errors.blank?
     [errors, users.size]
+  rescue CSV::MalformedCSVError
+    # 引用符が閉じていないなど。User.importは呼ばずにエラーを返す
+    [[I18n.t("views.users_csv.errors.malformed")], 0]
   end
 end

@@ -186,6 +186,7 @@ ja:
         update: "イシュー【%{title}】を更新しました。"
         destroy: "イシュー【%{title}】を削除しました。"
         author_required: "著者以外更新できません。"
+        inaccessible: "このイシューを閲覧する権限がありません。"
       index:
         title: イシュー一覧
       show:
@@ -222,6 +223,9 @@ ja:
         not_utf-8: 文字コードがUTF-8ではありません
         no_user: データがありません
         user_error: "%{row}行目: %{message}"
+        file_too_large: "ファイルサイズが大きすぎます（上限%{max}）"
+        malformed: CSVの形式が正しくありません
+        too_many_rows: "行数が多すぎます（上限%{max}行）"
       index:
         title: 部員データ インポート/エクスポート
         import_format: インポート用フォーマット
