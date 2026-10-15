@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'cancan/matchers'
 
 RSpec.describe Ability, type: :model do
   let(:target) { create(:user, :seq) }

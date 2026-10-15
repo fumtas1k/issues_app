@@ -22,6 +22,8 @@ admin_user = User.find_or_create_by!(code: "admin1") do |user|
   user.mentor = true
   user.admin = true
 end
+# 既存の admin1 にも指定のパスワードを設定する
+admin_user.update!(password: admin_password)
 admin_user.avatar.attach(io: File.open(Rails.root.join("spec/fixtures/images/avatar.jpg")), filename: "avatar.jpg")
 
 TAGS = %w[調剤 注射 TPN 抗がん剤 当直 製剤 DI TDM].freeze

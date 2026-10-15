@@ -53,3 +53,18 @@ RailsAdmin.config do |config|
     # history_show
   end
 end
+
+# ゲスト管理者には HTML 以外の形式(json / xml / csv など)での取得を許可しない
+# (index / show は :read のみで json 等を返せるため、エクスポートを経由せず全件取得できてしまう)
+Rails.application.config.to_prepare do
+  RailsAdmin::MainController.class_eval do
+    before_action :reject_non_html_for_guest
+
+    private
+
+    def reject_non_html_for_guest
+      return unless current_user&.guest?
+      raise CanCan::AccessDenied unless request.format.html?
+    end
+  end
+end

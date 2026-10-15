@@ -2,11 +2,24 @@ require 'rails_helper'
 
 RSpec.describe "RailsAdmin", type: :request do
   let!(:target) { create(:user, :seq) }
+  let(:new_user_params) do
+    { name: "created", code: "900099", email: "created@diver.com", entered_at: "2020-04-01",
+      password: "password", password_confirmation: "password" }
+  end
 
-  # CanCan::AccessDenied が例外になるか、レスポンスになるかは環境設定次第のため、どちらも拒否として扱う
+  # 200 を返したら true。CanCan::AccessDenied が例外になるか、レスポンスになるかは環境設定次第のため、
+  # どちらも拒否(false)として扱う。ActionController::RoutingError は rescue せず落とす。
   def request_allowed?(method, path, params: {})
     public_send(method, path, params: params)
     response.status == 200
+  rescue CanCan::AccessDenied
+    false
+  end
+
+  # 更新系は 302(成功時のリダイレクト)も成功として扱う
+  def request_succeeded?(method, path, params: {})
+    public_send(method, path, params: params)
+    [200, 302].include?(response.status)
   rescue CanCan::AccessDenied
     false
   end
@@ -27,19 +40,58 @@ RSpec.describe "RailsAdmin", type: :request do
       expect(request_allowed?(:get, "/admin/user/export")).to be false
     end
 
-    it "作成・更新・削除・エクスポート・一括削除は実行できない" do
+    it "作成できない" do
+      allowed = nil
       expect {
-        request_allowed?(:post, "/admin/user", params: { user: attributes_for(:user, :seq, name: "created", code: "900099", email: "created@diver.com") })
-        request_allowed?(:put, "/admin/user/#{target.id}", params: { user: { name: "changed" } })
-        request_allowed?(:delete, "/admin/user/#{target.id}/delete")
-        request_allowed?(:post, "/admin/user/bulk_delete", params: { bulk_action: "bulk_delete", bulk_ids: [target.id] })
-        request_allowed?(:post, "/admin/user/export", params: { csv: true })
-      }.not_to change { [User.count, target.reload.name] }
+        allowed = request_succeeded?(:post, "/admin/user/new", params: { user: new_user_params })
+      }.not_to change(User, :count)
+      expect(allowed).to be false
+    end
+
+    it "更新できない" do
+      allowed = nil
+      expect {
+        allowed = request_succeeded?(:put, "/admin/user/#{target.id}/edit", params: { user: { name: "changed" } })
+      }.not_to change { target.reload.name }
+      expect(allowed).to be false
+    end
+
+    it "削除できない" do
+      allowed = nil
+      expect {
+        allowed = request_succeeded?(:delete, "/admin/user/#{target.id}/delete")
+      }.not_to change(User, :count)
+      expect(allowed).to be false
+    end
+
+    it "一括削除できない" do
+      allowed = nil
+      expect {
+        allowed = request_succeeded?(:delete, "/admin/user/bulk_delete", params: { bulk_ids: [target.id] })
+      }.not_to change(User, :count)
+      expect(allowed).to be false
+    end
+
+    it "エクスポートできない" do
+      expect(request_allowed?(:post, "/admin/user/export", params: { csv: true, all: true })).to be false
+    end
+
+    it "HTML 以外の形式では取得できない" do
+      [
+        "/admin/user.json",
+        "/admin/user.json?all=true&send_data=true",
+        "/admin/user.xml",
+        "/admin/user.csv",
+        "/admin/user/#{target.id}.json"
+      ].each do |path|
+        expect(request_allowed?(:get, path)).to be(false), "#{path} が取得できてしまう"
+      end
     end
   end
 
   context "非ゲストの管理者の場合" do
-    before { sign_in create(:admin) }
+    let!(:admin) { create(:admin) }
+    before { sign_in admin }
 
     it "dashboard / index / show / new / edit / delete / export を開ける" do
       expect(request_allowed?(:get, "/admin")).to be true
@@ -49,6 +101,29 @@ RSpec.describe "RailsAdmin", type: :request do
       expect(request_allowed?(:get, "/admin/user/#{target.id}/edit")).to be true
       expect(request_allowed?(:get, "/admin/user/#{target.id}/delete")).to be true
       expect(request_allowed?(:get, "/admin/user/export")).to be true
+    end
+
+    it "実際に更新できる(拒否 spec の対照)" do
+      expect {
+        request_succeeded?(:put, "/admin/user/#{target.id}/edit", params: { user: { name: "changed" } })
+      }.to change { target.reload.name }.to("changed")
+    end
+
+    it "実際に作成できる" do
+      expect {
+        request_succeeded?(:post, "/admin/user/new", params: { user: new_user_params })
+      }.to change(User, :count).by(1)
+    end
+
+    it "実際に削除できる" do
+      expect {
+        request_succeeded?(:delete, "/admin/user/#{target.id}/delete")
+      }.to change(User, :count).by(-1)
+    end
+
+    it "json でも取得できる" do
+      expect(request_allowed?(:get, "/admin/user.json")).to be true
+      expect(request_allowed?(:get, "/admin/user/#{target.id}.json")).to be true
     end
 
     it "一覧に認証情報が表示されない" do

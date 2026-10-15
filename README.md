@@ -186,6 +186,8 @@ $ docker-compose run \
 $ docker-compose run -e SEED_ADMIN_PASSWORD=change_me_password web rails db:seed
 ```
 
+旧バージョンの seeds でダミーデータを作成済みの環境には、ダミーユーザーとゲストユーザーに旧来の固定パスワードが残っています。その場合は DB を作り直して下さい(例: `docker-compose run -e SEED_ADMIN_PASSWORD=change_me_password web rails db:reset`)。
+
 **5. サーバー内での作業**
 
 dockerのwebサーバー内で作業したい場合は、ターミナルで以下を実行(他のサーバーに入りたい場合はwebの部分をdb, minio等に変更)。

@@ -139,7 +139,7 @@ RSpec.describe :user, type: :system do
       it "編集ページにリダイレクトしavatarが変更される" do
         expect {
           page.accept_confirm { click_on "commit" }
-          expect(page).to have_current_path(edit_user_registration_path(user))
+          expect(page).to have_current_path(edit_user_registration_path)
         }.to change {User.last.avatar.blob.filename.to_s}.from("avatar.jpg").to("dummy_user.jpg")
       end
     end
@@ -148,7 +148,7 @@ RSpec.describe :user, type: :system do
       it "編集ページにリダイレクトしavatarが削除される" do
         expect {
           page.accept_confirm { click_on "commit" }
-          expect(page).to have_current_path(edit_user_registration_path(user))
+          expect(page).to have_current_path(edit_user_registration_path)
         }.to change {User.last.avatar.attached?}.from(true).to(false)
       end
     end
