@@ -6,12 +6,13 @@ if (/chat_rooms\/\d+/.test(location.pathname)) {
     connected() {
       // Called when the subscription is ready for use on the server
       // system spec が購読完了を待つための目印
-      $("#message_content").attr("data-cable-connected", "true");
+      // packは<head>で読み込まれ、この時点でDOMにない可能性があるためDOM準備完了後に付ける
+      $(() => { $("#message_content").attr("data-cable-connected", "true"); });
     },
 
     disconnected() {
       // Called when the subscription has been terminated by the server
-      $("#message_content").removeAttr("data-cable-connected");
+      $(() => { $("#message_content").removeAttr("data-cable-connected"); });
     },
 
     received(data) {

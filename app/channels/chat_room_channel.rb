@@ -11,6 +11,7 @@ class ChatRoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
+    return if @chat_room.blank?
     return if data["message"].blank?
     # 送信者とルームは、購読時に検証したものを使う
     current_user.messages.create!(
@@ -21,6 +22,7 @@ class ChatRoomChannel < ApplicationCable::Channel
   end
 
   def read(data)
+    return if @chat_room.blank?
     return if data["message_id"].blank?
     # 購読中のルーム内の、相手のメッセージだけを対象にする
     message = @chat_room.messages.where.not(user_id: current_user.id).find_by(id: data["message_id"])

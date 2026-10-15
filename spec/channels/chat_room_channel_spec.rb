@@ -88,12 +88,12 @@ RSpec.describe ChatRoomChannel, type: :channel do
     end
 
     context "購読していない・拒否された場合" do
-      it "メッセージを送信するとエラーが返る" do
+      it "メッセージを送信しても例外が出ず、保存されない" do
         subscribe(chat_room_id: foreign_chat_room.id)
         expect(subscription).to be_rejected
         expect do
           perform :speak, message: message[:content], user_id: user.id, chat_room_id: foreign_chat_room.id
-        end.to raise_error(StandardError)
+        end.not_to raise_error
         expect(Message.count).to eq 0
       end
     end
@@ -132,6 +132,17 @@ RSpec.describe ChatRoomChannel, type: :channel do
     it "message_idが空では呼ばれない" do
       expect { perform :read, message_id: "" }.not_to raise_error
       expect { perform :read, {} }.not_to raise_error
+      expect(MessageReadUpdateJob).not_to have_received(:perform_later)
+    end
+  end
+
+  describe "既読(購読が拒否された場合)" do
+    it "performしても例外が出ず、ジョブも呼ばれない" do
+      allow(MessageReadUpdateJob).to receive(:perform_later)
+      message = create(:message, user: partner, chat_room: foreign_chat_room)
+      subscribe(chat_room_id: foreign_chat_room.id)
+      expect(subscription).to be_rejected
+      expect { perform :read, message_id: message.id }.not_to raise_error
       expect(MessageReadUpdateJob).not_to have_received(:perform_later)
     end
   end
