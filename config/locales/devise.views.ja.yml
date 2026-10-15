@@ -48,6 +48,7 @@ ja:
       failure: "%{kind} アカウントによる認証に失敗しました。理由：（%{reason}）"
       success: "%{kind} アカウントによる認証に成功しました。"
     passwords:
+      guest_restricted: ゲストユーザーのパスワードは再設定できません。
       edit:
         change_my_password: パスワードを変更する
         change_your_password: パスワードを変更

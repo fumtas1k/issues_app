@@ -3,7 +3,7 @@
     <div class="login-form-header">
       <h5 class="login-form-title"><%= t("views.users.edit_avatar.title") %></h5>
     </div>
-    <%= form_with(model: @user, url: registration_path(@user, avatar: true, user_id: @user.id), class: "login-form", local: true) do |f| %>
+    <%= form_with(model: @user, url: user_registration_path(avatar: true), method: :patch, class: "login-form", local: true) do |f| %>
       <%= render "devise/shared/error_messages", resource: @user %>
       <div class="avatar-container">
         <img src="#" alt="" id="avatar-prev" class="d-none avatar200">

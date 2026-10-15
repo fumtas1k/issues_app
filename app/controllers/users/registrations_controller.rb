@@ -2,6 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :authenticate_user!, only: %i[edit update destroy]
+  before_action :reject_guest!, only: %i[edit update destroy]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -22,20 +23,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    if params[:mentor]
-      @user = User.find(params[:user_id])
-      respond_to do |format|
-        @user.toggle!(:mentor)
-        format.html {redirect_to users_path}
-        format.js {render "users/role_change"}
-      end
-    elsif params[:avatar]
-      @user = User.find(params[:user_id])
-      if @user.update(avatar: params.dig(:user, :avatar))
-        redirect_to edit_user_registration_path(@user)
-      else
-        render "users/edit_avatar"
-      end
+    if params[:avatar]
+      update_avatar
     else
       super
     end
@@ -56,6 +45,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   protected
+
+  # アバターの更新対象は常にログイン中のユーザー
+  def update_avatar
+    @user = current_user
+    if @user.update(avatar: params.dig(:user, :avatar))
+      redirect_to edit_user_registration_path
+    else
+      render "users/edit_avatar"
+    end
+  end
+
+  def reject_guest!
+    return unless current_user.guest?
+    redirect_to user_path(current_user), flash: {danger: I18n.t("views.users.flash.guest_restricted")}
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

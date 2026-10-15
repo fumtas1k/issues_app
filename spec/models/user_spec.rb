@@ -84,25 +84,48 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "最初のユーザーを管理者にするコールバックのテスト" do
-    let(:user) {create(:user)}
+  describe "最初のユーザーの権限のテスト" do
     context "ユーザーが0人の時にアカウント登録した場合" do
-      it "管理者権限を持つ" do
-        expect(user.admin).to be_truthy
+      it "管理者権限もメンター権限も持たない" do
+        user = create(:user)
+        expect(user.admin).to be_falsey
+        expect(user.mentor).to be_falsey
       end
     end
     context "ゲストユーザー以外いない状態でアカウント登録した場合" do
-      it "管理者権限を持つ" do
+      it "管理者権限もメンター権限も持たない" do
         User.guest_user
         User.guest_admin_user
-        expect(user.admin).to be_truthy
+        user = create(:user)
+        expect(user.admin).to be_falsey
+        expect(user.mentor).to be_falsey
       end
     end
-    context "ゲスト以外のユーザーが1人いる状態でアカウント登録した場合" do
-      it "管理者権限は持たない" do
-        FactoryBot.create(:user,:seq)
-        expect(user.admin).to be_falsey
-      end
+  end
+
+  describe "guest?のテスト" do
+    it "ゲストユーザーはtrue" do
+      expect(User.guest_user.guest?).to be true
+    end
+
+    it "ゲスト管理者はtrue" do
+      expect(User.guest_admin_user.guest?).to be true
+    end
+
+    it "一般ユーザーと管理者はfalse" do
+      expect(build(:user).guest?).to be false
+      expect(build(:admin).guest?).to be false
+    end
+
+    it "判定のためにゲストユーザーを作成しない" do
+      expect { build(:user).guest? }.not_to change(User, :count)
+    end
+  end
+
+  describe "ゲストユーザーのパスワードのテスト" do
+    it "固定のパスワードではない" do
+      expect(User.guest_user.valid_password?("password")).to be false
+      expect(User.guest_admin_user.valid_password?("password")).to be false
     end
   end
 
