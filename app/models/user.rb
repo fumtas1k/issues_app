@@ -77,6 +77,16 @@ class User < ApplicationRecord
 
   scope :order_by_code, -> { order(:code) }
 
+  # 検索フォーム・ソートで使う条件だけを許可する
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name code mentor entered_at]
+  end
+
+  # 検索フォーム・ソートで使う条件だけを許可する
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
   private
 
   def prevent_change_admin!

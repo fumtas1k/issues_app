@@ -31,6 +31,21 @@ class Issue < ApplicationRecord
   MAX_MEGA_BYTES = 5
   create_validate_attachment :description, MAX_MEGA_BYTES
 
+  # 検索フォームで使う条件だけを許可する
+  def self.ransackable_attributes(auth_object = nil)
+    %w[title user_id status scope]
+  end
+
+  # ソートで使う条件だけを許可する(著者名でのソートは関連先のUser側で判定される)
+  def self.ransortable_attributes(auth_object = nil)
+    %w[title favorites_count stocks_count created_at]
+  end
+
+  # 検索フォーム・ソートで使う条件だけを許可する
+  def self.ransackable_associations(auth_object = nil)
+    %w[user _description comments tags]
+  end
+
   # scopeとmentorによりアクセス可能かを判定するメソッド
   def accessible?(login_user)
     return true if scope == "release" || user == login_user
