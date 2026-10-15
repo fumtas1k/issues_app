@@ -28,6 +28,7 @@ RSpec.configure do |config|
 
   # devise関連のrspec
   config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   # action_textのヘルパー
   config.include ActionTextHelper, type: :system
