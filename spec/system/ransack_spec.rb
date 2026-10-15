@@ -24,6 +24,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {title_or__description_body_or_comments__content_body_cont: search_attr[:issue_or_comment]})
       end
       it "該当イシューのみ表示される" do
         expect(page).to have_content search_attr[:issue_or_comment], count: 1
@@ -36,6 +38,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {title_or__description_body_or_comments__content_body_cont: search_attr[:issue_or_comment]})
       end
       it "その詳細を含むイシューのみ表示される" do
         expect(page).to have_content issue_fukuzawa_release_pending.title
@@ -49,6 +53,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {title_or__description_body_or_comments__content_body_cont: search_attr[:issue_or_comment]})
       end
       it "そのコメントがされたイシューのみ表示される" do
         expect(page).to have_content issue_higuchi_release_solving.title
@@ -62,6 +68,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         fill_in "q_title_or__description_body_or_comments__content_body_cont", with: search_attr[:issue_or_comment]
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {title_or__description_body_or_comments__content_body_cont: search_attr[:issue_or_comment]})
       end
       it "イシューは表示されず、該当するデータがない旨が表示される" do
         expect(page).not_to have_content common
@@ -75,6 +83,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         select search_attr[:user_name], from: "q_user_id_eq"
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {user_id_eq: fukuzawa.id})
       end
       it "著者のイシューのみ表示される" do
         expect(page).to have_content search_attr[:user_name]
@@ -88,6 +98,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         select Issue.human_enum_status(search_attr[:status]), from: "q_status_eq"
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {status_eq: Issue.statuses[search_attr[:status]]})
       end
       it "未解決イシューのみ表示される" do
         expect(page).to have_content Issue.human_enum_status(search_attr[:status])
@@ -103,6 +115,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         select Issue.human_enum_scope(search_attr[:scope]), from: "q_scope_eq"
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {scope_eq: Issue.scopes[search_attr[:scope]]})
       end
       it "限定イシューのみ表示される" do
         expect(page).to have_content Issue.human_enum_scope(search_attr[:scope])
@@ -116,6 +130,8 @@ RSpec.describe :issue, type: :system do
         visit issues_path
         select search_attr[:tag], from: "q_tags_name_eq"
         find(".btn-search").click
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {tags_name_eq: search_attr[:tag]})
       end
       it "検索タグのイシューのみ表示される" do
         expect(page).to have_content search_attr[:tag]
@@ -144,12 +160,15 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         find("#sort-issue-title").click
-        sleep 0.2
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {s: "title asc"})
       end
       it "タイトルの昇順でソートされる" do
-        expect(all(".issue-container")[0]).to have_content issue_bob_1st_2015.title
-        expect(all(".issue-container")[1]).to have_content issue_alice_2nd_2020.title
-        expect(all(".issue-container")[2]).to have_content issue_charlie_3rd_2010.title
+        expect_texts_in_order ".issue-container", [
+          issue_bob_1st_2015.title,
+          issue_alice_2nd_2020.title,
+          issue_charlie_3rd_2010.title
+        ]
       end
     end
 
@@ -157,12 +176,15 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         find("#sort-issue-user").click
-        sleep 0.1
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {s: "user_name asc"})
       end
       it "著者名の昇順でソートされる" do
-        expect(all(".issue-container")[0]).to have_content issue_alice_2nd_2020.user.name
-        expect(all(".issue-container")[1]).to have_content issue_bob_1st_2015.user.name
-        expect(all(".issue-container")[2]).to have_content issue_charlie_3rd_2010.user.name
+        expect_texts_in_order ".issue-container", [
+          issue_alice_2nd_2020.user.name,
+          issue_bob_1st_2015.user.name,
+          issue_charlie_3rd_2010.user.name
+        ]
       end
     end
 
@@ -170,12 +192,15 @@ RSpec.describe :issue, type: :system do
       before do
         visit issues_path
         find("#sort-issue-created_at").click
-        sleep 0.2
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {s: "created_at asc"})
       end
       it "作成日の昇順でソートされる" do
-        expect(all(".issue-container")[0]).to have_content issue_charlie_3rd_2010.user.name
-        expect(all(".issue-container")[1]).to have_content issue_bob_1st_2015.user.name
-        expect(all(".issue-container")[2]).to have_content issue_alice_2nd_2020.user.name
+        expect_texts_in_order ".issue-container", [
+          issue_charlie_3rd_2010.user.name,
+          issue_bob_1st_2015.user.name,
+          issue_alice_2nd_2020.user.name
+        ]
       end
     end
 
@@ -186,12 +211,15 @@ RSpec.describe :issue, type: :system do
         FactoryBot.create(:favorite, user: charlie, issue: issue_bob_1st_2015)
         visit issues_path
         find("#sort-favorites_count").click
-        sleep 0.1
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {s: "favorites_count asc"})
       end
       it "いいね数が多い順にソートされる" do
-        expect(all(".issue-container")[0]).to have_content issue_alice_2nd_2020.title
-        expect(all(".issue-container")[1]).to have_content issue_charlie_3rd_2010.title
-        expect(all(".issue-container")[2]).to have_content issue_bob_1st_2015.title
+        expect_texts_in_order ".issue-container", [
+          issue_alice_2nd_2020.title,
+          issue_charlie_3rd_2010.title,
+          issue_bob_1st_2015.title
+        ]
       end
     end
 
@@ -202,13 +230,15 @@ RSpec.describe :issue, type: :system do
         FactoryBot.create(:stock, user: bob, issue: issue_charlie_3rd_2010)
         visit issues_path
         find("#sort-stocks_count").click
-        sleep 0.1
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(issues_path, q: {s: "stocks_count asc"})
       end
       it "昇順にソートされる" do
-        expect(all(".issue-container")[0]).to have_content issue_alice_2nd_2020.title
-        expect(all(".issue-container")[1]).to have_content issue_bob_1st_2015.title
-        expect(all(".issue-container")[2]).to have_content issue_charlie_3rd_2010.title
-
+        expect_texts_in_order ".issue-container", [
+          issue_alice_2nd_2020.title,
+          issue_bob_1st_2015.title,
+          issue_charlie_3rd_2010.title
+        ]
       end
     end
   end
@@ -230,7 +260,8 @@ RSpec.describe :user, type: :system do
         visit users_path
         fill_in "q_name_or_code_cont", with: search_attr[:name]
         find(".btn-search").click
-        sleep 0.1
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {name_or_code_cont: search_attr[:name]})
       end
       it "検索の名前のみ表示される" do
         expect(page).to have_content alice_2_2020_mentor.name
@@ -244,7 +275,8 @@ RSpec.describe :user, type: :system do
         visit users_path
         fill_in "q_name_or_code_cont", with: search_attr[:code]
         find(".btn-search").click
-        sleep 0.1
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {name_or_code_cont: search_attr[:code]})
       end
       it "検索の職員コードのみ表示される" do
         expect(page).to have_content bob_1_2015.name
@@ -258,7 +290,8 @@ RSpec.describe :user, type: :system do
         visit users_path
         select User.human_attribute_name(search_attr[:role]), from: "q_mentor_eq"
         find(".btn-search").click
-        sleep 0.1
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {mentor_eq: true})
       end
       it "検索の役割のみ表示される" do
         expect(page).to have_content alice_2_2020_mentor.name
@@ -272,7 +305,8 @@ RSpec.describe :user, type: :system do
         visit users_path
         fill_in "q_entered_at_eq", with: search_attr[:entered_at]
         find(".btn-search").click
-        sleep 0.1
+        # 検索結果の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {entered_at_eq: search_attr[:entered_at].to_s})
       end
       it "検索の入職日のみ表示される" do
         expect(page).to have_content charlie_3_2010.name
@@ -293,12 +327,15 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         find("#sort-user-name").click
-        sleep 0.2
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {s: "name asc"})
       end
       it "名前の昇順でソートされる" do
-        expect(all("tbody tr")[0]).to have_content alice_2_2020_mentor.name
-        expect(all("tbody tr")[1]).to have_content bob_1_2015.name
-        expect(all("tbody tr")[2]).to have_content charlie_3_2010.name
+        expect_texts_in_order "tbody tr", [
+          alice_2_2020_mentor.name,
+          bob_1_2015.name,
+          charlie_3_2010.name
+        ]
       end
     end
 
@@ -306,12 +343,15 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         find("#sort-user-code").click
-        sleep 0.1
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {s: "code asc"})
       end
       it "職員コードの昇順でソートされる" do
-        expect(all("tbody tr")[0]).to have_content bob_1_2015.code
-        expect(all("tbody tr")[1]).to have_content alice_2_2020_mentor.code
-        expect(all("tbody tr")[2]).to have_content charlie_3_2010.code
+        expect_texts_in_order "tbody tr", [
+          bob_1_2015.code,
+          alice_2_2020_mentor.code,
+          charlie_3_2010.code
+        ]
       end
     end
 
@@ -319,10 +359,11 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         find("#sort-user-role").click
-        sleep 0.2
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {s: "mentor asc"})
       end
       it "メンターが最下部にくる" do
-        expect(all("tbody tr").last).to have_content alice_2_2020_mentor.name
+        expect_last_text "tbody tr", alice_2_2020_mentor.name
       end
     end
 
@@ -330,12 +371,15 @@ RSpec.describe :user, type: :system do
       before do
         visit users_path
         find("#sort-user-entered_at").click
-        sleep 0.1
+        # ソート後の画面（クエリ付きのURL）に移るまで待つ
+        expect(page).to have_query_params(users_path, q: {s: "entered_at asc"})
       end
       it "入職日の昇順でソートされる" do
-        expect(all("tbody tr")[0]).to have_content charlie_3_2010.code
-        expect(all("tbody tr")[1]).to have_content bob_1_2015.code
-        expect(all("tbody tr")[2]).to have_content alice_2_2020_mentor.code
+        expect_texts_in_order "tbody tr", [
+          charlie_3_2010.code,
+          bob_1_2015.code,
+          alice_2_2020_mentor.code
+        ]
       end
     end
   end
