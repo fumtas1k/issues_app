@@ -15,7 +15,7 @@ RSpec.describe :pagination, type: :system do
       end
 
       it "次ページに10人表示される" do
-        click_on I18n.t("views.pagination.next")
+        click_and_wait_for_turbolinks find_link(I18n.t("views.pagination.next"))
         # 2ページ目に移るまで待つ
         expect(page).to have_current_path(users_path(page: 2), ignore_query: false)
         expect(page).to have_content "990", count: 10

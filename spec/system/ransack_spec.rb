@@ -159,7 +159,7 @@ RSpec.describe :issue, type: :system do
     context "タイトルでソートした場合" do
       before do
         visit issues_path
-        find("#sort-issue-title").click
+        click_and_wait_for_turbolinks find("#sort-issue-title")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(issues_path, q: {s: "title asc"})
       end
@@ -175,7 +175,7 @@ RSpec.describe :issue, type: :system do
     context "著者名でソートした場合" do
       before do
         visit issues_path
-        find("#sort-issue-user").click
+        click_and_wait_for_turbolinks find("#sort-issue-user")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(issues_path, q: {s: "user_name asc"})
       end
@@ -191,7 +191,7 @@ RSpec.describe :issue, type: :system do
     context "作成日でソートした場合" do
       before do
         visit issues_path
-        find("#sort-issue-created_at").click
+        click_and_wait_for_turbolinks find("#sort-issue-created_at")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(issues_path, q: {s: "created_at asc"})
       end
@@ -210,7 +210,7 @@ RSpec.describe :issue, type: :system do
         FactoryBot.create(:favorite, user: alice, issue: issue_bob_1st_2015)
         FactoryBot.create(:favorite, user: charlie, issue: issue_bob_1st_2015)
         visit issues_path
-        find("#sort-favorites_count").click
+        click_and_wait_for_turbolinks find("#sort-favorites_count")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(issues_path, q: {s: "favorites_count asc"})
       end
@@ -229,7 +229,7 @@ RSpec.describe :issue, type: :system do
         FactoryBot.create(:stock, user: alice, issue: issue_charlie_3rd_2010)
         FactoryBot.create(:stock, user: bob, issue: issue_charlie_3rd_2010)
         visit issues_path
-        find("#sort-stocks_count").click
+        click_and_wait_for_turbolinks find("#sort-stocks_count")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(issues_path, q: {s: "stocks_count asc"})
       end
@@ -326,7 +326,7 @@ RSpec.describe :user, type: :system do
     context "名前でソートした場合" do
       before do
         visit users_path
-        find("#sort-user-name").click
+        click_and_wait_for_turbolinks find("#sort-user-name")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(users_path, q: {s: "name asc"})
       end
@@ -342,7 +342,7 @@ RSpec.describe :user, type: :system do
     context "職員コードでソートした場合" do
       before do
         visit users_path
-        find("#sort-user-code").click
+        click_and_wait_for_turbolinks find("#sort-user-code")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(users_path, q: {s: "code asc"})
       end
@@ -358,7 +358,7 @@ RSpec.describe :user, type: :system do
     context "役割でソートした場合" do
       before do
         visit users_path
-        find("#sort-user-role").click
+        click_and_wait_for_turbolinks find("#sort-user-role")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(users_path, q: {s: "mentor asc"})
       end
@@ -370,7 +370,7 @@ RSpec.describe :user, type: :system do
     context "入職日でソートした場合" do
       before do
         visit users_path
-        find("#sort-user-entered_at").click
+        click_and_wait_for_turbolinks find("#sort-user-entered_at")
         # ソート後の画面（クエリ付きのURL）に移るまで待つ
         expect(page).to have_query_params(users_path, q: {s: "entered_at asc"})
       end

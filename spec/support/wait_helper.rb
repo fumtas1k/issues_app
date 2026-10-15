@@ -52,4 +52,17 @@ module WaitHelper
       raise Capybara::ExpectationNotMet, "ajax request did not complete" unless page.evaluate_script("window.__ajaxCompleted")
     end
   end
+
+  # クリックして、Turbolinksの遷移で新しい画面が描画されるまで待つ
+  # Turbolinksは応答を描画する前にURLを更新するため、URLだけでは描画完了を判定できない
+  def click_and_wait_for_turbolinks(element)
+    page.execute_script(<<~JS)
+      window.__turbolinksLoaded = false;
+      document.addEventListener("turbolinks:load", function() { window.__turbolinksLoaded = true; }, { once: true });
+    JS
+    element.click
+    page.document.synchronize do
+      raise Capybara::ExpectationNotMet, "turbolinks visit did not finish" unless page.evaluate_script("window.__turbolinksLoaded")
+    end
+  end
 end
