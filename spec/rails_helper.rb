@@ -30,6 +30,9 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include Devise::Test::IntegrationHelpers, type: :request
 
+  # request specでメンターのグループを用意するヘルパー
+  config.include GroupHelper, type: :request
+
   # action_textのヘルパー
   config.include ActionTextHelper, type: :system
 
