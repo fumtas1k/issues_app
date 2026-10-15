@@ -321,7 +321,7 @@ RSpec.describe :user, type: :system do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
         expect(page).to have_content I18n.t("devise.sessions.guest_admin_signed_in")
-        expect(page).to have_content User.find_by(code: "_admin").name
+        expect(page).to have_current_path(user_path(User.find_by(code: "_admin")))
       end
     end
 
@@ -332,7 +332,7 @@ RSpec.describe :user, type: :system do
         click_sign_out
         click_on I18n.t("devise.sessions.new.guest_admin_sign_in")
         expect(page).to have_content I18n.t("devise.sessions.guest_admin_signed_in")
-        expect(page).to have_content User.find_by(code: "_admin").name
+        expect(page).to have_current_path(user_path(User.find_by(code: "_admin")))
       end
     end
 
@@ -341,7 +341,7 @@ RSpec.describe :user, type: :system do
         visit root_path
         click_on I18n.t("devise.sessions.new.guest_sign_in")
         expect(page).to have_content I18n.t("devise.sessions.guest_signed_in")
-        expect(page).to have_content User.find_by(code: "_guest").name
+        expect(page).to have_current_path(user_path(User.find_by(code: "_guest")))
       end
     end
 
@@ -352,7 +352,7 @@ RSpec.describe :user, type: :system do
         click_sign_out
         click_on I18n.t("devise.sessions.new.guest_sign_in")
         expect(page).to have_content I18n.t("devise.sessions.guest_signed_in")
-        expect(page).to have_content User.find_by(code: "_guest").name
+        expect(page).to have_current_path(user_path(User.find_by(code: "_guest")))
       end
     end
   end
