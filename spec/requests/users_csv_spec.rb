@@ -114,6 +114,16 @@ RSpec.describe "UsersCsv", type: :request do
         expect(response.body).to include(error.call(:too_many_rows, max: UsersCsvController::MAX_ROWS))
       end
 
+      it "CSVの形式が壊れている場合は、500にならずエラーになる" do
+        content = csv_content(0) + %(,500001,"新人,import@example.com,password,2024-04-01\n)
+        expect(User).not_to receive(:import)
+        expect {
+          post users_csv_index_path, params: { import: { file: upload_file(content) } }
+        }.not_to change(User, :count)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(error.call(:malformed))
+      end
+
       it "content_typeがCSVでない場合はエラーになる" do
         expect {
           post users_csv_index_path,

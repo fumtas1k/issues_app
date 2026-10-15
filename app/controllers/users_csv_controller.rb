@@ -78,5 +78,8 @@ class UsersCsvController < ApplicationController
     errors << I18n.t("views.users_csv.errors.no_user") if users.blank? && errors.blank?
     User.import(users) if errors.blank?
     [errors, users.size]
+  rescue CSV::MalformedCSVError
+    # 引用符が閉じていないなど。User.importは呼ばずにエラーを返す
+    [[I18n.t("views.users_csv.errors.malformed")], 0]
   end
 end
