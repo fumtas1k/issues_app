@@ -20,7 +20,8 @@ RSpec.describe :notification, type: :system do
       it "通知は作成されない" do
         expect{
           click_on I18n.t("helpers.submit.create")
-          sleep 0.1
+          # コメントが表示されるまで待つ
+          expect(page).to have_css "#comments-area", text: comment_content
         }.not_to change(Notification, :count)
       end
     end
@@ -31,6 +32,8 @@ RSpec.describe :notification, type: :system do
         visit issue_path(issue)
         fill_in_rich_text_area "comment_content", with: comment_content
         click_on I18n.t("helpers.submit.create")
+        # コメントが保存されて表示されるまで待つ
+        expect(page).to have_css "#comments-area", text: comment_content
       end
 
       it "他人には通知が表示されない" do
@@ -39,7 +42,7 @@ RSpec.describe :notification, type: :system do
       end
 
       it "自分に通知が表示される" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in user
         visit user_notifications_path(user)
         expect(page).to have_css ".notification-link"
@@ -56,6 +59,8 @@ RSpec.describe :notification, type: :system do
         sign_in other_user
         visit issue_path(issue)
         find("#favorite-btn-#{issue.id}").click
+        # いいね済みの表示に変わるまで待つ
+        expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite"
       end
 
       it "他人には通知が表示されない" do
@@ -64,7 +69,7 @@ RSpec.describe :notification, type: :system do
       end
 
       it "自分に通知が表示される" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in user
         visit user_notifications_path(user)
         expect(page).to have_css ".notification-link"
@@ -83,6 +88,8 @@ RSpec.describe :notification, type: :system do
       fill_in_rich_text_area "issue_description", with: issue_params[:description]
       fill_in("vue-tag-input", with: issue_params[:tag_list], visible: false).send_keys :return
       click_on click_btn
+      # 保存されて詳細ページが表示されるまで待つ
+      expect(page).to have_content issue_params[:title]
     end
 
     context "イシューを投稿した場合" do
@@ -96,14 +103,14 @@ RSpec.describe :notification, type: :system do
       end
 
       it "他人に通知が表示されない" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in other_user
         visit user_notifications_path(other_user)
         expect(page).not_to have_css ".notification-link"
       end
 
       it "担当メンターに通知が表示される" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in mentor
         visit user_notifications_path(mentor)
         expect(page).to have_css ".notification-link"
@@ -111,7 +118,7 @@ RSpec.describe :notification, type: :system do
       end
 
       it "担当外メンターに通知が表示されない" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in other_mentor
         visit user_notifications_path(other_mentor)
         expect(page).not_to have_css ".notification-link"
@@ -140,14 +147,14 @@ RSpec.describe :notification, type: :system do
       end
 
       it "他人に通知が表示されない" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in other_user
         visit user_notifications_path(other_user)
         expect(page).not_to have_css ".notification-link"
       end
 
       it "担当メンターに通知が表示される" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in mentor
         visit user_notifications_path(mentor)
         expect(page).to have_css ".notification-link"
@@ -155,7 +162,7 @@ RSpec.describe :notification, type: :system do
       end
 
       it "担当外メンターに通知が表示されない" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in other_mentor
         visit user_notifications_path(other_mentor)
         expect(page).not_to have_css ".notification-link"
@@ -171,6 +178,8 @@ RSpec.describe :notification, type: :system do
         sign_in user
         visit issue_path(issue)
         find("#stock-btn-#{issue.id}").click
+        # ストック済みの表示に変わるまで待つ
+        expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
       end
 
       it "自分に通知が表示されない" do
@@ -179,7 +188,7 @@ RSpec.describe :notification, type: :system do
       end
 
       it "他人には通知が表示されない" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in other_user
         visit user_notifications_path(other_user)
         expect(page).not_to have_css ".notification-link"
@@ -191,6 +200,8 @@ RSpec.describe :notification, type: :system do
         sign_in other_user
         visit issue_path(issue)
         find("#stock-btn-#{issue.id}").click
+        # ストック済みの表示に変わるまで待つ
+        expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
       end
 
       it "他人には通知が表示されない" do
@@ -199,7 +210,7 @@ RSpec.describe :notification, type: :system do
       end
 
       it "自分に通知が表示される" do
-        click_on I18n.t("devise.sessions.new.sign_out")
+        click_sign_out
         sign_in user
         visit user_notifications_path(user)
         expect(page).to have_css ".notification-link"
@@ -216,24 +227,30 @@ RSpec.describe :notification, type: :system do
       sign_in other_user
       visit issue_path(issue)
       click_on "bookmark_border"
+      expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
       click_on "favorite_border"
+      expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite"
       fill_in_rich_text_area "comment_content", with: comment_params[:content]
       click_on I18n.t("helpers.submit.create")
-      click_on I18n.t("devise.sessions.new.sign_out")
+      expect(page).to have_css "#comments-area", text: comment_params[:content]
+      click_sign_out
 
       sign_in user
       visit issue_path(other_issue)
       click_on "bookmark_border"
+      expect(page).to have_css "#stock-btn-#{other_issue.id} .material-icons", exact_text: "bookmark"
       visit user_notifications_path(user)
     end
 
     context "未読の通知をクリックした場合" do
       before do
         all(".default-container").first.click
+        # 既読化とリダイレクトが終わるまで待つ
+        expect(page).to have_current_path(issue_path(issue))
       end
 
       it "通知のリンク先にリダイレクトする" do
-        expect(current_path).to eq issue_path(issue)
+        expect(page).to have_current_path(issue_path(issue))
       end
 
       it "その通知のみ既読になる" do
@@ -246,12 +263,16 @@ RSpec.describe :notification, type: :system do
     context "既読の通知をクリックした場合" do
       before do
         all(".default-container")[1].click
+        # 最初の既読化が終わってから一覧に戻る
+        expect(page).to have_current_path(issue_path(issue))
         visit user_notifications_path(user)
+        expect(page).to have_current_path(user_notifications_path(user))
         all(".default-container")[1].click
+        expect(page).to have_current_path(issue_path(issue))
       end
 
       it "通知のリンク先にリダイレクトする" do
-        expect(current_path).to eq issue_path(issue)
+        expect(page).to have_current_path(issue_path(issue))
       end
       it "既読数は変化しない" do
         expect(Notification.unreads.count).to eq 4
@@ -261,6 +282,8 @@ RSpec.describe :notification, type: :system do
     context "全既読ボタンをクリックした場合" do
       before do
         find(".read-all").click
+        # リダイレクト後に未読数が0件の表示になるまで待つ
+        expect(page).to have_css "#unread-count", text: "#{Notification.human_attribute_name(:unread)}: 0"
       end
       it "自分の通知が全て既読になる" do
         expect(user.notifications.unreads.count).to eq 0
@@ -279,14 +302,18 @@ RSpec.describe :notification, type: :system do
       sign_in other_user
       visit issue_path(issue)
       click_on "bookmark_border"
+      expect(page).to have_css "#stock-btn-#{issue.id} .material-icons", exact_text: "bookmark"
       click_on "favorite_border"
+      expect(page).to have_css "#favorite-btn-#{issue.id} .material-icons", exact_text: "favorite"
       fill_in_rich_text_area "comment_content", with: comment_params[:content]
       click_on I18n.t("helpers.submit.create")
-      click_on I18n.t("devise.sessions.new.sign_out")
+      expect(page).to have_css "#comments-area", text: comment_params[:content]
+      click_sign_out
 
       sign_in user
       visit issue_path(other_issue)
       click_on "bookmark_border"
+      expect(page).to have_css "#stock-btn-#{other_issue.id} .material-icons", exact_text: "bookmark"
       visit user_notifications_path(user)
     end
 
