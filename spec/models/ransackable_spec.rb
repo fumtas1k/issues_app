@@ -4,8 +4,8 @@ require "rails_helper"
 # ご注意ください。
 RSpec.describe "ransackの許可リスト", type: :model do
   let!(:first_user) { create(:admin) }
-  let!(:alice) { create(:user, :seq, name: "alice", code: "100001") }
-  let!(:bob) { create(:user, :seq, name: "bob", code: "100002", mentor: true) }
+  let!(:alice) { create(:user, :seq, name: "alice", code: "300001") }
+  let!(:bob) { create(:user, :seq, name: "bob", code: "300002", mentor: true) }
   let!(:issue_alice) { create(:issue, title: "alice-title", description: "alice-detail", user: alice, tag_list: "tag_a") }
   let!(:issue_bob) { create(:issue, title: "bob-title", description: "bob-detail", user: bob, status: :solving, scope: :limited, tag_list: "tag_b") }
   let!(:comment) { create(:comment, content: "comment-body", user: alice, issue: issue_bob) }
@@ -55,7 +55,7 @@ RSpec.describe "ransackの許可リスト", type: :model do
     context "Userの検索" do
       it "name_or_code_cont で絞り込める" do
         expect(users_by(name_or_code_cont: "alice")).to match_array [alice]
-        expect(users_by(name_or_code_cont: "100002")).to match_array [bob]
+        expect(users_by(name_or_code_cont: "300002")).to match_array [bob]
       end
 
       it "mentor_eq で絞り込める" do
