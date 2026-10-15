@@ -65,4 +65,10 @@ module WaitHelper
       raise Capybara::ExpectationNotMet, "turbolinks visit did not finish" unless page.evaluate_script("window.__turbolinksLoaded")
     end
   end
+
+  # ActionCableの購読が完了するまで待つ
+  # 購読前に送信したメッセージは破棄されるため、送信前に呼ぶ（JSが購読完了時にdata-cable-connectedを付ける）
+  def wait_for_cable_connected
+    expect(page).to have_css("#message_content[data-cable-connected='true']")
+  end
 end
